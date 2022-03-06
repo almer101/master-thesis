@@ -342,7 +342,7 @@
 \vspace*{\fill}
 \thispagestyle{empty}
 \begin{center}
-  {\bf \@title}
+  {\bf \@hrvtitle}
 \end{center}
 \hspace*{\fill} {\bf Sa\v{z}etak} \hspace*{\fill} \par
 \vspace*{25pt}
@@ -365,16 +365,16 @@
 \noindent \textbf{Keywords:} #1
 }
 
-% Sažetak na engleskom
-\def\engtitle#1{\gdef\@engtitle{#1}}
-\def\@engtitle{\@latex@warning@no@line{Engleski naziv rada nije definiran.
-Koristi \noexpand\engtitle za definiranje}}
+% Sažetak na hrvatskom
+\def\hrvtitle#1{\gdef\@hrvtitle{#1}}
+\def\@hrvtitle{\@latex@warning@no@line{Hrvatski naziv rada nije definiran.
+Koristi \noexpand\hrvtitle za definiranje}}
 \renewenvironment{abstract}
 {
 \vspace*{\fill}
 \thispagestyle{empty}
 \begin{center}
-  {\bf \@engtitle}
+  {\bf \@title}
 \end{center}
 \hspace*{\fill} {\bf Abstract} \hspace*{\fill} \par
 \vspace*{25pt}

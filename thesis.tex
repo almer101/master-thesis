@@ -1,18 +1,18 @@
 \documentclass[times, utf8, diplomski]{fer}
 \usepackage{booktabs}
+\usepackage{amsmath}
+\usepackage{amssymb}
 
 \begin{document}
 
 \renewcommand*\contentsname{Table of contents}
 
-% TODO: Navedite broj rada.
-\thesisnumber{000}
+\thesisnumber{2748}
 
-% TODO: Navedite naslov rada.
-\title{Title}
+\title{Option Pricing and Hedging under Jump-diffusion model}
 
-% TODO: Navedite vaše ime i prezime.
 \author{Ivan Almer}
+% \voditelj{Tomislav Burić}
 
 \maketitle
 
@@ -25,7 +25,88 @@
 \tableofcontents
 
 \chapter{Introduction}
-Introduction to the thesis.
+% motivation
+Stochastic or random process is a mathematical object which is usually defined as a collection of random variables. It can be seen as a random variable evolving over time. The weather, for example, is a stochastic process. A lot of such examples can be found in everyday life and stochastic processes can be used to model any kind of process that, in itself, has some kind of uncertainty involved. 
+
+Compared to a deterministic function, for which, at any time we know its value, in case of a stochastic process one cannot for sure know its value, but can maybe have an estimation or a probability of having a certain value. Although it is not ideal, it is for sure better than not knowing anything about it whatsoever. Under the assumption that processes in real world are random, but are to some degree \textit{defined}, gives us hope that, without knowing their exact future behaviour or position, we can have a good feeling of how they could move.
+
+Stochastic processes have a very wide application in the field of finance. The main reason for that is that they can be used to model an asset price as a process where uncertainty is present. Behaviour of such processes can be observed to potentially draw some conclusions from them. 
+
+The goal of this thesis is to utilize stochastic processes and apply them to tackle some of the problems from mathematical finance. Firstly, I will start with defining necessary mathematical and financial concepts which will be used throughout this thesis. After this foundation is set, starting with Brownian motion, step-by-step we will arrive at the jump-diffusion process which will be used as a process of the price of an asset. We will then introduce the idea of a financial derivative, in our case an option, and we will tackle the problem of determining a fair price of the option. Lastly, we will introduce the idea of risk, how to quantify it and how to hedge the risk of our position in the asset or the option. It is my hope that, this thesis will not only provide you with a good overview of pricing and hedging of financial instruments, but also give you the understanding of such the underlying processes are useful to model the scenarios that occur every day in the market.
+
+\chapter{Financial concepts}
+% \section{General terms}
+% market, trade, law of supply and demand
+Let us start by defining what a market is. \textbf{Market} is a place where parties can meet to engage in an economic transaction. Usually, while only two parties are needed to make a trade, at minimum one more party is needed to introduce competition and bring balance to the market. A market in a state of \textbf{perfect competition} is characterized by a high number of active buyers and sellers. Markets vary for a number of reasons, including the types of products sold, size, location etc. One market which is of particular interest to us is the \textbf{financial market} where securities, currencies, bonds and other types of securities are traded. They form capital and provide liquidity for businesses. Stock exchanges like New York Stock Exchange (NYSE) or Nasdaq are one type of financial markets. Other types of finincial markets include, for example bond markets and foreign exchange (FX) markets. 
+
+As already mentioned, markets in perfect competition have a high number of participants (buyers and sellers) and market determines the prices of goods and other servides traded there. Prices are determined by \textbf{supply and demand}, where supply is created by the sellers and demand by the buyers. The law of supply and demand is a theory that explains the interaction between the sellers of a resource and the buyers for that resource. In general, if the price for a good decreases, more people are willing to buy it and less people are willing to sell. That is because the oportunity cost for the buyers increases, as they can obtain the good at a lower price than earlier, whereas the oportunity cost for the sellers increases, as they earn less by selling the same amount of goods as before. Although it is one of the most basic economic laws, it is a part of almost all economic principles. The willingness of people to buy or sell a good determines the market equilibrium price at which the quantity of goods people are willing to sell equals the quantity of goods people are willing to buy. 
+
+\section{Financial instruments}
+% bonds, stocks, derivatives -> this will be used later
+% https://www.investopedia.com/terms/f/financialinstrument.asp
+In this section we will cover a few basic financial instruments. As discussed earlier, different types of markets offer different types of goods. A \textbf{bond market} (also called fixed-income markets) is a collective name attributed to all issues and trades of debt securities. Stock exchange is another type of market where, among many other things, \textbf{stocks} and \textbf{derivatives} can be traded. 
+
+\hfill \break
+A \textbf{bond} is a fixed-income financial instrument typically issued by governments or corporations in order to raise money needed to fund a certain project, for example. When a corporation (or a government) needs to borrow money, it issues bonds that include the terms of the loan, the time at which the loaned funds (bond principal) must be paid back (maturity date) and the interest payments that will be paid. They can essentially be thought of as a contract issued by the borrower promising to pay back the loan plus some interest on it at some time in the future. The interest is a premium for the person loaning the money, because by buying a bond (loaning money) the buyer takes on a risk that the issuer will not be able to pay back at maturity (risk of default). Governments are typically less likely to fail than corporations, therefore the interest paid on government bonds is genereally lower than the interest paid on corporate bonds. There are also bonds that pay additional coupons between the issuance and maturity, but we won't go into them since they will not be of particular interest to us in this thesis.
+
+\hfill \break
+A \textbf{stock} (also called \textit{equity}) is a type of a security issued by the corporations and represents the ownership of a fraction of a company. The units of stock is called \textit{shares}. They are issued for a company to raise funds to operate their business. It is important to point out that corporations are treated as legal persons, so a shareholder does not \textit{own} a corporation, but own shares issued by the corporations and have a claim on its assets and earnings.
+
+\hfill \break
+Having explained the characteristics of bonds and stocks we arrive at securities that are not completely basic. \textbf{Derivatives} are a type of security which \textit{derives} its value from another asset (e.g. stock). There are many types of derivatives, but we will focus on the ones used in this thesis and those are options. \textbf{Option} is a contract that gives the buyer a right, but not an obligation, to buy or sell (depending on the type of the contract they hold) the underlying asset at a certain time in future. 
+
+\hfill \break
+\textbf{European options} (also called \textit{vanilla} options) are the most basic form of an option. We differentiate two different types of european options: \textit{call} and \textit{put} option. A call option gives a buyer a right to buy the underlying security at some predetermined price (strike price) at a certain time in future (maturity). In case the price of the underlying asset is higher than the strike price at the time of maturity, the buyer can buy the underlying asset at the strike price and immediately sell the asset at its market price which is now higher than the strike price, thus making a profit. However, if the price of the underlying asset is less than the strike price at maturity, it does not make sense for the buyer to excercise the option and buy the asset at strike price, because she/he can simply buy the asset at the market price. In this case the options will expire without excercising and the only loss made by the buyer is the amount paid for the option in the first place. To illustrate this very important concept of European options let us look at the following example:
+
+\noindent Suppose at time $t=0$ the price of an asset is $S_0 = 100$ and that we can buy a \textit{put} option with maturity $T$ and strike price $K=90$. The price of such option contract at time $t=0$ is $P = 5$. Let us assume that at maturity the price of the asset is $S_T = 93$. This means that the buyer will simply let the contract expire because the asset can be sold at a market price which is higher than the strike price of the \textit{put} option. If, however, the price of an asset dips below $S_0$ to value of $S_T = 80$, the buyer can buy the asset in the market for the price of $80$ and immediately sell it in the market for $K=90$ by excercising the option. Thus, making a profit of $(K-S_T) - P = (90 - 80) - 5 = 5$. 
+\hfill \break
+Note that in this example, the time value of money was disregarded for simplicity purposes. 
+
+\section{Arbitrage}
+% concept of arbitrage in continous time is too narrow so we have to use a stronger concetpt such as 'no free lunch with vanishing risk'
+
+
+\section{Fundamental theorems of asset pricing}
+% bla bla about these theorems
+\subsection{First foundamental theorem of asset pricing}
+\subsubsection{Theorem}
+A discrete market, on a discrete probability space ($\Omega$, $\mathcal{F}$, $\mathcal{P}$), is \textbf{arbitrage-free} if, and only if, there exists at least one risk neutral probability measure that is equivalent to the original probability measure, $\mathcal{P}$.
+\subsubsection{Proof}
+% intuitive proof: https://stanford.edu/~ashlearn/RLForFinanceBook/ArbitrageCompleteness.pdf
+For illustration we will just prove the easier implication, i.e.\\\textit{Existence of Risk-neutral measure} $\Rightarrow$ \textit{Arbitrage-free}
+\subsection{Second foundamental theorem of asset pricing}
+\subsubsection{Theorem}
+
+
+\chapter{Stochastic processes}
+% probability and random variables
+
+\section{Definition}
+% definition of a stochastic process
+% filtration
+% cadlag and caglad process
+% martingale
+	% semimartingale
+	% local martingale
+		% stopping time
+% deriving Brownian motion from a random walk
+% geometric brownian motion
+% Ito calculus
+
+\chapter{Pricing an asset}
+% repeat geometric brownian motion formulation
+% applying Ito's formula on discounted geometric brownian motion - showcase
+% Jump process
+	% Poisson rv
+	% Poisson process
+% Combining it all together
+
+
+% \chapter{Pricing an option}
+% \chapter{Hedging}
+
+
+
 
 \chapter{Conclusion}
 Conclusion.
@@ -34,18 +115,19 @@ Conclusion.
 \bibliographystyle{fer}
 \nocite{*}
 
-\begin{sazetak}
-Sažetak na hrvatskom jeziku.
-
-\kljucnerijeci{Ključne riječi, odvojene zarezima.}
-\end{sazetak}
-
-% TODO: Navedite naslov na engleskom jeziku.
-\engtitle{Title}
+\newpage
 \begin{abstract}
 Abstract.
 
-\keywords{Keywords.}
+\keywords{stochastic processes, finance, pricing, options, hedging}
 \end{abstract}
+
+% TODO: Navedite naslov na engleskom jeziku.
+\hrvtitle{Određivanje cijene i premoćivanja rizika u slučaju difuzijskog procesa sa skokovima}
+\begin{sazetak}
+Stohastički procesi imaju široku primjenu u raznim područjima računarske znanosti, a u sklopu ovog rada istražit će se njihova primjena u području financija. Fokus rada je matematički definirati proces cijene nekog sredstva u obliku difuzijskog procesa sa skokovima, na temelju kojeg se naknadno određuje cijena njegovog financijskog derivata. Potrebno je programskim simulacijama cijena sredstva i derivata pokazati njihovo ponašanje u vremenu. Nakon što su spomenuti procesi cijena definirani, želimo pokazati kako se matematički može predstaviti i riješiti problem premoćivanja rizika, te navedeno popratiti programskim simulacijama scenarija s ciljem ilustracije efekta premoćivanja rizika.
+
+\kljucnerijeci{stohastički procesi, financije, određivanje cijene, opcije, premoćivanje rizika}
+\end{sazetak}
 
 \end{document}
