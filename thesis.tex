@@ -6,6 +6,7 @@
 \begin{document}
 
 \renewcommand*\contentsname{Table of contents}
+\newcommand\indeq{\mathrel{\overset{\makebox[0pt]{\mbox{\normalfont\tiny\sffamily ind.}}}{=}}}
 
 \thesisnumber{2748}
 
@@ -58,40 +59,179 @@ Having explained the characteristics of bonds and stocks we arrive at securities
 \hfill \break
 \textbf{European options} (also called \textit{vanilla} options) are the most basic form of an option. We differentiate two different types of european options: \textit{call} and \textit{put} option. A call option gives a buyer a right to buy the underlying security at some predetermined price (strike price) at a certain time in future (maturity). In case the price of the underlying asset is higher than the strike price at the time of maturity, the buyer can buy the underlying asset at the strike price and immediately sell the asset at its market price which is now higher than the strike price, thus making a profit. However, if the price of the underlying asset is less than the strike price at maturity, it does not make sense for the buyer to excercise the option and buy the asset at strike price, because she/he can simply buy the asset at the market price. In this case the options will expire without excercising and the only loss made by the buyer is the amount paid for the option in the first place. To illustrate this very important concept of European options let us look at the following example:
 
+\hfill \break
 \noindent Suppose at time $t=0$ the price of an asset is $S_0 = 100$ and that we can buy a \textit{put} option with maturity $T$ and strike price $K=90$. The price of such option contract at time $t=0$ is $P = 5$. Let us assume that at maturity the price of the asset is $S_T = 93$. This means that the buyer will simply let the contract expire because the asset can be sold at a market price which is higher than the strike price of the \textit{put} option. If, however, the price of an asset dips below $S_0$ to value of $S_T = 80$, the buyer can buy the asset in the market for the price of $80$ and immediately sell it in the market for $K=90$ by excercising the option. Thus, making a profit of $(K-S_T) - P = (90 - 80) - 5 = 5$. 
 \hfill \break
 Note that in this example, the time value of money was disregarded for simplicity purposes. 
 
 \section{Arbitrage}
+% https://www.investopedia.com/terms/a/arbitrage.asp
 % concept of arbitrage in continous time is too narrow so we have to use a stronger concetpt such as 'no free lunch with vanishing risk'
+In finance and economics, arbitrage is the practice to take advantage of market inefficiencies to make a risk-free profit. One such inefficiency can be, for example, the difference in prices of the same asset on two different markets. In other words, an arbitrage-free market is a market where there does not exist such trade (or a set of trades) which would allow a trader with zero capital at time $t=0$ to make a positive profit at some time in future $t=T$ with positive probability. In practice, arbitrage opportunities exist, but are very hard to spot and almost immediately exploited and the opportunity is gone, often in the matter of seconds.\\Here are two examples to better understand this very important principle:
+\subsubsection{Example 1}
+Suppose that the stock XYZ is trading for \$50 on the NYSE and the same stock is trading at \$49.5 at the LSE (London Stock Exchange). The trader can then buy the stock at LSE for \$49.5 and immediately sell it at NYSE for \$50, thus realizing profit of \$0.5. 
+\subsubsection{Example 2}
+% TODO: change this to the case when S_o e^r is not between S_u and S_d
+Let's see a more complex example. Suppose we have a stock XYZ with spot price $S_0 = 100$ and in one year period there are only two possibilities for the stock movement: it can go up to $S_1 = u * S_0$ where $u=1.15$, or it can go down to $S_1 = d * S_0$ where $d=0.9$. The risk-free rate in the market is constant during this one-year period and it is $r=1\%$. The probability that the stock will go up in that period is $p=0.4$. 
+
+% TODO: insert binomial tree picture here
+
+The inconsistency is not easy to spot here. If the market is arbitrage-free, the expected value of the future payoff should be zero. By looking more closely, and considering the time value of money one can find the following arbitrage strategy:
+We decide to short-sell the stock today and put that money in the bank to be remunerated at the risk-free rate of $1\%$. After one year we take out our money from the bank and now we own the value of $(1+r)S_0 = 101$. We have to buy back the stock that we shorted one year earlier to cover this short position. There are two possible scenarios:
+\hfill \break
+\begin{itemize}
+	\item The stock went up and our profit in that case is: $(1+r)S_0 - uS_0$ = -14
+	\item The stock went down and our profit in that case is: $(1+r)S_0 - dS_0$ = 11
+\end{itemize}
+\hfill \break
+Although at the first glance this does not look like a good deal, we have to take into account the prbabilities of these events happening. More specifically, let us look at the expecte payoff at time $t=1$:
+
+$$E(\text{payoff at } t=1) = 0.4 * (-14) + 0.6 * 11 = 1$$
+
 
 
 \section{Fundamental theorems of asset pricing}
 % bla bla about these theorems
 \subsection{First foundamental theorem of asset pricing}
 \subsubsection{Theorem}
-A discrete market, on a discrete probability space ($\Omega$, $\mathcal{F}$, $\mathcal{P}$), is \textbf{arbitrage-free} if, and only if, there exists at least one risk neutral probability measure that is equivalent to the original probability measure, $\mathcal{P}$.
-\subsubsection{Proof}
-% intuitive proof: https://stanford.edu/~ashlearn/RLForFinanceBook/ArbitrageCompleteness.pdf
-For illustration we will just prove the easier implication, i.e.\\\textit{Existence of Risk-neutral measure} $\Rightarrow$ \textit{Arbitrage-free}
+\textit{A discrete market, on a discrete probability space ($\Omega$, $\mathcal{F}$, $\mathcal{P}$), is \textbf{arbitrage-free} if, and only if, there exists at least one risk neutral probability measure that is equivalent to the original probability measure, $\mathcal{P}$.}
+
+\hfill \break
+This first theorem is important in that it ensures a foundamental property of market models. It will allow for some nice manipulations with discounted price processes we will mention later in this thesis.
+
+% UNCOMMENT THE BELOW TO CONTINUE WORKING ON THE PROOF
+% \subsubsection{Proof}
+% % intuitive proof: https://stanford.edu/~ashlearn/RLForFinanceBook/ArbitrageCompleteness.pdf
+% For illustration we will just prove the easier implication, i.e.\\\textit{Existence of Risk-neutral measure} $\Rightarrow$ \textit{Arbitrage-free}
+
+% Suppose we have a discrete probability space ($\Omega$, $\mathcal{F}$, $\mathcal{P}$), such that $\Omega = \{\omega_1, ..., \omega_n\}$ and $\mathcal{P}: \Omega \rightarrow [0,1]$.
+
+% \hfill \break
+% A probability measure $\pi: \Omega \rightarrow [0,1]$ is said to be risk-neutral if the following holds:
+% $$S_j^{(0)} = e^{-r}\sum_{i=1}^{n} \pi(\omega_i)S_j^{(i)}$$ 
+
 \subsection{Second foundamental theorem of asset pricing}
 \subsubsection{Theorem}
+\textit{An arbitrage-free is said to be \textbf{complete} (every contingent claim replicable) if and only if there exists a unique risk-neutral measure equivalent to the physical one.}
 
-
+\hfill \break
+This theorem can be reformulated in an equivalent way, that is the market is complete if and only if there exists only one source of randomness in asset dynamic. Although this property is common in many models it is sometimes not always considered desirable or realistic. 
 \chapter{Stochastic processes}
 % probability and random variables
-
-\section{Definition}
 % definition of a stochastic process
 % filtration
+Stochastic processes have a well defined purpose in several fields, and one of those fields is finance. They seem to be the perfect choice when it comes to modelling assets' dynamics, because their \textit{randomness} is used to replicate the uncertainty of asset prices that occurs in the market.\\
+
+A continuous time \textbf{stochastic process} $\{X_t: t\ge 0\}$ is a collection of random variables indexed over time, often times simply $X(t)$. The probability space of these random variables is ($\Omega$, $\mathcal{F}$, $\mathbb{P}$), where $\Omega$ is the set of all possible outcomes, $\mathcal{F}$ is $\sigma$-algebra of events and $\mathbb{P}$ being the probability measure.\\
+It is crucial to introduce a concept of filtration. \textbf{Filtration} $\{\mathcal{F}_t\}_{t\ge 0}$ is an increasing collection of $\sigma$-algebras, such that for every $0 \le s \le t$ the following holds: $\mathcal{F}_s \subseteq \mathcal{F}_t \subseteq \mathcal{F}$
+
 % cadlag and caglad process
 % martingale
 	% semimartingale
 	% local martingale
 		% stopping time
-% deriving Brownian motion from a random walk
-% geometric brownian motion
-% Ito calculus
+
+\section{Brownian motion}
+\subsection{Random walk} % deriving Brownian motion from a random walk
+To describe the process of a \textbf{random walk} we will use a sequence of independent identically distributed (\textit{iid}) random variables $X_i$ with the following distribution:
+
+$$ X_i \sim \left( \begin{array}{cc} h & -h \\
+					p & q \end{array} \right)$$
+
+Where $X_i$ describes the move of the particle in the the $i$-th step.
+Let us calculate the expected value and the variance of each step:
+$$
+	\begin{array}{rl}
+									E(X_i) &= h(p-q) \\
+		Var(X_i) = E(X_i^2) - E(X_i)^2 &= h^2(p-q) - h^2(p-q)^2 \\
+										&= h^2p + h^2q - h^2(p^2 - 2p1 + q^2)\\
+										&= h^2p(1-p) + h^2q(1-q) + 2h^2pq\\
+										&= 4h^2pq \\
+	\end{array}
+$$
+Now that we have the building blocks of the random walk, let us define the state of the random walk after $n$ steps as a random variable $X(t) = \sum_{i=1}^n X_i$. Where $t$ is the length of the interval $[0,t]$. This interval is divided into $n$ equal intervals of length $\Delta t$, so we have:
+$$ \Delta t = \frac{t}{n}$$
+We calculate the expected value and the variance of this new random variable:
+$$
+	\begin{array}{rl}
+		E(X(t)) &= nh(p-q) \\
+		Var(X(t)) &\indeq \sum_{i=1}^n Var(X_i) = 4nh^2pq \\
+	\end{array}
+$$
+According to the Central Limit Theorem with $n \rightarrow \infty$ we know that $X(t)$ will have a normal distribution, namely:
+$$ \frac{\sum_{i=1}^n X_i - nh(p-q)}{\sqrt{n}\sqrt{Var(X_i)}} = \frac{\sum_{i=1}^n X_i - nh(p-q)}{2h\sqrt{n}\sqrt{pq}} \sim \mathcal{N}(0,1) $$
+$$ \Rightarrow \sum_{i=1}^n X_i - nh(p-q) \sim \mathcal{N}(0,4nh^2pq)$$
+$$ \sum_{i=1}^n X_i \sim \mathcal{N}(nh(p-q), 4nh^2pq)$$
+we substitute $n=\frac{t}{\Delta t}$
+$$ X(t) \sim \mathcal{N}(\mu t, \sigma^2t)$$
+$$\mu := \lim_{\Delta x \to 0, h \to 0} \frac{h(p-q)}{\Delta t}$$
+$$\sigma^2 := \lim_{\Delta x \to 0, h \to 0} \frac{4h^2pq}{\Delta t}$$
+
+Where $\mu$ is called the \textbf{drift} and $\sigma^2$ the \textbf{diffusion} of the process $X(t)$. We can have a look at the special case where $p=q=0.5$ and $h=\sqrt{t/n}=\sqrt{\Delta t}$ and it is easy to see that then $X(t)$ has the following distribution:
+$$ X(t) \sim \mathcal{N}(0, t) $$
+
+\noindent The above mentioned process is called \textbf{Wiener process} and is often denoted by $W = \{W_t:t\ge 0\}$ where $W_t \sim \mathcal{N}(0,t)$. The formal definition is the following:
+
+\subsubsection{Definition}
+% REF: Tomas Bjork book reference
+A Wiener process is the process with the following properties:
+\begin{enumerate}
+	\item $W_0 = 0$
+	\item $W_t$ is continuous in $t$
+	\item $W_t$ has independent increments, i.e. for every $r < s \leq t < u$ increments $(W_u - W_t)$ and $(W_s - W_r)$ are independent random variables
+	\item $W$ has Gaussian increments, i.e. for every $u,t \geq 0$: $(W_{t+u} - W_t) \sim \mathcal{N}(0,u)$
+\end{enumerate}
+
+\section{Stochastic Integrals}
+% REF: Tomas Bjork book chapter 4
+As already stated in the earlier chapters, one of the objectives of this book is to study asset pricing in financial markets using stochastic processes. We want to model the price as a continuous time stochastic process and for this case the most complete and elegant theory is obtained if we use \textbf{diffusion processes} and \textbf{stochastic differential equations} as main building blocks. Although we already mentioned diffusion a couple of times, we have not really intuitively explained what it is. Loosely speaking, a stochastic process is a diffusion if its local dynamics can be approximated with the following stochastic difference equation:
+
+$$ X_{t+h} - X_t = \mu(t,X_t)\Delta t + \sigma(t, X_t)\Delta W_t $$
+
+\noindent where $\Delta W_t$ is defined as:
+$$ \Delta W_t = W_{t+h} - W_t $$
+
+\noindent If we let $h$ tend to $0$ we can write the above equation like this:
+$$ dX_t = \mu(t,X_t)dt + \sigma(t, X_t)dW_t $$
+\noindent Which can be interpreted as a shorthand for the folowing integral equation:
+
+$$ X_t = X_0 + \int_0^t \mu(s,X_s)ds + \int_0^t \sigma(s,X_s)dW_s $$
+
+\noindent The $ds$ integral can be viewed as a regular Riemann integral, whereas for the $dW_t$ integral we have to introduce a new concept - \textit{It\^{o} integral}.
+In order to be able to construct a stochastic integral of form:
+$$ \int_0^t g_sdW_s$$
+\noindent we have to impose some kind of integrability condition on another stochastic process $g_s$.
+
+\noindent\textbf{Definition}
+% TODO: fix the formatting to be i, ii and dot or unordered list
+\begin{enumerate}
+	\item \textit{We say that the process $g_s$ belongs to the class $\mathcal{L}^2[a,b] if the following holds:$}
+	\begin{itemize}
+		\item $ \int_a^bE[g_s^2]ds < \infty $
+		\item \textit{The process $g_s$ is adapted to filtration $\mathcal{F}_t^W$}
+	\end{itemize}
+	\item \textit{We say the process $g$ belongs to the class $\mathcal{L}^2$ if $g$ belongs to $\mathcal{L}^2[0,t]$ for every $t$}
+\end{enumerate}
+
+\noindent We will show how the define the stochastic integral for the case of $g_s$ which is \textbf{simple}, i.e. such $g_s$ that there exist deterministic points in time $a=t_0 < t_1 < ... < t_n = b$, such that $g$ is constant on each subinterval. To put this formally, $g_s=g_{t_k}$ where $s \in [t_k,t_{k+1})$. In that case, the stochastic integral can be defined as follows:
+$$ \int_a^bg_sdW_s = \lim_{n\rightarrow\infty} \sum_{k=1}^n g_{t_k-1}(W_{t_k} - W_{t_{k-1}}) \hspace{0.5cm} \text{, where } t_k = k\frac{t}{n}$$
+
+\noindent The process $g_s$ is evaluated in the summation on the left-hand point ($t_{k-1}$) which is known as a \textbf{non-anticipatory} integration. This is a natural choice in finance ensurint that we use no information from the fututre for our present actions.
+
+% TODO: see whether to incorporate this, maybe even change with the above.
+\noindent For the case of $g_s$ which is not \textit{simple} (as described above), we have to use ...
+
+\section{Martingales}
+% REF: Tomas Bjork book
+% NEXT UP! THIS :))) 
+
+\section{Stochastic Calculus and It\^{o} Formula}
+% LAST ANSWER HERE: https://math.stackexchange.com/questions/2686925/some-questions-on-the-details-of-an-integration-of-brownian-motion-against-itsel
+
+
+\subsection{Geometric Brownian motion} % geometric brownian motion
+% https://medium.com/the-quant-journey/a-gentle-introduction-to-geometric-brownian-motion-in-finance-68c37ba6f828
+
 
 \chapter{Pricing an asset}
 % repeat geometric brownian motion formulation
