@@ -2,6 +2,7 @@
 \usepackage{booktabs}
 \usepackage{amsmath}
 \usepackage{amssymb}
+\usepackage{amsthm}
 \usepackage{hyperref}
 \usepackage{enumitem}
 
@@ -9,6 +10,10 @@
 
 \renewcommand*\contentsname{Table of contents}
 \newcommand\indeq{\mathrel{\overset{\makebox[0pt]{\mbox{\normalfont\tiny\sffamily ind.}}}{=}}}
+% TODO: substitute theorems in the text with theorem tag
+\newtheorem{proposition}{Proposition}
+\newtheorem{theorem}{Theorem}
+\newtheorem{definition}{Definition}
 
 \renewcommand{\labelitemi}{$\bullet$}
 
@@ -17,7 +22,7 @@
 \title{Option Pricing and Hedging under Jump-diffusion model}
 
 \author{Ivan Almer}
-% \voditelj{Tomislav Burić}
+\voditelj{Tomislav Burić}
 
 \maketitle
 
@@ -90,13 +95,13 @@ We decide to short-sell the stock today and put that money in the bank to be rem
 \hfill \break
 Although at the first glance this does not look like a good deal, we have to take into account the prbabilities of these events happening. More specifically, let us look at the expecte payoff at time $t=1$:
 
-$$E(\text{payoff at } t=1) = 0.4 * (-14) + 0.6 * 11 = 1$$
+$$\mathbb{E}[\text{payoff at } t=1] = 0.4 * (-14) + 0.6 * 11 = 1$$
 
 
 
 \section{Fundamental theorems of asset pricing}
 % bla bla about these theorems
-\subsection{First foundamental theorem of asset pricing}
+\subsection{First fundamental theorem of asset pricing}
 \subsubsection{Theorem}
 \textit{A discrete market, on a discrete probability space ($\Omega$, $\mathcal{F}$, $\mathcal{P}$), is \textbf{arbitrage-free} if, and only if, there exists at least one risk neutral probability measure that is equivalent to the original probability measure, $\mathcal{P}$.}
 
@@ -114,7 +119,7 @@ This first theorem is important in that it ensures a foundamental property of ma
 % A probability measure $\pi: \Omega \rightarrow [0,1]$ is said to be risk-neutral if the following holds:
 % $$S_j^{(0)} = e^{-r}\sum_{i=1}^{n} \pi(\omega_i)S_j^{(i)}$$ 
 
-\subsection{Second foundamental theorem of asset pricing}
+\subsection{Second fundamental theorem of asset pricing}
 \subsubsection{Theorem}
 \textit{An arbitrage-free is said to be \textbf{complete} (every contingent claim replicable) if and only if there exists a unique risk-neutral measure equivalent to the physical one.}
 
@@ -146,9 +151,10 @@ $$ X_i \sim \left( \begin{array}{cc} h & -h \\
 Where $X_i$ describes the move of the particle in the the $i$-th step.
 Let us calculate the expected value and the variance of each step:
 $$
+	% TODO: replace Var() with Var[] in the whole document
 	\begin{array}{rl}
-									E(X_i) &= h(p-q) \\
-		Var(X_i) = E(X_i^2) - E(X_i)^2 &= h^2(p-q) - h^2(p-q)^2 \\
+									\mathbb{E}[X_i] &= h(p-q) \\
+		Var(X_i) = \mathbb{E}[X_i^2] - \mathbb{E}[X_i]^2 &= h^2(p-q) - h^2(p-q)^2 \\
 										&= h^2p + h^2q - h^2(p^2 - 2p1 + q^2)\\
 										&= h^2p(1-p) + h^2q(1-q) + 2h^2pq\\
 										&= 4h^2pq \\
@@ -159,7 +165,7 @@ $$ \Delta t = \frac{t}{n}$$
 We calculate the expected value and the variance of this new random variable:
 $$
 	\begin{array}{rl}
-		E(X(t)) &= nh(p-q) \\
+		\mathbb{E}[X(t)] &= nh(p-q) \\
 		Var(X(t)) &\indeq \sum_{i=1}^n Var(X_i) = 4nh^2pq \\
 	\end{array}
 $$
@@ -177,8 +183,8 @@ $$ X(t) \sim \mathcal{N}(0, t) $$
 
 \noindent The above mentioned process is called \textbf{Wiener process} and is often denoted by $W = \{W_t:t\ge 0\}$ where $W_t \sim \mathcal{N}(0,t)$. The formal definition is the following:
 
-\subsubsection{Definition}
 % REF: Tomas Bjork book reference
+\begin{definition}[Wiener process]
 A Wiener process is the process with the following properties:
 \begin{enumerate}
 	\item $W_0 = 0$
@@ -186,6 +192,7 @@ A Wiener process is the process with the following properties:
 	\item $W_t$ has independent increments, i.e. for every $r < s \leq t < u$ increments $(W_u - W_t)$ and $(W_s - W_r)$ are independent random variables
 	\item $W$ has Gaussian increments, i.e. for every $u,t \geq 0$: $(W_{t+u} - W_t) \sim \mathcal{N}(0,u)$
 \end{enumerate}
+\end{definition}
 
 \section{Stochastic Integrals}
 % REF: Tomas Bjork book chapter 4
@@ -207,16 +214,17 @@ In order to be able to construct a stochastic integral of form:
 $$ \int_0^t g_sdW_s$$
 \noindent we have to impose some kind of integrability condition on another stochastic process $g_s$.
 
-\noindent\textbf{Definition}
-% TODO: fix the formatting to be i, ii and dot or unordered list
+% TODO: fix the formatting to be i, ii
+\begin{definition}~\\
 \begin{enumerate}
-	\item \textit{We say that the process $g_s$ belongs to the class $\mathcal{L}^2[a,b]$ if the following holds:}
+	\item We say that the process $g_s$ belongs to the class $\mathcal{L}^2[a,b]$ if the following holds:
 	\begin{itemize}
-		\item $ \int_a^bE[g_s^2]ds < \infty $
-		\item \textit{The process $g_s$ is adapted to filtration $\mathcal{F}_t^W$}
+		\item $ \int_a^b\mathbb{E}[g_s^2]ds < \infty $
+		\item The process $g_s$ is adapted to filtration $\mathcal{F}_t^W$
 	\end{itemize}
-	\item \textit{We say the process $g$ belongs to the class $\mathcal{L}^2$ if $g$ belongs to $\mathcal{L}^2[0,t]$ for every $t$}
+	\item We say the process $g$ belongs to the class $\mathcal{L}^2$ if $g$ belongs to $\mathcal{L}^2[0,t]$ for every $t$
 \end{enumerate}
+\end{definition}
 
 \noindent We will show how the define the stochastic integral for the case of $g_s$ which is \textbf{simple}, i.e. such $g_s$ that there exist deterministic points in time $a=t_0 < t_1 < ... < t_n = b$, such that $g$ is constant on each subinterval. To put this formally, $g_s=g_{t_k}$ where $s \in [t_k,t_{k+1})$. In that case, the stochastic integral can be defined as follows:
 $$ \int_a^bg_sdW_s = \lim_{n\rightarrow\infty} \sum_{k=1}^n g_{t_k-1}(W_{t_k} - W_{t_{k-1}}) \hspace{0.5cm} \text{, where } t_k = k\frac{t}{n}$$
@@ -228,33 +236,34 @@ $$ \int_a^bg_sdW_s = \lim_{n\rightarrow\infty} \sum_{k=1}^n g_{t_k-1}(W_{t_k} - 
 
 \section{Martingales}
 % REF: Tomas Bjork book
-Theory of stochastic integration is closely related to the theory of martingales. Moreover, it is a foundation of the modern theory of financial derivatives. It would be unreasonable to not mention this topic, because of its extreme importance in the field. In descrete time, we say a stochastic process is a \textbf{martingale} if for any time $n$ the following properties hold:
+Theory of stochastic integration is closely related to the theory of martingales. Moreover, it is a foundation of the modern theory of financial derivatives. It would be unreasonable to not mention this topic, because of its extreme importance in the field. In discrete time, we say a stochastic process is a \textbf{martingale} if for any time $n$ the following properties hold:
 
 \begin{center}
 	\begin{itemize}
-		\item $E[|X_n|] < \infty$
-		\item $E[X_n | X_0, ..., X_{n-1}] = X_{n-1}$
+		\item $\mathbb{E}[|X_n|] < \infty$
+		\item $\mathbb{E}[X_n | X_0, ..., X_{n-1}] = X_{n-1}$
 	\end{itemize}
 \end{center}
 
 Where the first condition is more of a \textit{technical} condition and the second one is the most important one. The second condition states that if at any time $t=n$ we look at the expected value of the process at any time $t>n$, it is equal to the value of the process at time $t=n$. A process that is a martingale can be viewed as a model of a fair game.
 
 \noindent In order to extend the definition of a martingale to a continuous case, let us first consider a concept of filtration ${\mathcal{F}}_{t \ge 0}$, that we have already mentioned earlier. As before, a filtration can be thought of as a \textit{flow of information} and $\mathcal{F}_t$ as the information generated by all observed events up to time $t$. For any random variable $X$ let the symbol
-$$E[X|\mathcal{F}_t]$$
-represent the \textit{"expected value of $X$ given the information available up to time $t$"}. It is important to note here that for a fixed $t$, the object $E[X|\mathcal{F}_t]$ is a random variable. Let, for example, a filtration be generated by the process $Y$, then the information available up to time $t$ will, of course, be dependent on the behaviour of the process $Y$ in the time interval $[0,t]$. Before defining a continous time martingale, let us first consider the following proposition:
+$$\mathbb{E}[X|\mathcal{F}_t]$$
+represent the \textit{"expected value of $X$ given the information available up to time $t$"}. It is important to note here that for a fixed $t$, the object $\mathbb{E}[X|\mathcal{F}_t]$ is a random variable. Let, for example, a filtration be generated by the process $Y$, then the information available up to time $t$ will, of course, be dependent on the behaviour of the process $Y$ in the time interval $[0,t]$. Before defining a continous time martingale, let us first consider the following proposition:
 
 \begin{itemize}
-	\item \textit{If $Y$ and $Z$ are random variables, and $Z$ is $\mathcal{F}_t$-measurable (known at time $t$), then} $$E[Z\cdot Y|\mathcal{F}_t] = Z \cdot E[Y|\mathcal{F}_t]$$
-	\item \textit{If $Y$ is a random variable and $s<t$, then} $$E[E[Y|\mathcal{F}_t]|\mathcal{F}_s] = E[Y|\mathcal{F}_s]$$
+	\item \textit{If $Y$ and $Z$ are random variables, and $Z$ is $\mathcal{F}_t$-measurable (known at time $t$), then} $$\mathbb{E}[Z\cdot Y|\mathcal{F}_t] = Z \cdot \mathbb{E}[Y|\mathcal{F}_t]$$
+	\item \textit{If $Y$ is a random variable and $s<t$, then} $$\mathbb{E}[\mathbb{E}[Y|\mathcal{F}_t]|\mathcal{F}_s] = \mathbb{E}[Y|\mathcal{F}_s]$$
 \end{itemize}
 
-\noindent\textbf{Definition}
+\begin{definition}
 A stochastic process $X$ is an $(\mathcal{F}_t)$-martingale if the following conditions hold:
 \begin{itemize}
 	\item $X$ is adapted to filtration $\{\mathcal{F}_t\}_{t\geq 0}$
-	\item For all $t$ we have $$E[|X_t|] < \infty$$
-	\item For all $s$ and $t$, where $s\leq t$ we have $$E[X_t|\mathcal{F}_s] = X_s$$
+	\item For all $t$ we have $$\mathbb{E}[|X_t|] < \infty$$
+	\item For all $s$ and $t$, where $s\leq t$ we have $$\mathbb{E}[X_t|\mathcal{F}_s] = X_s$$
 \end{itemize}
+\end{definition}
 
 The first condition above is a condition saying that the process $X_t$ is observable (known) at time $t$. The second one, like in discrete case, is just a technical condition. Also like in discrete case, the third condition is the important one, which states that the expected future value of the $X$, given the information available today, is equal to today's observed value of $X$. In other words, a martingale has an absence of drift.
 
@@ -273,13 +282,16 @@ A proof of this theorem is outside the scope of this thesis and it is rather cum
 
 
 \subsection{Geometric Brownian motion} % geometric brownian motion
+\label{section_gbm}
 % https://medium.com/the-quant-journey/a-gentle-introduction-to-geometric-brownian-motion-in-finance-68c37ba6f828
 Let us now show how to apply It\^{o}'s formula for the case of \textit{geometric Brownian motion}. Before we start, it is crucial to first describe what kind of process that is. 
 
-\subsubsection{Definition}
-\textit{A process $X$ is said to be a \textbf{geometric Brownian motion} if it satisfies the following stochastic differential equation:}
+\begin{definition}
+A process $X$ is said to be a \textbf{geometric Brownian motion} if it satisfies the following stochastic differential equation:
 
 $$dX_t = \mu_t X_t dt + \sigma_t X_t dW_t$$
+
+\end{definition}
 
 \noindent where $\mu_t$ and $\sigma_t$ are \textit{drift} and \textit{diffusion} (respectively) of the process $X$. $W_t$ is the basic Brownian motion, that is $W_t \sim \mathcal{N}(0,t)$. Let us now consider a function $f(t,X_t) = \ln(X_t)$ which, of course, yields another stochastic process. Another way of representing the It\^{o}'s formula, which is maybe a bit more general is important to have in mind and that is the following: $$df = \frac{\partial f}{\partial t}dt + \frac{\partial f}{\partial x}dX_t + \frac{1}{2}\frac{\partial^2 f}{\partial x^2}(dX_t)^2$$
 If we expand the $(dX_t)^2$ we get: $$(dX_t)^2 = (\mu_t X_t dt + \sigma_t X_t dW_t)^2 = \mu_t^2 X_t^2 (dt)^2 + 2\mu_t\sigma_tX_t^2dtdW_t + \sigma_t^2X_t^2(dW_t)^2$$ where we use the formal multiplication table: 
@@ -289,6 +301,8 @@ Before we apply the It\^{o}'s formula to this problem, let us first calculate th
 $$
 	\frac{\partial \ln(X_t)}{\partial t} = 0 \hspace{0.25cm} ; \hspace{0.25cm} \frac{\partial \ln(X_t)}{\partial x} = \frac{1}{x} \hspace{0.25cm} ; \hspace{0.25cm} \frac{\partial^2 \ln(X_t)}{\partial x^2} = -\frac{1}{x^2}
 $$
+
+% TODO: fix the mu_t and sigma_t to be inside the integral
 Now we are finally ready to apply the formula. We will step by step derive the formula for $X_t$:
 $$ df = 0\cdot dt + \frac{1}{X_t}dX_t - \frac{1}{2} \frac{1}{X_t^2}(dX_t)^2 $$
 $$ df = \frac{1}{X_t} (\mu_t X_t dt + \sigma_t X_t dW_t) - \frac{1}{2}\frac{1}{X_t^2}\sigma_t^2 X_t^2 dt$$
@@ -298,21 +312,165 @@ $$ \int_0^t df(s) = (\mu_t - \frac{1}{2}\sigma_t^2)\int_0^t dt + \sigma_t \int_0
 $$ \ln(X_t) - \ln(X) = (\mu_t-\frac{1}{2}\sigma_t^2)t + \sigma_t(W_t - W_0) $$
 Remembering that the $W_0 = 0$ we get the following result:
 $$ \ln\frac{X_t}{X_0} = (\mu_t-\frac{1}{2}\sigma_t^2)t + \sigma_tW_t $$
-$$ X_t = X_0\exp\left\{ (\mu_t-\frac{1}{2}\sigma_t^2)t + \sigma_tW_t \right\} $$
+\begin{equation} \label{eqn_gbm}
+	X_t = X_0\exp\left\{ (\mu_t-\frac{1}{2}\sigma_t^2)t + \sigma_tW_t \right\}
+\end{equation}
 
 This model is in finance also known as \textbf{log-normal asset return model}, because we are using logarithmic prices. It is important to note that this model only has \textbf{positive values} of stock prices, which is in that sense in line with the real world, where stock prices can not become negative. 
 
 % TODO: insert image of geometric brownian motion simulation
 
 \chapter{Pricing an asset}
-% NEXT UP!
+% NEXT UP! - When you come back from Paris
 
 % repeat geometric brownian motion formulation
-% applying Ito's formula on discounted geometric brownian motion - showcase
+% Optional but would be nice - already in the yellow writing pad: applying Ito's formula on discounted geometric brownian motion - showcase
+
+% TODO: Write something about why we will use Jump-diffusion process to price an asset...
+
 % Jump process
-	% Poisson rv
-	% Poisson process
-% Combining it all together
+	\section{Poisson process}
+	Poisson process and exponential distribution are very closely linked so let us have a look at exponential distribution first. Poisson process has some convenient mathematical properties, which has led to it being used as a mathematical model for seemingly random processes in various disciplines, including, of course, economics. It is named after French mathematician Simeon Denis Poisson despite the fact that he has never studied this process. The reason why it is called a Poisson process is that if a collection of points in some space forms a Poisson process than the number of those points in a finite size region is a random variable with a Poisson distribution. This will be step by step explained in next sections.
+		\subsection{Exponential distribution}
+		As mentioned earlier, exponential distribution is very closely linked to the Poisson process as the time between events in Poisson process has exponential distribution. It is a continuous analogue of the geometric distribution.
+			\begin{definition}[Exponential distribution]
+			\label{exponential}
+			We say that a random variable $X$ is exponentially distributed if its probability density function (PDF) is:
+			$$
+				f(x) = \left\{ \begin{array}{lc} \lambda e^{-\lambda x} &, x \geq 0 \\
+												0 &, x < 0 \end{array}\right.
+			$$
+
+			\noindent where $\lambda > 0$ is the parameter of the distribution, often called the rate parameter. The notation to indicate that a random variable is exponentially distributed is $$X \sim \varepsilon(\lambda)$$
+			\end{definition}
+
+			% REF: memorylessness -> https://en.wikipedia.org/wiki/Memorylessness
+			\noindent The expected value of a random variable $X$ which is exponentially distributed is $$\mathbb{E}[X] = \frac{1}{\lambda}$$ The most famous property of the exponential distribution is memorylessness. \textbf{Memorylessness} is a property of certain probability distributions which refers to the fact that the waiting time until the occurrence of a certain event does not depend on how mych time has already elapsed. Memorylessness of an exponential distribution is formally expressed as: $$P(X > t + s | X>s) = e^{-\lambda t} = P(X > t)$$ If $X$ is a random variable modelling a waiting time, this would mean that the probability that we wait more than $t+s$ if we already know that at least $s$ time has elapsed, is the same as the probability that we will wait more than $t$. 
+		\subsection{Defining a Poisson process}
+		A \textbf{Poisson process} registers the occurrences of the certain event in a finite time interval. It notes the number of occurrences as well as times when the event happened. 
+		\begin{definition}[Poisson process]
+			Poisson process $(N_t, t \geq 0)$ is given by the following conditions:
+			\begin{enumerate}
+				\item $N_0 = 0$
+				\item $N$ has independent increments
+				\item Random variable $N(s,t) = N_t - N_s$ where $0 \leq s \leq t$, has a Poisson distribution with parameter $\lambda (t-s)$, that is $$ P(N_t - N_s = n) = e^{-\lambda(t-s)}\frac{[\lambda(t-s)]^n}{n!} $$
+			\end{enumerate}
+		\end{definition}
+
+		% REF: Derivative security pricing book pg. 253
+		\noindent There is an alternative definition of a Poisson process which we will use when we will be defining a jump-diffusion process. As we already mentioned before, Poisson process registers occurrences of a certain event on a \textit{finite time interval}. If we let that interval to become very small and denote it by $h$, we denote the probabilities of the number occurrences by: 
+		$$
+			\begin{array}{rcl}
+				P(N(h) \geq 2) &\mbox{=}& o(h) \\
+				P(N(h) = 1) &\mbox{=}& \lambda h \\
+				P(N(h) = 0) &\mbox{=}& 1 - \lambda h + o(h)
+			\end{array}
+		$$
+		Where $o(h)$ is infinitesimally small amount, that is, some function with with the property: $$\lim_{h \to 0} \frac{o(h)}{h} = 0$$ Then we can let $dN$ denote an increment in the Poisson process on an infinitesimally small time interval $dt$. $$ dN = \left\{  \begin{array}{lcl} 1 & \mbox{with probability} & \lambda dt \\
+																	0 & \mbox{with probability} & (1 - \lambda dt) \end{array} \right. $$
+	
+	\section{Pure Jump process}
+		\subsection{Definition}
+		Now that the Poisson process has been explained, it will be easy to understand the Jump process. Like we stated earlier, the Poisson process registers occurrences of certain events. When talking about a jump process those events that occur will be the jumps. On each such event the value of our Jump process will be increased by a ceratin value (it will \textit{"jump"}). The initial value of the Jump process is $J(0) = 0$. The size of the $i$-th jump will be a random variable $U_i$ independant of the Poisson process, that is $N(t) \bot U_i$ , $\forall i$. All $U_i$ are independent and identically distributed random variables (\textit{iid}).
+
+		% REF: DSP pg. 255
+		\begin{definition}
+			We define a Jump process as 
+			\begin{equation}
+				J(t) = \sum_{i=1}^{N(t)} U_i
+			\end{equation}
+			assuming $J(0) = 0$. The Jump process is right-continuous.
+		\end{definition}
+
+		We will use $\mathbb{Q}_j$ and $\mathbb{Q}_u$ to indicate the probability measure governing the jump arrival times and the probability measure governing the jump sizes, respectively. We assume independence of the mentioned probability measures. Let us now have a look at the expected value of the Jump process we have just defined:
+
+		\begin{equation} \label{eqn_e_jump} % \ref{eqn_e_jump}
+		\mathbb{E}[J(t)] = \mathbb{E}^{\mathbb{Q}_j}\mathbb{E}^{\mathbb{Q}_u} \sum_{i=1}^{N(t)} U_i
+		\end{equation}
+
+		\noindent When performing the calculation we have to have in mind that $\mathbb{E}^{\mathbb{Q}_u}[U_i] = k$.
+
+		\begin{equation}
+		\begin{split}
+			\mathbb{E}[J(t)] &= \sum_{n=0}^{\infty}\mathbb{E}^{\mathbb{Q}_u} \left[ \sum_{i=1}^{n} U_i \right] P(N(t)=n) = \sum_{n=0}^{\infty}\sum_{i=1}^{n} \mathbb{E}^{\mathbb{Q}_u}\left[U_i\right] P(N(t)=n) \\
+			&= \sum_{n=0}^{\infty} nk\frac{(\lambda t)^n}{n!}e^{-\lambda t} = \sum_{n=1}^{\infty} nk\frac{(\lambda t)^n}{n!}e^{-\lambda t} \\
+			&= ke^{-\lambda t}\lambda t\sum_{n=1}^{\infty}\frac{(\lambda t)^{n-1}}{(n-1)!} = k\lambda te^{-\lambda t}\sum_{n=1}^{\infty}\frac{(\lambda t)^n}{n!} \\
+			&= k\lambda t
+		\end{split}
+		\end{equation}
+
+		\noindent As we can see the the expected value of the Jump process at time $t$ is different than $0$ which will subsequently lead to the conclusion that the process $J(t)$ is not a martingale. Sometimes it is useful to work with a Jump process which, in turn, is a martingale. Such process is called a \textbf{compensated Jump process}. 
+		
+		\begin{proposition} Let us denote a compensated Jump process with $\tilde{J}(t)$ and let it be defined by:
+			\begin{equation}
+			\tilde{J}(t) := J(t) - k\lambda t
+			\end{equation}
+			Such a process is a martingale.
+		\end{proposition}
+		\begin{proof}
+			Let us assume we that we have $0 \leq s \leq t$ and we determine the expected value of the $\tilde{J}(t)$ given that we have information up to time $s$:
+			\begin{align*}
+				\mathbb{E}[\tilde{J}(t)|\mathcal{F}_s] &= \mathbb{E}[\tilde{J}(t) + \tilde{J}(s) - \tilde{J}(s)|\mathcal{F}_s] \\
+				&= \mathbb{E}[\tilde{J}(t) - \tilde{J}(s)|\mathcal{F}_s] + \mathbb{E}[\tilde{J}(s)|\mathcal{F}_s] \\
+				&= \mathbb{E}[\tilde{J}(t - s)] + \tilde{J}(s) \hspace{3cm} \mbox{\textit{(independent increments)}} \\
+				&= \mathbb{E}[J(t - s) - k\lambda (t-s)] + \tilde{J}(s)\\
+				&= k\lambda (t-s) - k\lambda (t-s) + \tilde{J}(s) \\
+				&= \tilde{J}(s)
+			\end{align*}
+		\end{proof}
+
+	Before we continue further and comobine the knowledge we have on geometric Brownian motion and Jump processes to obtain a Jump-diffusion process, let us first denote with $d\tilde{J}$ the change in the compensated Jump process in an infinitesimally small time interval $dt$:
+	$$ d\tilde{J} = \left\{  \begin{array}{lcl} U_i - k\lambda dt& \mbox{with probability} & \lambda dt \\
+																	- k\lambda dt & \mbox{with probability} & (1 - \lambda dt) \end{array} \right. $$
+	\section{Jump-diffusion process}
+	This has led us to the final part where we will obtain the final process of our asset price. This process will be the combination of the Geometric Brownian motion and a (compensated) Jump process. The reason to use a Jump-diffusion process as a process which will govern the price of an asset is because it better mimics the real-world situation where unexpected jumps can happen. In the previously defined jump process the jump sizes were \textit{iid} random variables $U_i$. We wish to make the jumps proportional to the value of the geometric Brownian motion at that point in time. Formally the differential form of a jump-diffusion process will be:
+
+	\begin{equation}
+		dX_t = \mu_tX_tdt + \sigma_tX_tdW_t + X_tUdN_t
+	\end{equation} or also,
+	\begin{equation}
+		\frac{dX_t}{X_t} = \mu_tdt + \sigma_tdW_t + UdN_t
+	\end{equation} 
+	% TODO: add a picture of an index with jumps
+	We will assume, for simplicity purposes, that the $\mu, \sigma$ and $\lambda$ are constant in time. Further more, if we observe the behaviour of the process we can differentiate two different types of segments in the process:
+	\begin{enumerate}
+		\item between jumps it is driven by a pure diffusion process
+		\item at jump times $(\tau_i)$ the value of the process after a jump depends on the value right before the jump $(\tau_i^-)$
+	\end{enumerate}
+
+	% REF: DSP pg. 260
+	\noindent For the first case when the process is driven by a pure diffusion process we have
+	\begin{equation}
+		\frac{dX_t}{X_t} = \mu dt + \sigma dW_t
+	\end{equation} which can be written also as 
+	\begin{equation}
+		d(\ln X_t) = (\mu - \frac{1}{2}\sigma^2)dt + \sigma dW_t
+	\end{equation}
+
+	% TODO: add charts
+	\noindent After a jump at time $\tau_i$ we have that
+	\begin{equation}
+		X(\tau_i) - X(\tau_i^-) = U_i X(\tau_i^-)
+	\end{equation}
+	\noindent or equivalently
+	\begin{equation}
+		X(\tau_i) = X(\tau_i^-)(1 + U_i)
+	\end{equation}
+	\noindent In the part \ref{section_gbm} we have shown that the formula for the value of the diffusion process at time $t$ is $$X(t) = X(0)\exp\left[ (\mu-\frac{1}{2}\sigma^2)t + \sigma W_t \right]$$ which enables us to denote the value of the process right after the $i$-th jump as 
+
+	$$X(\tau_i) = X(\tau_{i-1})\exp\left[ (\mu - \frac{1}{2}\sigma^2)\Delta\tau + \sigma W_{\Delta\tau} \right]\bigg(1+U_i\bigg)$$ 
+	where $\Delta\tau = \tau_i - \tau_{i-1}$. If we would iterate this process, starting at $t=0$ and assuming there were no jumps at that time, we would get the final equation of the resulting asset price process:
+
+	\begin{equation}
+		X(t) = X(0)\exp\left[ (\mu - \frac{1}{2}\sigma^2)\Delta\tau + \sigma W_{\Delta\tau} \right]\left(\prod_{i=1}^{N(t)}1+U_i\right)
+	\end{equation}
+
+	\noindent We have, however, not taken into account that the expected change in the resulting process is not anymore $X_t\mu dt$, because we have incorporated jumps and we have not compensated for it. In order to fix that we would have to compensate for that like we did earlier with the compensated Jump process. Doing that and then following the same logic as above we would obtain the following resulting equation for the value of the jump-diffusion process at time $t$:
+	\begin{equation}
+		X(t) = X(0)\exp\left[ (\mu - k\lambda- \frac{1}{2}\sigma^2)\Delta\tau + \sigma W_{\Delta\tau} \right]\left(\prod_{i=1}^{N(t)}1+U_i\right)
+	\end{equation}
+
+	\section{Simulations}
 
 
 \chapter{Pricing an option}
@@ -328,17 +486,16 @@ Conclusion.
 
 \newpage
 \begin{abstract}
-Abstract.
+Stochastic processes have a widespread application in the computer science and in this thesis their application in the field of finance will be studied. The focus of this thesis will be to mathematically define a price of an asset using a jump-diffusion model which is then used to price a derivative. By programming simulations of prices of an asset and its derivative, their behaviour in time will be shown. After the prices of an asset and its derivative have been defined, we want to show how to mathematically define a problem of hedging a position. This also has to be accompanied with implemented simulations to illustrate the effect of hedging.
 
 \keywords{stochastic processes, finance, pricing, options, hedging}
 \end{abstract}
 
-% TODO: Navedite naslov na engleskom jeziku.
-\hrvtitle{Određivanje cijene i premoćivanja rizika u slučaju difuzijskog procesa sa skokovima}
+\hrvtitle{Određivanje cijene i premošćivanja rizika u slučaju difuzijskog procesa sa skokovima}
 \begin{sazetak}
-Stohastički procesi imaju široku primjenu u raznim područjima računarske znanosti, a u sklopu ovog rada istražit će se njihova primjena u području financija. Fokus rada je matematički definirati proces cijene nekog sredstva u obliku difuzijskog procesa sa skokovima, na temelju kojeg se naknadno određuje cijena njegovog financijskog derivata. Potrebno je programskim simulacijama cijena sredstva i derivata pokazati njihovo ponašanje u vremenu. Nakon što su spomenuti procesi cijena definirani, želimo pokazati kako se matematički može predstaviti i riješiti problem premoćivanja rizika, te navedeno popratiti programskim simulacijama scenarija s ciljem ilustracije efekta premoćivanja rizika.
+Stohastički procesi imaju široku primjenu u raznim područjima računarske znanosti, a u sklopu ovog rada istražit će se njihova primjena u području financija. Fokus rada je matematički definirati proces cijene nekog sredstva u obliku difuzijskog procesa sa skokovima, na temelju kojeg se naknadno određuje cijena njegovog financijskog derivata. Potrebno je programskim simulacijama cijena sredstva i derivata pokazati njihovo ponašanje u vremenu. Nakon što su spomenuti procesi cijena definirani, želimo pokazati kako se matematički može predstaviti i riješiti problem premošćivanja rizika, te navedeno popratiti programskim simulacijama scenarija s ciljem ilustracije efekta premošćivanja rizika.
 
-\kljucnerijeci{stohastički procesi, financije, određivanje cijene, opcije, premoćivanje rizika}
+\kljucnerijeci{stohastički procesi, financije, određivanje cijene, opcije, premošćivanje rizika}
 \end{sazetak}
 
 \end{document}

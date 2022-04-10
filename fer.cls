@@ -69,7 +69,7 @@
 \else \if@enccp \RequirePackage[cp1250]{inputenc} \fi
 \fi
 
-\RequirePackage[croatian]{babel}
+\RequirePackage[english]{babel}
 \RequirePackage[T1]{fontenc}
 \RequirePackage{graphicx} % Uključeno jer je često korišteno
 \RequirePackage{amssymb} % Uključeno jer je često korišteno
@@ -248,15 +248,12 @@
 }
 }
 
-\if@radseminar%
-  \def\voditelj#1{\gdef\@voditelj{#1}}
-  \def\@voditelj{\@latex@warning@no@line{Voditelj nije naveden.
-  Koristi \noexpand\voditelj za definiranje}}
-\else%
-  \def\thesisnumber#1{\gdef\@thesisnumber{#1}}
-  \def\@thesisnumber{\@latex@warning@no@line{Broj rada nije definiran.
-  Koristi \noexpand\thesisnumber za definiranje}}
-\fi
+\def\voditelj#1{\gdef\@voditelj{#1}}
+\def\@voditelj{\@latex@warning@no@line{Voditelj nije naveden.
+Koristi \noexpand\voditelj za definiranje}}
+\def\thesisnumber#1{\gdef\@thesisnumber{#1}}
+\def\@thesisnumber{\@latex@warning@no@line{Broj rada nije definiran.
+Koristi \noexpand\thesisnumber za definiranje}}
 
 \if@titlepage
 	\renewcommand\maketitle{%
@@ -286,9 +283,9 @@
 			\vskip 1em%
 			{\large\sffamily\lineskip .75em%
 			\begin{tabular}[t]{c}%
-	        	\if@radseminar%
+	        	\if@raddiplomski%
 	        	  {\itshape \@author} \\
-	        	  Voditelj: {\itshape \@voditelj}
+	        	  Mentor: {\itshape \@voditelj}
 	        	\else
 				    \@author
 				\fi
