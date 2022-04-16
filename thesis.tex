@@ -98,12 +98,13 @@ Although at the first glance this does not look like a good deal, we have to tak
 $$\mathbb{E}[\text{payoff at } t=1] = 0.4 * (-14) + 0.6 * 11 = 1$$
 
 
-
+\newpage
 \section{Fundamental theorems of asset pricing}
 % bla bla about these theorems
 \subsection{First fundamental theorem of asset pricing}
-\subsubsection{Theorem}
-\textit{A discrete market, on a discrete probability space ($\Omega$, $\mathcal{F}$, $\mathcal{P}$), is \textbf{arbitrage-free} if, and only if, there exists at least one risk neutral probability measure that is equivalent to the original probability measure, $\mathcal{P}$.}
+\begin{theorem}
+A discrete market, on a discrete probability space ($\Omega$, $\mathcal{F}$, $\mathcal{P}$), is \textbf{arbitrage-free} if, and only if, there exists at least one risk neutral probability measure that is equivalent to the original probability measure, $\mathcal{P}$.
+\end{theorem}
 
 \hfill \break
 This first theorem is important in that it ensures a foundamental property of market models. It will allow for some nice manipulations with discounted price processes we will mention later in this thesis.
@@ -120,8 +121,9 @@ This first theorem is important in that it ensures a foundamental property of ma
 % $$S_j^{(0)} = e^{-r}\sum_{i=1}^{n} \pi(\omega_i)S_j^{(i)}$$ 
 
 \subsection{Second fundamental theorem of asset pricing}
-\subsubsection{Theorem}
-\textit{An arbitrage-free is said to be \textbf{complete} (every contingent claim replicable) if and only if there exists a unique risk-neutral measure equivalent to the physical one.}
+\begin{theorem}
+An arbitrage-free is said to be \textbf{complete} (every contingent claim replicable) if and only if there exists a unique risk-neutral measure equivalent to the physical one.
+\end{theorem}
 
 \hfill \break
 This theorem can be reformulated in an equivalent way, that is the market is complete if and only if there exists only one source of randomness in asset dynamic. Although this property is common in many models it is sometimes not always considered desirable or realistic. 
@@ -273,13 +275,13 @@ When talking about stochastic processes, one can see that they are different tha
 
 % TODO: Images of a normal function magnified - smooth, and of BM - noisy
 
-We come to the very important theorem in the field of stochastic calculus and that is \textbf{It\^{o}'s formula}.
+We come to the very important theorem in the field of stochastic calculus and that is \textbf{It\^{o}'s lemma}.
 
-\subsubsection{Theorem (It\^{o}'s formula)} 
+\begin{theorem}[It\^{o}'s lemma]
 Assume that the process $X$ has a stochastic differential given by $$dX_t = \mu_tdt + \sigma_tdW_t$$ where $\mu$ and $\sigma$ are adapted processes, and let $f$ be a $C^{1,2}$-function. Define the process $Z$ by $Z(t) = f(t,X_t)$. Then $Z$ has a stochastic differential given by 
 $$df(t, X_t) = \left(\frac{\partial f}{\partial t} + \mu_t\frac{\partial f}{\partial x}+\frac{1}{2}\sigma_t^2 \frac{\partial^2f}{\partial x^2}\right)dt + \sigma \frac{\partial f}{\partial x}dW_t$$
+\end{theorem}
 A proof of this theorem is outside the scope of this thesis and it is rather cumbersome. The power and importance of this theorem is that we can define the differential of a function of a stochastic process. This will prove to be an indispensible tool when we will be pricing an option, as the price of the option depends on the price of an asset, that is, it is a sort of a function of the price process.
-
 
 \subsection{Geometric Brownian motion} % geometric brownian motion
 \label{section_gbm}
@@ -425,10 +427,10 @@ This model is in finance also known as \textbf{log-normal asset return model}, b
 	\section{Jump-diffusion process}
 	This has led us to the final part where we will obtain the final process of our asset price. This process will be the combination of the Geometric Brownian motion and a (compensated) Jump process. The reason to use a Jump-diffusion process as a process which will govern the price of an asset is because it better mimics the real-world situation where unexpected jumps can happen. In the previously defined jump process the jump sizes were \textit{iid} random variables $U_i$. We wish to make the jumps proportional to the value of the geometric Brownian motion at that point in time. Formally the differential form of a jump-diffusion process will be:
 
-	\begin{equation}
+	\begin{equation} \label{eqn_jd}
 		dX_t = \mu_tX_tdt + \sigma_tX_tdW_t + X_tUdN_t
 	\end{equation} or also,
-	\begin{equation}
+	\begin{equation} \label{eqn_jd_frac}
 		\frac{dX_t}{X_t} = \mu_tdt + \sigma_tdW_t + UdN_t
 	\end{equation} 
 	% TODO: add a picture of an index with jumps
@@ -461,19 +463,172 @@ This model is in finance also known as \textbf{log-normal asset return model}, b
 	$$X(\tau_i) = X(\tau_{i-1})\exp\left[ (\mu - \frac{1}{2}\sigma^2)\Delta\tau + \sigma W_{\Delta\tau} \right]\bigg(1+U_i\bigg)$$ 
 	where $\Delta\tau = \tau_i - \tau_{i-1}$. If we would iterate this process, starting at $t=0$ and assuming there were no jumps at that time, we would get the final equation of the resulting asset price process:
 
-	\begin{equation}
-		X(t) = X(0)\exp\left[ (\mu - \frac{1}{2}\sigma^2)\Delta\tau + \sigma W_{\Delta\tau} \right]\left(\prod_{i=1}^{N(t)}1+U_i\right)
+	\begin{equation}\label{eqn_jump_diff}
+		X(t) = X(0)\exp\left[ (\mu - \frac{1}{2}\sigma^2)t + \sigma W_{t} \right]\left(\prod_{i=1}^{N(t)}1+U_i\right)
 	\end{equation}
 
-	\noindent We have, however, not taken into account that the expected change in the resulting process is not anymore $X_t\mu dt$, because we have incorporated jumps and we have not compensated for it. In order to fix that we would have to compensate for that like we did earlier with the compensated Jump process. Doing that and then following the same logic as above we would obtain the following resulting equation for the value of the jump-diffusion process at time $t$:
-	\begin{equation}
-		X(t) = X(0)\exp\left[ (\mu - k\lambda- \frac{1}{2}\sigma^2)\Delta\tau + \sigma W_{\Delta\tau} \right]\left(\prod_{i=1}^{N(t)}1+U_i\right)
+	\noindent We have, however, not taken into account that the expected change in the resulting process is not anymore $X_t\mu dt$, because we have incorporated jumps and we have not compensated for it. In order to fix that we would have to compensate for that like we did earlier with the compensated Jump process. Doing that and then following the same logic as above we would obtain the following resulting equation for the value of the compensated jump-diffusion process at time $t$:
+	\begin{equation} \label{eqn_jump_diff_compensated}
+		X(t) = X(0)\exp\left[ (\mu - k\lambda- \frac{1}{2}\sigma^2)t + \sigma W_{t} \right]\left(\prod_{i=1}^{N(t)}1+U_i\right)
 	\end{equation}
 
 	\section{Simulations}
 
 
 \chapter{Pricing an option}
+% merton jump diffusion model
+% https://www.youtube.com/watch?v=URNN2_YPGVI
+
+\section{It\^{o}'s lemma for Jump-diffusion Process}
+ALthought Ito's lemma could have already been introduced and used to obtain the formulas \ref{eqn_jump_diff} and \ref{eqn_jump_diff_compensated} we chose to use the iterative process to obtain them. Now, when talking about pricing an option, which is a financial derivative and therefore \textit{derives} its value from the underlying price process, it comes naturally. The term derives means that price of an option can be defined as a function of the underlying price process. Let us denote with $X_t$ the underlying price process, which will be a \textbf{jump-diffusion process}. We are interested in obtaining a stochastic process driving the $f$ where: $$ f = f(X_t) $$
+At times between the jumps, the process $X_t$ follows the simple diffusion and the change in $f$ in intervals between jumps can be expressed using It\^{o}'s lemma: 
+\begin{equation} \label{eqn_diff_part}
+\begin{split}
+	df &= \frac{\partial f}{\partial t}dt + \frac{\partial f}{\partial x}dX_t + \frac{1}{2}\frac{\partial^2f}{\partial x^2}(dX_t)^2 \\
+	   &= \bigg(\frac{\partial f}{\partial t} + X_t(\mu - \lambda k)\frac{\partial f}{\partial x} + \frac{1}{2}X_t^2\sigma^2\frac{\partial^2 f}{\partial x^2}\bigg)dt + X_t\sigma\frac{\partial f}{\partial x}dW_t
+\end{split}
+\end{equation}
+
+\noindent Whereas at jump times $t = \tau_i$ the change in $f$ is given by 
+\begin{equation}
+\begin{split}
+	f(X_{\tau_i}) - f(X_{\tau_i^-}) &= f(X_{\tau_i^-} + X_{\tau_i^-}U_i) - f(X_{\tau_i^-}) \\
+	   &= f(X_{\tau_i^-}(1+U_i)) - f(X_{\tau_i^-})
+\end{split}
+\end{equation}
+The above equation can be rewritten for any time $t$ which is in that case
+\begin{equation} \label{eqn_jump_part}
+	f(X_t) - f(X_{t^-}) = [f(X_{t^-}(1 + U)) - f(X_{t^-})]dN_t
+\end{equation}
+Let us now define the expected change of f at jump times. This will be useful further on. If we donote the expected change in $f$ at jump times as $k_f$ it is
+\begin{equation}
+	k_f = \mathbb{E}^{\mathbb{Q}_u}[f(X_t) - f(X_{t^-})] = \int[f(X_{t^-}(1 + u)) - f(X_{t^-})]g(u)du
+\end{equation} where $g(u)$ is the probability density function of the jump size.
+If we were to look at the change $df$ in an infinitesimally small interval $dt$ conceptually we could define it as something like this:
+$$
+	df = \left\{  \begin{array}{lcl} DP & \mbox{with probability} & (1 - \lambda dt) \\
+			  DP + JP & \mbox{with probability} & \lambda dt \end{array} \right. 
+$$ where $DP$ is the change due to diffusion part (equation \ref{eqn_diff_part}), and $JP$ is the change due to the jump property of the underlying price process (equation \ref{eqn_jump_part}). Let us now examine the expected value of the change in $f$ with respect to both jump size distribution as well as jump time distribution. 
+
+\begin{align*}
+\mathbb{E}[df] = \mathbb{E}^{\mathbb{Q}_j}\mathbb{E}^{\mathbb{Q}_u}\mathbb{E}^{\mathbb{P}}[df] =& \bigg(\frac{\partial f}{\partial t} + X_t(\mu - \lambda k)\frac{\partial f}{\partial x} + \frac{1}{2}X_t^2\sigma^2\frac{\partial^2 f}{\partial x^2}\bigg)dt(1-\lambda dt) + \\
+& \bigg[\bigg(\frac{\partial f}{\partial t} + X_t(\mu - \lambda k)\frac{\partial f}{\partial x} + \frac{1}{2}X_t^2\sigma^2\frac{\partial^2 f}{\partial x^2}\bigg)dt + k_f \lambda dt \bigg]\lambda dt \\
+=& \bigg(\frac{\partial f}{\partial t} + X_t(\mu - \lambda k)\frac{\partial f}{\partial x} + \frac{1}{2}X_t^2\sigma^2\frac{\partial^2 f}{\partial x^2}\bigg)dt + k_f \lambda dt \\
+=& \bigg(\frac{\partial f}{\partial t} + X_t(\mu - \lambda k)\frac{\partial f}{\partial x} + \frac{1}{2}X_t^2\sigma^2\frac{\partial^2 f}{\partial x^2} + k_f \lambda dt\bigg)dt
+\end{align*}
+We can denote with $\mu_f$ drift of the process $f$
+
+\begin{equation}
+	\mu_f = \frac{\partial f}{\partial t} + X_t(\mu - \lambda k)\frac{\partial f}{\partial x} + \frac{1}{2}X_t^2\sigma^2\frac{\partial^2 f}{\partial x^2} + k_f \lambda dt
+\end{equation}
+And the expectation of the change in $f$ is then simply
+$$
+	\mathbb{E}[df] = \mu_f dt
+$$
+This allows us to specify $df$ more precisely than our conceptual picture of it:
+$$
+	df = \left\{  \begin{array}{lcl} (\mu_f - \lambda k_f)dt + \sigma_f dW_t & \mbox{with probability} & (1 - \lambda dt) \\
+			  (\mu_f - \lambda k_f)dt + \sigma_f dW_t + [f(X_t) - f(X_{t^-})] & \mbox{with probability} & \lambda dt \end{array} \right. 
+$$ where $$ \sigma_f = \sigma X_t\frac{\partial f}{\partial x} $$
+The final part now is to rewrite it in the form of It\^{o}'s lemma:
+
+\begin{equation} \label{eqn_ito_lemma_jd}
+	df = (\mu_f - \lambda k_f)dt + \sigma_f dW_t + [f(X_t) - f(X_{t^-})]dN_t
+\end{equation}
+As we can see the resulting process is again a Jump-diffusion process, but now the drift $\mu_f$ of the process is not constant as before. We can see that $\mu_f$ as well as $k_f$ are now dependent also on $X_t$, but this is not an issue as the definition of a diffusion process allows that as well. For simplicity purposes earlier we decided to keep the $\mu$ and $\sigma$ constant. Now we have a general form of It\^{o}'s lemma for a function of our Jump-diffusion driven price process and this will help us in the next chapter where we will show that jumps add a non-systematic risk in play which is not possible to hedge using just the famous \textbf{delta hedge}.
+
+\section{Constructing a hedging portfolio}
+% DSP page 145
+In this section we will 
+
+\subsection{Delta hedge}
+% REF: capinski marek: financial engineering
+The value of a European call or put option clearly depends on the underlying price process. For simplicity purposes we move for a bit in the Black-Scholes world where an underlying asset price follows a simple geometric Brownian motion without jumps. Let us consider a situation where we are short one option, that is we \textit{wrote} an option and sold it to somebody. The delta hedging strategy would tell us how many units of an underlying asset we would have to buy if we want to offset the risk of our portfolio for a small time interval $dt$. In other words, if we buy a correct amount of an underlying asset to hedge our position in an option the change in value of our portfolio in a small time interval $dt$ should be zero. The downside of a delta hedge is that it requires frequent readjustments of portfolio weight, which could, in real world, lead to high transaction costs. Although this is not really our most important concern it was important to flag it. Before actually applying it to our Jump-diffusion process and observing the issue let us define the delta hedge more precisely.
+
+We take a portfolio composed of stock, bond and a derivative security (option). The value of the portfolio is given by
+$$ V(X_t) = sX_t + yB(t) + zf(X_t)$$
+where $s$ is the number of units of stock in the portfolio, $y$ is the number of units of a riskless asset (bond) in the portfolio and $z$ is the number of units of the derivative security.
+The change in the portfolio value in an infinitesimally small time interval can be expressed as
+$$
+	dV(X_t) = \frac{d}{dX_t}V(X_t) \cdot dX_t
+$$ We consider the case we illustrated above where we were short one derivative security or $z=-1$. The price of the bond is not dependend on the price of out stock so the derivative of portfolio value with respect to stock price is then $$ \frac{d}{dX_t}V(X_t) = s - \frac{d}{dX_t}f(X_t) $$ the goal of the delta hedge is to obtain such a portfolio that the change in the portfolio value with respect to change in price of the underlying asset is zero. More precisely the equation $\frac{dV}{dX_t} = 0$ must hold, which gives us the solution for the amount of stock that we have to buy to offset the portfolio risk we took over when we shorted one option. 
+
+\begin{equation}
+	s = \frac{d}{dX_t}f(X_t)
+\end{equation} In the next section we will see how using this technique, although in another form, does not eliminate all the risk from a portfolio when the underlying asset price is governed by a jump-diffusion process. 
+
+\subsection{Delta hedge for jump-diffusion process}
+As we have already announced we will consider a case when our underlying asset follows the jump-diffusion process. Before we dive in into an examination of such a hedge we will briefly give a description of the processes involved. Firstly, the price process will be satisfying the stochastic differential equation for a jump-diffusion process (\ref{eqn_jd_frac}), namely
+\begin{equation}\label{eqn_delta_hedge_x}
+	\frac{dX_t}{X_t} = \mu_tdt + \sigma_tdW_t + UdN_t
+\end{equation}
+
+For the option price we will slightly modify the notation of certain parts of the equation \ref{eqn_ito_lemma_jd} to use $\mu_1, k_1$ and $\sigma_1$ instead of $\mu_f, k_f$ and $\sigma_f$
+$$ df = (\mu_1 - \lambda k_1)dt + \sigma_1 dW_t + [f(X_t) - f(X_{t^-})]dN_t $$ where, of course, they stay the same:
+
+$$ k_1 = \mathbb{E}^{\mathbb{Q}_u}[f(X_t) - f(X_{t^-})] = \int[f(X_{t^-}(1 + u)) - f(X_{t^-})]g(u)du $$
+$$ \mu_1 = \frac{\partial f}{\partial t} + X_t(\mu - \lambda k)\frac{\partial f}{\partial x} + \frac{1}{2}X_t^2\sigma^2\frac{\partial^2 f}{\partial x^2} + k_1 \lambda dt $$
+$$ \sigma_1 = \sigma X_t\frac{\partial f}{\partial x} $$
+The reason for that is to have a nice notation when we divide the equation by $f$ to obtain the relative change in $f$:
+
+\begin{equation} \label{eqn_delta_hedge_f}
+	\frac{df}{f} = (\mu_f - \lambda k_f)dt + \sigma_f dW_t + U_fdN_t
+\end{equation} where now we have $\mu_f = \frac{\mu_1}{f}, k_f = \frac{k_1}{f}$ and $\frac{\sigma_1}{f}$. One new notation detail that we introduced here is the $U_f$ which is defined as
+
+\begin{equation}
+	U_f = \frac{f(X_t) - f(X_{t^-})}{f(X_t)}
+\end{equation}
+
+One last thing we still have to define is the portfolio and its value. The portoflio is a set of weights $[\pi_1, \pi_2, ...]$ which tells us the proportion of our money invested into financial instruments 1,2,.. etc. 
+
+$$ \sum_{i=1}^{n} \pi_i = 1 \hspace{0.5cm} \pi_i \in \mathbb{R},\forall i $$
+
+We can see that the weights can be negative, which would mean that we are in short position for that instrument, that is we sold some amount of that instrument and will at some point have to buy back the same amount to cover. In our case we will have just a stock, a derivative security (option) and a riskless asset which can be for example a bond. Such defined portfolio then looks like this 
+$$ \pi = [\pi_x, \pi_f, \pi_r] $$
+The relative change in the portfolio value $V$ can be expressed as the following
+\begin{equation}\label{eqn_delta_hedge_v}
+	\frac{dV}{V} = \pi_x\frac{dX_t}{X_t} + \pi_f\frac{df}{f} + \pi_r dr
+\end{equation}
+
+Now we will incorporate the equations \ref{eqn_delta_hedge_x} and \ref{eqn_delta_hedge_f} into the above equation and regroup it a bit
+
+\begin{align*}
+	\frac{dV}{V} =& \pi_x [(\mu - \lambda k)dt + \sigma dW_t + UdN_t] \\&+\pi_f [(\mu_f - \lambda k_f)dt + \sigma_f dW_t + U_fdN_t] +\pi_r r dt \\
+				 =& (\pi_x(\mu-\lambda k) + \pi_f (\mu_f - \lambda k_f) + \pi_r r) dt \\&+ (\pi_x\sigma + \pi_f\sigma_f)dW_t + (\pi_x U + \pi_f U_f)dN_t \\
+				 =& (\mu_V - \lambda k_V) + \sigma_V dW_t + U_V dN_t
+\end{align*} with this we obtained yet another jump diffusion process which now has new parameters $\mu_V, k_V, \sigma_V$ and $U_V$. Let us explicitly state the value of each one of them as we will see they will come in handy soon.
+
+\begin{equation}
+\begin{split}
+	\mu_V =& \pi_x(\mu - r) + \pi_f(\mu_f - r) + r \\
+	k_V =& \pi_x k + \pi_f k_f = \mathbb{E}^{\mathbb{Q}_U}[U_V] \\
+	\sigma_V =& \pi_x\sigma + \pi_f\sigma_f \\
+	U_V =& \pi_x U + \pi_f U_f
+\end{split}
+\end{equation}
+If a process follows a simple diffusion process like in Black-Scholes world we would obtain a delta neutral portfolio by setting $\pi_x, \pi_f$ such that
+\begin{equation} \label{eqn_portfolio_weights}
+	\sigma_V = \pi_x\sigma + \pi_f\sigma_f = 0
+\end{equation}
+However, this choice of portfolio weights will not be able to eliminate the risk cause by the jump property of the resulting process. Actually, no choice of weights will be able to eliminate that risk. If we were to set the weights $\pi_x, \pi_f$ that will satisfy the equation \ref{eqn_portfolio_weights} and denote them with $\pi_x^*, \pi_f^*$ we would obtain a process defining the relative change in value $V^*$ of such portfolio
+\begin{equation}
+	\frac{dV^*}{V^*} = (\mu_V^* - \lambda k_V^*) + U_V^* dN_t
+\end{equation}
+Employing only the delta hedge we see that we did not offset all the risk and the problem of pricing our option is still left unsolved. In the next section we will discuss an additional idea that has to be employed in order to find the price of our option.
+
+\subsection{Pricing the Option}
+% TODO: find this below, where is it from???
+% From modern portfolio theory we have the result that portfolios containing only non-systematic risk have a beta factor of zero
+\subsubsection{Capital Asset Pricing model (CAPM)}
+\subsubsection{Obtaining the Option Price Expression}
+% final product should be f(X_t) = e^{-r(T-t)}E[f(X_T)]
+
+\subsection{Simulations}
+% choose one specific option (European call)
+% simulate option prices for different lambdas, strike prices, starting stock prices etc.
+
+% TODO: later choose some exotic option and price that one
+
 \chapter{Hedging}
 
 

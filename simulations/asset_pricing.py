@@ -70,7 +70,8 @@ def jump_diffusion_process(T=1.0, n=1000, lmbda=4, mu=0.05, sigma=0.5, x0=100, j
 	path[0] = x0
 	for i in range(1,n):
 		if next_arrival_index < len(arrivals) and arrivals[next_arrival_index] <= dt * i:
-			path[i] = path[i-1] * (1 + jump_size())
+			diffusion_diff = mu * path[i-1] * dt + sigma * path[i-1] * normal(scale=np.sqrt(dt))
+			path[i] = path[i-1] * (1 + jump_size()) + diffusion_diff
 			next_arrival_index += 1
 		else:
 			path[i] = path[i-1] * np.exp((mu - 0.5 * sigma**2) * dt + sigma * normal(scale=np.sqrt(dt)))
@@ -94,6 +95,14 @@ if __name__ == "__main__":
 	x,y = jump_process_path(lmbda=6, jump_size=normal_jump)
 	# plt.plot(x,y)
 	
+	values = []
+	for i in range(200):
+		path, arrivals = jump_diffusion_process(T=1.0, n=n, lmbda=4, mu=0.05, sigma=0.4, x0=100, jump_size=normal_jump)
+		values.append(path[-1])	
+
+	values = np.array(values)
+	print(values.mean())
+
 	path, arrivals = jump_diffusion_process(T=1.0, n=n, lmbda=4, mu=0.05, sigma=0.4, x0=100, jump_size=normal_jump)
 	for a in arrivals:
 		plt.axvline(x=a, c='green', linestyle='--', alpha=0.5, linewidth=0.9)
