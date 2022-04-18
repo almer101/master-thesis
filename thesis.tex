@@ -5,6 +5,9 @@
 \usepackage{amsthm}
 \usepackage{hyperref}
 \usepackage{enumitem}
+\usepackage{pgfplots}
+
+\pgfplotsset{width=13cm, compat=1.5}
 
 \begin{document}
 
@@ -277,14 +280,13 @@ When talking about stochastic processes, one can see that they are different tha
 
 We come to the very important theorem in the field of stochastic calculus and that is \textbf{It\^{o}'s lemma}.
 
-\begin{theorem}[It\^{o}'s lemma]
-Assume that the process $X$ has a stochastic differential given by $$dX_t = \mu_tdt + \sigma_tdW_t$$ where $\mu$ and $\sigma$ are adapted processes, and let $f$ be a $C^{1,2}$-function. Define the process $Z$ by $Z(t) = f(t,X_t)$. Then $Z$ has a stochastic differential given by 
-$$df(t, X_t) = \left(\frac{\partial f}{\partial t} + \mu_t\frac{\partial f}{\partial x}+\frac{1}{2}\sigma_t^2 \frac{\partial^2f}{\partial x^2}\right)dt + \sigma \frac{\partial f}{\partial x}dW_t$$
+\begin{theorem}[It\^{o}'s Lemma]
+Assume that the process $X$ has a stochastic differential given by $$dX_t = \mu_t X_t dt + \sigma_t X_t dW_t$$ where $\mu$ and $\sigma$ are adapted processes, and let $f$ be a $C^{1,2}$-function. Define the process $Z$ by $Z(t) = f(t,X_t)$. Then $Z$ has a stochastic differential given by 
+$$df(t, X_t) = \left(\frac{\partial f}{\partial t} + \mu_t X_t \frac{\partial f}{\partial x}+\frac{1}{2}\sigma_t^2 X_t^2 \frac{\partial^2f}{\partial x^2}\right)dt + \sigma X_t \frac{\partial f}{\partial x}dW_t$$
 \end{theorem}
-A proof of this theorem is outside the scope of this thesis and it is rather cumbersome. The power and importance of this theorem is that we can define the differential of a function of a stochastic process. This will prove to be an indispensible tool when we will be pricing an option, as the price of the option depends on the price of an asset, that is, it is a sort of a function of the price process.
+\noindent A proof of this theorem is outside the scope of this thesis and it is rather cumbersome. The power and importance of this theorem is that we can define the differential of a function of a stochastic process. This will prove to be an indispensible tool when we will be pricing an option, as the price of the option depends on the price of an asset, which means it is a function of the asset price.
 
-\subsection{Geometric Brownian motion} % geometric brownian motion
-\label{section_gbm}
+\subsection{Geometric Brownian motion} \label{section_gbm}
 % https://medium.com/the-quant-journey/a-gentle-introduction-to-geometric-brownian-motion-in-finance-68c37ba6f828
 Let us now show how to apply It\^{o}'s formula for the case of \textit{geometric Brownian motion}. Before we start, it is crucial to first describe what kind of process that is. 
 
@@ -304,23 +306,40 @@ $$
 	\frac{\partial \ln(X_t)}{\partial t} = 0 \hspace{0.25cm} ; \hspace{0.25cm} \frac{\partial \ln(X_t)}{\partial x} = \frac{1}{x} \hspace{0.25cm} ; \hspace{0.25cm} \frac{\partial^2 \ln(X_t)}{\partial x^2} = -\frac{1}{x^2}
 $$
 
-% TODO: fix the mu_t and sigma_t to be inside the integral
 Now we are finally ready to apply the formula. We will step by step derive the formula for $X_t$:
 $$ df = 0\cdot dt + \frac{1}{X_t}dX_t - \frac{1}{2} \frac{1}{X_t^2}(dX_t)^2 $$
 $$ df = \frac{1}{X_t} (\mu_t X_t dt + \sigma_t X_t dW_t) - \frac{1}{2}\frac{1}{X_t^2}\sigma_t^2 X_t^2 dt$$
 $$ df = (\mu_t - \frac{1}{2}\sigma_t^2)dt + \sigma_t dW_t  $$
-Now we are able to integrate over the time interval $[0,t]$:
-$$ \int_0^t df(s) = (\mu_t - \frac{1}{2}\sigma_t^2)\int_0^t dt + \sigma_t \int_0^t dW_s $$
-$$ \ln(X_t) - \ln(X) = (\mu_t-\frac{1}{2}\sigma_t^2)t + \sigma_t(W_t - W_0) $$
+and if we integrate it over the time interval $[0,t]$ we get
+$$ \int_0^t df(s) = \int_0^t (\mu_s - \frac{1}{2}\sigma_s^2) ds + \int_0^t \sigma_s dW_s $$
+For simplicity purposes, let us assume that $\mu$ and $\sigma$ are constants. Then they can come outside of the integral and the resulting formula is
+$$ \ln(X_t) - \ln(X) = (\mu-\frac{1}{2}\sigma^2)t + \sigma (W_t - W_0) $$
 Remembering that the $W_0 = 0$ we get the following result:
-$$ \ln\frac{X_t}{X_0} = (\mu_t-\frac{1}{2}\sigma_t^2)t + \sigma_tW_t $$
+$$ \ln\frac{X_t}{X_0} = (\mu-\frac{1}{2}\sigma^2)t + \sigma W_t $$
 \begin{equation} \label{eqn_gbm}
-	X_t = X_0\exp\left\{ (\mu_t-\frac{1}{2}\sigma_t^2)t + \sigma_tW_t \right\}
+	X_t = X_0\exp\left\{ (\mu-\frac{1}{2}\sigma^2)t + \sigma W_t \right\}
 \end{equation}
 
 This model is in finance also known as \textbf{log-normal asset return model}, because we are using logarithmic prices. It is important to note that this model only has \textbf{positive values} of stock prices, which is in that sense in line with the real world, where stock prices can not become negative. 
 
 % TODO: insert image of geometric brownian motion simulation
+\vspace{1cm}
+\begin{tikzpicture}
+\begin{axis}[
+    title={Geometric Brownian motion ($\mu$=0.05, $\sigma$ = 0.4)},
+    xlabel={t},
+    ylabel={Price},
+    xmin=0, xmax=1,
+    ymin=30, ymax=210,
+    ymajorgrids=true,
+    grid style=dashed,
+]
+\addplot[color=orange] table {gbm1.dat};
+\addplot[color=magenta] table {gbm2.dat};
+\addplot[color=cyan] table {gbm3.dat};
+\addplot[color=olive] table {gbm4.dat};
+\end{axis}
+\end{tikzpicture}
 
 \chapter{Pricing an asset}
 % NEXT UP! - When you come back from Paris
@@ -537,7 +556,7 @@ The final part now is to rewrite it in the form of It\^{o}'s lemma:
 \end{equation}
 As we can see the resulting process is again a Jump-diffusion process, but now the drift $\mu_f$ of the process is not constant as before. We can see that $\mu_f$ as well as $k_f$ are now dependent also on $X_t$, but this is not an issue as the definition of a diffusion process allows that as well. For simplicity purposes earlier we decided to keep the $\mu$ and $\sigma$ constant. Now we have a general form of It\^{o}'s lemma for a function of our Jump-diffusion driven price process and this will help us in the next chapter where we will show that jumps add a non-systematic risk in play which is not possible to hedge using just the famous \textbf{delta hedge}.
 
-\section{Constructing a hedging portfolio}
+\section{Constructing a hedging portfolio to price an option}
 % DSP page 145
 In this section we will 
 
@@ -560,7 +579,7 @@ $$ We consider the case we illustrated above where we were short one derivative 
 \subsection{Delta hedge for jump-diffusion process}
 As we have already announced we will consider a case when our underlying asset follows the jump-diffusion process. Before we dive in into an examination of such a hedge we will briefly give a description of the processes involved. Firstly, the price process will be satisfying the stochastic differential equation for a jump-diffusion process (\ref{eqn_jd_frac}), namely
 \begin{equation}\label{eqn_delta_hedge_x}
-	\frac{dX_t}{X_t} = \mu_tdt + \sigma_tdW_t + UdN_t
+	\frac{dX_t}{X_t} = (\mu - \lambda k)dt + \sigma dW_t + UdN_t
 \end{equation}
 
 For the option price we will slightly modify the notation of certain parts of the equation \ref{eqn_ito_lemma_jd} to use $\mu_1, k_1$ and $\sigma_1$ instead of $\mu_f, k_f$ and $\sigma_f$
@@ -598,7 +617,7 @@ Now we will incorporate the equations \ref{eqn_delta_hedge_x} and \ref{eqn_delta
 				 =& (\mu_V - \lambda k_V) + \sigma_V dW_t + U_V dN_t
 \end{align*} with this we obtained yet another jump diffusion process which now has new parameters $\mu_V, k_V, \sigma_V$ and $U_V$. Let us explicitly state the value of each one of them as we will see they will come in handy soon.
 
-\begin{equation}
+\begin{equation} \label{eqn_portfolio_params}
 \begin{split}
 	\mu_V =& \pi_x(\mu - r) + \pi_f(\mu_f - r) + r \\
 	k_V =& \pi_x k + \pi_f k_f = \mathbb{E}^{\mathbb{Q}_U}[U_V] \\
@@ -616,14 +635,81 @@ However, this choice of portfolio weights will not be able to eliminate the risk
 \end{equation}
 Employing only the delta hedge we see that we did not offset all the risk and the problem of pricing our option is still left unsolved. In the next section we will discuss an additional idea that has to be employed in order to find the price of our option.
 
-\subsection{Pricing the Option}
+\subsection{Employing the Captial Asset Pricing model}
 % TODO: find this below, where is it from???
 % From modern portfolio theory we have the result that portfolios containing only non-systematic risk have a beta factor of zero
 \subsubsection{Capital Asset Pricing model (CAPM)}
-\subsubsection{Obtaining the Option Price Expression}
+\subsubsection{Obtaining the expression of the Option price}
+From modern portfolio theory we know that portfolios containing only non-systematic risk have a $\beta$ factor equal to zero. From the CAPM formula for the expected return of investment it follows that a portfolio return must equal the riskless rate which we denote with $r$: $$ \mu_V = r $$ or if we incorporate that in \ref{eqn_portfolio_params} we get
+\begin{equation} \label{eqn_comb_1}
+	\pi_x(\mu - r) + \pi_f(\mu_f - r) = 0
+\end{equation}
+If we would also take the equation \ref{eqn_portfolio_weights} which ensures that we have a delta-neutral portfolio, we then obtain
+
+\begin{equation} \label{eqn_sharpe}
+	\frac{\mu - r}{\sigma} = \frac{\mu_f - r}{\sigma_f} = \phi
+\end{equation}
+The above ratio is called a \textbf{market price of risk} or  \textbf{Sharpe ratio}. We will denote it with $\phi$. There is a way to obtain a martingale representation of the price, although we will have to change to probability measure. We now incorporate the above equation into equations \ref{eqn_delta_hedge_x} and \ref{eqn_delta_hedge_f} and they can now be written as
+
+$$ \frac{dX_t}{X_t} = (r - \lambda k)dt + \sigma (dW_t + \phi dt) + UdN_t $$
+$$ \frac{df}{f} = (r - \lambda k_f)dt + \sigma_f (dW_t + \phi dt) + U_fdN_t $$
+and if we denote with $d\tilde{W}_t$ a process
+\begin{equation}
+	d\tilde{W}_t = dW_t + \phi dt
+\end{equation} or equivalently
+\begin{equation}
+	\tilde{W}(t) = W(t) + \int_0^s \phi(s) ds
+\end{equation} which allows us to write down our final equations as
+
+\begin{equation}\label{eqn_x_new_measure}
+	\frac{dX_t}{X_t} = (r - \lambda k)dt + \sigma d\tilde{W}_t + UdN_t
+\end{equation}
+\begin{equation}
+	\frac{df}{f} = (r - \lambda k_f)dt + \sigma_f d\tilde{W}_t + U_fdN_t
+\end{equation}
+Let us stop for a moment here and examine the equations. It can be shown that under the original probability measure $\mathbb{P}$ the process $\tilde{W}$ will not be a Wiener process:
+
+\begin{equation*}
+	\mathbb{E}^{\mathbb{P}}[\tilde{W}(t)] = \mathbb{E}^{\mathbb{P}}[W(t) + \int_0^s \phi(s) ds] = \int_0^s \phi(s) ds
+\end{equation*}
+However, by applying the Girsanov theorem for processes involving jumps it allows us to assert that there exists and equivalent probability measure $\tilde{P}$ under which the process $\tilde{W}$ is a Wiener process and $N$ remains a jump process with intensity $\lambda$. This is a very important step as it will us to easily obtain an expression which, not only tells us a lot, but also will allow as to price our option. There is only one ingredient missing in order to obtain an expression which will tell us how to calculate the price of our option. We are interested in the discounted price of the option, so we will introduce a function of the option price and call it $g$ $$ g(f) =  fe^{-rt} $$ As we will utilize It\^{o}'s lemma in order to obtain a differential of $g$, we first have to find the expressions for partial derivatives used in the lemma, namely
+$$
+	\frac{\partial g}{\partial t} = -fre^{-rt} \hspace{0.25cm} ; \hspace{0.25cm} \frac{\partial g}{\partial f} = e^{-rt} \hspace{0.25cm} ; \hspace{0.25cm} \frac{\partial^2 g}{\partial f^2} = 0
+$$
+and we apply the lemma to obtain the expression for the term $dg$
+\begin{align*}
+	d(fe^{-rt}) &= \frac{\partial g}{\partial t}dt + \frac{\partial g}{\partial f}df + \frac{1}{2}\frac{\partial^2 g}{\partial f^2}(df)^2 \\
+				&= -re^{-rt}fdt + e^{-rt}df + 0 \\
+				&= -re^{-rt}fdt + fe^{-rt}[r dt + \sigma_f d\tilde{W}_t + (U_fdN_t - \lambda k_f dt)] \\
+				% &= -re^{-rt}fdt + re^{-rt}fdt + fe^{-rt}\sigma_f d\tilde{W}_t + fe^{-rt}(U_fdN_t-\lambda k_f dt) \\
+				&= fe^{-rt}\sigma_f d\tilde{W}_t + fe^{-rt}(U_fdN_t-\lambda k_f dt)
+\end{align*}
+Which is a \textbf{martingale} under $\tilde{\mathbb{P}}$ because of the Girsanov theorem we mentioned earlier. This means that the following holds: 
+\begin{equation*}
+	\begin{split}
+		f(t)e^{-rt} =& \mathbb{E}^{\tilde{\mathbb{P}}}[f(T)e^{-rT}|\mathcal{F}_t]\\
+		f(t)e^{-rt} =& e^{-rT}\mathbb{E}^{\tilde{\mathbb{P}}}[f(T)|\mathcal{F}_t]
+	\end{split}	
+\end{equation*}
+Which yields the final equation that we will use to price our option
+\begin{equation}
+f(t) = e^{-r(T-t)} \mathbb{E}^{\tilde{\mathbb{P}}}[f(T)|\mathcal{F}_t]
+\end{equation}
+When pricing our options we will focus on the options that have a signle fixed excercise date, which is the case for European options. If we think about it, the price of the European option at maturity $T$ has to be equal to the payoff of the option and the payoff is easy to calculate if we know the strike price and current price of the underlying security at $T$. The way we will utilize the expression obtained above is that we will simulate the paths of the process $X_t$ (\ref{eqn_x_new_measure}) and we will be able to emprically obtain the expected payoff of the option and with it, the price of the option.
+
+% TODO: see what with this
+% \section{Risk-Neutral Pricing Approach}
+% % REF: not directly for this, but put in references 
+% % https://www.math.fsu.edu/~dmandel/Primers/Understanding%20Market%20Price%20of%20Risk.pdf
+% In this approach the idea is that the price of an option today should be the same as the discounted expected payoff of the option at a certain point in future. We denote the payoff of the option as a function of $X_t$, or
+
+% \begin{equation}
+% 	P(t) = P(X_t)
+% \end{equation}
+
 % final product should be f(X_t) = e^{-r(T-t)}E[f(X_T)]
 
-\subsection{Simulations}
+\section{Simulations}
 % choose one specific option (European call)
 % simulate option prices for different lambdas, strike prices, starting stock prices etc.
 

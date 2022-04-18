@@ -1,4 +1,5 @@
 import numpy as np
+import pandas as pd
 import matplotlib.pyplot as plt
 from numpy.random import normal, standard_normal, exponential
 
@@ -23,6 +24,7 @@ def geometric_bm_path(T=1.0, n=252, mu=0.05, sigma=0.5, x0=100):
 	return path
 
 def poisson_arrival_times(lmbda):
+	if lmbda <= 0: return []
 	arrivals = []
 	cumulative_time = 0.0
 	while cumulative_time < 1.0:
@@ -107,5 +109,17 @@ if __name__ == "__main__":
 	for a in arrivals:
 		plt.axvline(x=a, c='green', linestyle='--', alpha=0.5, linewidth=0.9)
 	plt.plot(np.linspace(0,1,n), path, c='black', alpha=0.8)
-	plt.show()
+	# plt.show()
+
+
+	# CREATE GEOMETRIC BROWNIAN MOTION FILES (gbm1,2,3,4)
+	# xs = np.linspace(0,1,n)
+	# for i in range(4):
+	# 	ys = geometric_bm_path(n=n, mu=0.05, sigma=0.4)
+	# 	df = pd.DataFrame(columns=['x', 'y'])
+	# 	df['x'] = xs
+	# 	df['y'] = 
+	# 	df.to_csv(f'../gbm{i+1}.dat', sep=' ', header=False, index=False)
+
+
 
