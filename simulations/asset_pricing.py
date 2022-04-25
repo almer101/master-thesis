@@ -80,22 +80,17 @@ def jump_diffusion_process(T=1.0, n=1000, lmbda=4, mu=0.05, sigma=0.5, x0=100, j
 	return path, arrivals
 
 if __name__ == "__main__":
-	# std_devs = [0.1, 0.5, 1.1]
-	# for std_dev in std_devs:
-	# 	plt.plot(bm_path(scale=std_dev), label=f'sigma={std_dev}')
-	# plt.legend()
-	# plt.show()
-
-	# mus = [0.01, 0.02, 0.12]
-	# for mu in mus:
-	# 	plt.plot(geometric_bm_path(n=252, mu=mu, sigma=0.2), label=f'mu={mu}')
-	# plt.legend()
-	# plt.show()
-	
 	n = 1000
 	x,y = poisson_process_path(lmbda=4)
-	x,y = jump_process_path(lmbda=6, jump_size=normal_jump)
-	# plt.plot(x,y)
+
+	# CREATE PURE JUMP PROCESS FILES (gbm1,2,3,4)
+	# for i in range(3):
+	# 	x,y = jump_process_path(lmbda=6, jump_size=normal_jump)
+	# 	# plt.plot(x,y)
+	# 	df = pd.DataFrame(columns=['x', 'y'])
+	# 	df['x'] = x
+	# 	df['y'] = y
+	# 	df.to_csv(f'../jump_process_path{i+1}.dat', sep=' ', header=False, index=False)
 	
 	values = []
 	for i in range(200):
@@ -105,12 +100,25 @@ if __name__ == "__main__":
 	values = np.array(values)
 	print(values.mean())
 
-	path, arrivals = jump_diffusion_process(T=1.0, n=n, lmbda=4, mu=0.05, sigma=0.4, x0=100, jump_size=normal_jump)
-	for a in arrivals:
-		plt.axvline(x=a, c='green', linestyle='--', alpha=0.5, linewidth=0.9)
-	plt.plot(np.linspace(0,1,n), path, c='black', alpha=0.8)
+	# JUMP DIFFUSION PROCESS FILE ()
+	# path, arrivals = jump_diffusion_process(T=1.0, n=n, lmbda=4, mu=0.05, sigma=0.4, x0=100, jump_size=normal_jump)
+	# for a in arrivals:
+	# 	plt.axvline(x=a, c='green', linestyle='--', alpha=0.5, linewidth=0.9)
+	# plt.plot(np.linspace(0,1,n), path, c='black', alpha=0.8)
 	# plt.show()
 
+	# yn = input('Do you want to save?')
+	# if yn.strip() == 'y':
+	# 	df = pd.DataFrame(columns=['x', 'y'])
+	# 	df['x'] = np.linspace(0,1,n)
+	# 	df['y'] = path
+	# 	df.to_csv(f'../jump_diffusion_process.dat', sep=' ', header=False, index=False)
+
+	# 	max_value = 1.1 * max(path)
+	# 	for arrival in arrivals:
+	# 		vertical_line_code = f'\\draw[dotted] (axis cs:{arrival},0) -- (axis cs:{arrival},{max_value});'
+	# 		print(vertical_line_code)
+	# plt.show()
 
 	# CREATE GEOMETRIC BROWNIAN MOTION FILES (gbm1,2,3,4)
 	# xs = np.linspace(0,1,n)
@@ -118,8 +126,10 @@ if __name__ == "__main__":
 	# 	ys = geometric_bm_path(n=n, mu=0.05, sigma=0.4)
 	# 	df = pd.DataFrame(columns=['x', 'y'])
 	# 	df['x'] = xs
-	# 	df['y'] = 
+	# 	df['y'] = ys
 	# 	df.to_csv(f'../gbm{i+1}.dat', sep=' ', header=False, index=False)
+
+
 
 
 
