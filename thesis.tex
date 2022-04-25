@@ -273,7 +273,7 @@ A stochastic process $X$ is an $(\mathcal{F}_t)$-martingale if the following con
 
 The first condition above is a condition saying that the process $X_t$ is observable (known) at time $t$. The second one, like in discrete case, is just a technical condition. Also like in discrete case, the third condition is the important one, which states that the expected future value of the $X$, given the information available today, is equal to today's observed value of $X$. In other words, a martingale has an absence of drift.
 
-\section{Stochastic Calculus and It\^{o} Formula}
+\section{Stochastic Calculus and It\^{o}'s' Lemma}
 % LAST ANSWER HERE: https://math.stackexchange.com/questions/2686925/some-questions-on-the-details-of-an-integration-of-brownian-motion-against-itsel
 When talking about stochastic processes, one can see that they are different than the usual functions. If we look at a infinitesimally small time interval $\Delta t$ and observe the function behaviourin that time interval, the function is a straight line. This is unfortunately not the case with the stochastic processes, where even if we \textit{zoom-in} on the trajectory, the trajectory is not smooth. Therefore, a japanese mathematician Kiyoshi It\^{o} started and created the field of \textbf{stochastic calculus} which is able to operate on stochastic processes. 
 
@@ -339,7 +339,7 @@ This model is in finance also known as \textbf{log-normal asset return model}, b
 ]
 \addplot[color=orange] table {data/gbm1.dat};
 \addplot[color=magenta] table {data/gbm2.dat};
-\addplot[color=cyan] table {data/gbm3.dat};
+\addplot[color=teal] table {data/gbm3.dat};
 \addplot[color=olive] table {data/gbm4.dat};
 \end{axis}
 \end{tikzpicture}
@@ -471,7 +471,7 @@ This model is in finance also known as \textbf{log-normal asset return model}, b
 		    grid style=dashed,
 		]
 		\addplot[color=magenta] table {data/jump_process_path1.dat};
-		\addplot[color=cyan] table {data/jump_process_path2.dat};
+		\addplot[color=teal] table {data/jump_process_path2.dat};
 		\addplot[color=olive] table {data/jump_process_path3.dat};
 		\end{axis}
 		\end{tikzpicture}
@@ -557,15 +557,22 @@ This model is in finance also known as \textbf{log-normal asset return model}, b
 	    xlabel={t},
 	    ylabel={Price},
 	    xmin=0, xmax=1,
+	    ymin=90, ymax=210,
 	    ymajorgrids=true,
 	    grid style=dashed,
+	    legend pos=north west,
 	]
 	\addplot[color=olive] table {data/jump_diffusion_process.dat};
-	\draw[dotted] (axis cs:0.019759280317646837,0) -- (axis cs:0.019759280317646837,218.87657564987035);
+	% \draw[dotted] (axis cs:0.019759280317646837,0) -- (axis cs:0.019759280317646837,218.87657564987035);
+	\addplot[dotted] coordinates {(0.019759280317646837,0) (0.019759280317646837,218.87657564987035)};
 	\draw[dotted] (axis cs:0.4804255332905141,0) -- (axis cs:0.4804255332905141,218.87657564987035);
 	\draw[dotted] (axis cs:0.4878563562516914,0) -- (axis cs:0.4878563562516914,218.87657564987035);
 	\draw[dotted] (axis cs:0.5769236248364072,0) -- (axis cs:0.5769236248364072,218.87657564987035);
 	\draw[dotted] (axis cs:0.6785902080596808,0) -- (axis cs:0.6785902080596808,218.87657564987035);
+
+	\addlegendentry{Asset price}
+	\addlegendentry{Jump times}
+
 	\end{axis}
 	\end{tikzpicture}
 	% \end{figure}
@@ -574,7 +581,7 @@ This model is in finance also known as \textbf{log-normal asset return model}, b
 % merton jump diffusion model
 % https://www.youtube.com/watch?v=URNN2_YPGVI
 
-\section{It\^{o}'s lemma for Jump-diffusion Process}
+\section{It\^{o}'s Lemma for the Jump-diffusion Process}
 ALthought Ito's lemma could have already been introduced and used to obtain the formulas \ref{eqn_jump_diff} and \ref{eqn_jump_diff_compensated} we chose to use the iterative process to obtain them. Now, when talking about pricing an option, which is a financial derivative and therefore \textit{derives} its value from the underlying price process, it comes naturally. The term derives means that price of an option can be defined as a function of the underlying price process. Let us denote with $X_t$ the underlying price process, which will be a \textbf{jump-diffusion process}. We are interested in obtaining a stochastic process driving the $f$ where: $$ f = f(X_t) $$
 At times between the jumps, the process $X_t$ follows the simple diffusion and the change in $f$ in intervals between jumps can be expressed using It\^{o}'s lemma: 
 \begin{equation} \label{eqn_diff_part}
@@ -632,7 +639,7 @@ The final part now is to rewrite it in the form of It\^{o}'s lemma:
 \end{equation}
 As we can see the resulting process is again a Jump-diffusion process, but now the drift $\mu_f$ of the process is not constant as before. We can see that $\mu_f$ as well as $k_f$ are now dependent also on $X_t$, but this is not an issue as the definition of a diffusion process allows that as well. For simplicity purposes earlier we decided to keep the $\mu$ and $\sigma$ constant. Now we have a general form of It\^{o}'s lemma for a function of our Jump-diffusion driven price process and this will help us in the next chapter where we will show that jumps add a non-systematic risk in play which is not possible to hedge using just the famous \textbf{delta hedge}.
 
-\section{Constructing a hedging portfolio to price an option}
+\section{Constructing a Hedging Portfolio to price an Option}
 % DSP page 145
 In this section we will 
 
@@ -652,7 +659,7 @@ $$ We consider the case we illustrated above where we were short one derivative 
 	s = \frac{d}{dX_t}f(X_t)
 \end{equation} In the next section we will see how using this technique, although in another form, does not eliminate all the risk from a portfolio when the underlying asset price is governed by a jump-diffusion process. 
 
-\subsection{Delta hedge for jump-diffusion process}
+\subsection{Delta hedge for the Jump-diffusion process}
 As we have already announced we will consider a case when our underlying asset follows the jump-diffusion process. Before we dive in into an examination of such a hedge we will briefly give a description of the processes involved. Firstly, the price process will be satisfying the stochastic differential equation for a jump-diffusion process (\ref{eqn_jd_frac}), namely
 \begin{equation}\label{eqn_delta_hedge_x}
 	\frac{dX_t}{X_t} = (\mu - \lambda k)dt + \sigma dW_t + UdN_t
@@ -790,6 +797,29 @@ When pricing our options we will focus on the options that have a signle fixed e
 % simulate option prices for different lambdas, strike prices, starting stock prices etc.
 
 % TODO: later choose some exotic option and price that one
+
+\begin{tikzpicture}
+\begin{axis}[
+	% rf=2%, lambda=2, normal_jump function, 4000 simulations per point, 
+    title={European Call Option price with strike price $K=100$ and maturity of $1$ year},
+    xlabel={Spot price},
+    ylabel={Call price},
+    xmin=0, 
+    % xmax=1,
+    % ymin=0, 
+    %ymax=210,
+    ymajorgrids=true,
+    legend pos=north west,
+    grid style=dashed,
+]
+\addplot[color=magenta] table {data/option_price_lambda_0.dat};
+\addplot[color=orange] table {data/option_price_lambda_1.dat};
+\addplot[color=teal] table {data/option_price_lambda_2.dat}; 
+\addplot[color=olive] table {data/option_price_lambda_4.dat}; 
+\legend{$\lambda = 0$, $\lambda = 1$, $\lambda = 2$, $\lambda = 4$}
+\end{axis}
+\end{tikzpicture}
+
 
 \chapter{Hedging}
 

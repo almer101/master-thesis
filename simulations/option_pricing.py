@@ -1,4 +1,5 @@
 import numpy as np
+import pandas as pd
 import matplotlib.pyplot as plt
 from numpy.random import normal, standard_normal, exponential
 from asset_pricing import normal_jump, poisson_arrival_times
@@ -49,24 +50,30 @@ def option_price(t=0, T=1.0, n=1000, r=0.02, lmbda=4, mu=0.05, sigma=0.5, x0=100
 
 
 if __name__ == "__main__":
-	spot_prices = np.linspace(1, 140, 20)
-	lmbdas = [1,4]
+	spot_prices = np.linspace(1, 140, 30)
+	risk_free_rate = 0.02
+	lmbdas = [0,1,4]
 	
 	for lmbda in lmbdas:
 		call_prices = []
 		for spot in tqdm(spot_prices):
 			payoffs = []
-			for i in range(1000):
-				p = payoff(lmbda=1, x0=spot, K=100, jump_size=normal_jump)
+			for i in range(4000):
+				p = payoff(r=risk_free_rate, lmbda=lmbda, x0=spot, K=100, jump_size=normal_jump)
 				payoffs.append(p)
 
 			payoffs = np.array(payoffs)
 			expected = payoffs.mean()
-			price = expected * np.exp(-0.02 * 1.0)
+			price = expected * np.exp(-risk_free_rate * 1.0)
 			call_prices.append(price)
 
 		plt.plot(spot_prices, call_prices, label=f'lambda={lmbda}')
-	
+
+		df = pd.DataFrame(columns=['x', 'y'])
+		df['x'] = spot_prices
+		df['y'] = call_prices
+		df.to_csv(f'../data/option_price_lambda_{lmbda}.dat', sep=' ', header=False, index=False)
+
 	plt.legend()
 	plt.show()
 
