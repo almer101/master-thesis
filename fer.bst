@@ -429,12 +429,12 @@ FUNCTION {either.or.check}
 FUNCTION {format.bvolume}
 { volume empty$
     { "" }
-    { "svezak" volume tie.or.space.connect
+    { "volume" volume tie.or.space.connect
       series empty$
         'skip$
-        { " od " * series emphasize * }
+        { " of " * series emphasize * }
       if$
-      "svezak i broj" number either.or.check
+      "volume and number" number either.or.check
     }
   if$
 }
@@ -444,13 +444,13 @@ FUNCTION {format.number.series}
     { number empty$
         { series field.or.null }
         { output.state mid.sentence =
-            { "broj" }
-            { "Broj" }
+            { "number" }
+            { "Number" }
           if$
           number tie.or.space.connect
           series empty$
             { "there's a number but no series in " cite$ * warning$ }
-            { " u " * series * }
+            { " in " * series * }
           if$
         }
       if$
@@ -463,8 +463,8 @@ FUNCTION {format.edition}
 { edition empty$
     { "" }
     { output.state mid.sentence =
-        { edition "l" change.case$ " izdanju" * }
-        { edition "t" change.case$ " izdanju" * }
+        { edition "l" change.case$ " edition" * }
+        { edition "t" change.case$ " edition" * }
       if$
     }
   if$
@@ -496,8 +496,8 @@ FUNCTION {format.pages}
 { pages empty$
     { "" }
     { pages multi.page.check
-        { "stranice" pages n.dashify tie.or.space.connect }
-        { "stranica" pages tie.or.space.connect }
+        { "pages" pages n.dashify tie.or.space.connect }
+        { "page" pages tie.or.space.connect }
       if$
     }
   if$
@@ -556,7 +556,7 @@ FUNCTION {format.chapter.pages}
 { chapter empty$
     'format.pages
     { type empty$
-        { "poglavlje" }
+        { "chapter" }
         { type "l" change.case$ }
       if$
       chapter tie.or.space.connect

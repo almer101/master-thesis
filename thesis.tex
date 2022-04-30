@@ -273,7 +273,7 @@ A stochastic process $X$ is an $(\mathcal{F}_t)$-martingale if the following con
 
 The first condition above is a condition saying that the process $X_t$ is observable (known) at time $t$. The second one, like in discrete case, is just a technical condition. Also like in discrete case, the third condition is the important one, which states that the expected future value of the $X$, given the information available today, is equal to today's observed value of $X$. In other words, a martingale has an absence of drift.
 
-\section{Stochastic Calculus and It\^{o}'s' Lemma}
+\section{Stochastic Calculus and It\^{o}'s Lemma}
 % LAST ANSWER HERE: https://math.stackexchange.com/questions/2686925/some-questions-on-the-details-of-an-integration-of-brownian-motion-against-itsel
 When talking about stochastic processes, one can see that they are different than the usual functions. If we look at a infinitesimally small time interval $\Delta t$ and observe the function behaviourin that time interval, the function is a straight line. This is unfortunately not the case with the stochastic processes, where even if we \textit{zoom-in} on the trajectory, the trajectory is not smooth. Therefore, a japanese mathematician Kiyoshi It\^{o} started and created the field of \textbf{stochastic calculus} which is able to operate on stochastic processes. 
 
@@ -755,6 +755,7 @@ Let us stop for a moment here and examine the equations. It can be shown that un
 \begin{equation*}
 	\mathbb{E}^{\mathbb{P}}[\tilde{W}(t)] = \mathbb{E}^{\mathbb{P}}[W(t) + \int_0^s \phi(s) ds] = \int_0^s \phi(s) ds
 \end{equation*}
+% GIRSANOV THEOREM: look inside Stochastic Calculus for finance II
 However, by applying the Girsanov theorem for processes involving jumps it allows us to assert that there exists and equivalent probability measure $\tilde{P}$ under which the process $\tilde{W}$ is a Wiener process and $N$ remains a jump process with intensity $\lambda$. This is a very important step as it will us to easily obtain an expression which, not only tells us a lot, but also will allow as to price our option. There is only one ingredient missing in order to obtain an expression which will tell us how to calculate the price of our option. We are interested in the discounted price of the option, so we will introduce a function of the option price and call it $g$ $$ g(f) =  fe^{-rt} $$ As we will utilize It\^{o}'s lemma in order to obtain a differential of $g$, we first have to find the expressions for partial derivatives used in the lemma, namely
 $$
 	\frac{\partial g}{\partial t} = -fre^{-rt} \hspace{0.25cm} ; \hspace{0.25cm} \frac{\partial g}{\partial f} = e^{-rt} \hspace{0.25cm} ; \hspace{0.25cm} \frac{\partial^2 g}{\partial f^2} = 0
@@ -822,12 +823,13 @@ When pricing our options we will focus on the options that have a signle fixed e
 
 
 \chapter{Hedging}
-
+% TODO: for simulations show how the parameter of the frequency of readjusting the portfolio affects the portfolio value
 
 \chapter{Conclusion}
 Conclusion.
 
 \bibliography{literatura}
+% Use zotero for this
 \bibliographystyle{fer}
 \nocite{*}
 
