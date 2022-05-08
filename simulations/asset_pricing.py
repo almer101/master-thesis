@@ -39,7 +39,7 @@ def static_jump_1():
 	return 1
 
 def normal_jump():
-	return normal(loc=0, scale=0.2)
+	return max(-0.99999, normal(loc=0, scale=0.2))
 
 def jump_process_path(lmbda = 4, jump_size=None): # jump size should be callable
 	arrivals = poisson_arrival_times(lmbda=lmbda)
