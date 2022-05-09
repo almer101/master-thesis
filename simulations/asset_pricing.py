@@ -60,9 +60,9 @@ def jump_process_path(lmbda = 4, jump_size=None): # jump size should be callable
 def poisson_process_path(lmbda = 4):
 	return jump_process_path(lmbda=lmbda, jump_size=static_jump_1)
 
-def jump_diffusion_process(T=1.0, n=1000, lmbda=4, mu=0.05, sigma=0.5, x0=100, jump_size=None):
+def jump_diffusion_process(T=1.0, n=1000, lmbda=4, mu=0.05, sigma=0.5, x0=100, jump=None):
 	if x0 <= 0: raise ValueError('Starting price of an asset must be positive')
-	if jump_size is None: raise ValueError('Jump size function has to be provided')
+	if jump is None: raise ValueError('Jump size function has to be provided')
 
 	arrivals = poisson_arrival_times(lmbda=lmbda)
 	next_arrival_index = 0
@@ -73,7 +73,7 @@ def jump_diffusion_process(T=1.0, n=1000, lmbda=4, mu=0.05, sigma=0.5, x0=100, j
 	for i in range(1,n):
 		if next_arrival_index < len(arrivals) and arrivals[next_arrival_index] <= dt * i:
 			diffusion_diff = mu * path[i-1] * dt + sigma * path[i-1] * normal(scale=np.sqrt(dt))
-			path[i] = path[i-1] * (1 + jump_size()) + diffusion_diff
+			path[i] = path[i-1] * (1 + jump.generate()) + diffusion_diff
 			next_arrival_index += 1
 		else:
 			path[i] = path[i-1] * np.exp((mu - 0.5 * sigma**2) * dt + sigma * normal(scale=np.sqrt(dt)))

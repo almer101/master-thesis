@@ -8,6 +8,7 @@ import matplotlib.pyplot as plt
 from numpy.random import normal, standard_normal, exponential
 from asset_pricing import normal_jump, poisson_arrival_times
 from tqdm import tqdm
+import jumps
 
 def payoff(t=0, T=1.0, n=1000, r=0.02, lmbda=4, mu=0.05, sigma=0.5, x0=100, K=100.0, jump_size=None):
 	arrivals = poisson_arrival_times(lmbda=lmbda)
@@ -58,7 +59,7 @@ def call_option_price_bs(S, K, r, T, sigma):
 	return norm.cdf(d1)*S - norm.cdf(d2)*K*np.exp(-r*T)
 
 
-def calculate_option_price(S, K, r, T, sigma, lmbda, jump_size, n_path_simulations=500):
+def calculate_option_price(S, K, r, T, sigma, lmbda, jump, n_path_simulations=1000):
 	if lmbda == 0:
 		return call_option_price_bs(S=S, K=K, r=r, T=T, sigma=sigma)
 
@@ -70,16 +71,9 @@ def calculate_option_price(S, K, r, T, sigma, lmbda, jump_size, n_path_simulatio
 		for i in range(n_path_simulations):
 			product = 1.0
 			for j in range(n):
-				product *= 1 + jump_size()
+				product *= 1 + jump.generate()
 
-			E_jump_size = 0 # TODO: change this
-			try:
-				c = call_option_price_bs(S = S*np.exp(-lmbda * E_jump_size * T) * product, K = K, r = r, T = T, sigma = sigma)
-			except RuntimeWarning:
-				print(f'S = ')
-				print(f'S_new = {S*np.exp(-lmbda * E_jump_size * T) * product}')
-				print(f'product = {product}')
-				print()
+			c = call_option_price_bs(S = S*np.exp(-lmbda * jump.expected_value() * T) * product, K = K, r = r, T = T, sigma = sigma)
 			c_sum += c
 
 		element = (c_sum / n_path_simulations) * np.exp(-lmbda*T) * (lmbda * T)**n / (np.math.factorial(n))
@@ -88,7 +82,7 @@ def calculate_option_price(S, K, r, T, sigma, lmbda, jump_size, n_path_simulatio
 	return np.sum(prices)
 
 
-def calculate_option_price_path(asset_price, K, r, T, sigma, lmbda, jump_size, n_path_simulations=200):
+def calculate_option_price_path(asset_price, K, r, T, sigma, lmbda, jump, n_path_simulations=200):
 	option_prices = []
 	ts = np.linspace(0, T, len(asset_price))
 
@@ -100,7 +94,7 @@ def calculate_option_price_path(asset_price, K, r, T, sigma, lmbda, jump_size, n
 			option_prices.append(max(0, S - K))
 		else:
 			# c = call_option_price_bs(S, K, r, tau, sigma)
-			c = calculate_option_price(S, K, r, tau, sigma, lmbda=lmbda, jump_size=jump_size, n_path_simulations=n_path_simulations)
+			c = calculate_option_price(S, K, r, tau, sigma, lmbda=lmbda, jump=jump, n_path_simulations=n_path_simulations)
 			option_prices.append(c)
 
 	return option_prices
@@ -125,9 +119,9 @@ def optimal_n_jumps(lmbda, threshold=1e-02):
 
 
 if __name__ == "__main__":
-	spot_prices = np.linspace(1, 140, 30)
+	
 	risk_free_rate = 0.02
-	lmbdas = [0,1,4]
+	lmbdas = [0,1,2,4,8]
 	mu = 0.05
 	sigma = 0.5
 	K = 100
@@ -135,20 +129,30 @@ if __name__ == "__main__":
 	S = 100
 	T = 1.0
 
-
-	a = -3.345
-	b = 5.34
-	result = integrate.quad(lambda x: np.sin(x), a, b)
-	my_result = approx_integrate(lambda x: np.sin(x), a, b, n=50)
-
-	print(result)
-	print(my_result)
-	print(abs(result[0] - my_result) / result[0])
+	#################################  SURFACE !!! #################################
+	# normal_jump = jumps.NormalJump(mean=0.05, std=0.3)
+	# mu = 0.05
+	# sigma = 0.5
+	# K = 95
+	# lmbda = 4
+	# T=1.0
+	# spot_prices = np.linspace(1, 140, 20)
+	# taus = np.linspace(0, T, 20)[::-1]
+	# # tau, spot_price, call_price
+	# rows = []
+	# for i in range(len(taus)):
+	# 	tau = taus[i]
+	# 	print(f'({i+1}/{len(taus)})')
+	# 	for s in tqdm(spot_prices):
+	# 		if tau == 0.0:
+	# 			rows.append((tau, s, max(0, s - K)))
+	# 		else:
+	# 			price = calculate_option_price(S=s, K=K, r=risk_free_rate, T=tau, sigma=sigma, lmbda=lmbda, jump=normal_jump)
+	# 			rows.append((tau, s, price))
+	# df = pd.DataFrame(np.vstack(rows), columns=['time_to_maturity', 'spot_price', 'call_price'])
+	# df.to_csv('call_price_surface.csv')
 
 	# exit()
-
-	# print("Start")
-	# c_t = calculate_option_price(S, K, risk_free_rate, T, sigma, lmbda, normal_jump)
 
 	# result = approx_integrate(lambda u: u * (calculate_option_price(S * (1+u), K, risk_free_rate, T, sigma, lmbda, normal_jump, n_path_simulations=200) - c_t) * norm.pdf(u/sigma), -0.99999, 5, n=25)
 	# print(result)
@@ -164,15 +168,23 @@ if __name__ == "__main__":
 	# plt.plot(ns, prices)
 	# plt.show()
 	# exit()
-
-	for lmbda in lmbdas:
+	
+	df = pd.DataFrame(columns=['spot_price'] + list(map(lambda l: f'lambda_{l}', lmbdas)))
+	normal_jump = jumps.NormalJump(mean=0.05, std=0.3)
+	spot_prices = np.linspace(1, 140, 30)
+	df['spot_price'] = spot_prices
+	for i in range(len(lmbdas)):
+		lmbda = lmbdas[i]
+		print(f'({i+1}/{len(lmbdas)})')
 		call_prices = []
 		for spot in tqdm(spot_prices):
-			price = calculate_option_price(S=spot, K=K, r=risk_free_rate, T=1.0, sigma=sigma, lmbda=lmbda, jump_size=normal_jump)
+			price = calculate_option_price(S=spot, K=K, r=risk_free_rate, T=1.0, sigma=sigma, lmbda=lmbda, jump=normal_jump)
 			call_prices.append(price)
 
+		df[f'lambda_{lmbda}'] = call_prices
 		plt.plot(spot_prices, call_prices, label=f'lambda={lmbda}')	
 	
+	# df.to_csv('call_prices_for_different_lambdas.csv')
 	plt.legend()
 	plt.show()
 

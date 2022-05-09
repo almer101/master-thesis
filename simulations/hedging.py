@@ -14,10 +14,8 @@ def delta_hedge_exact(S, K, r, sigma, T, pi_f = -1):
 	df_dx = norm.cdf(d1)
 	return - pi_f * df_dx
 
-def delta_hedge_approx():
-	pass
 
-def simulate_hedging(ts, asset_price, riskless_asset, option_price, df_dx, K, r, sigma, T, pi_f = -1, initial_portfolio_value = 0, n_rebalancings = None):
+def simulate_hedging(ts, asset_price, riskless_asset, option_price, K, r, sigma, T, pi_f = -1, initial_portfolio_value = 0, n_rebalancings = None):
 	if n_rebalancings is None:
 		n_rebalancings = len(ts)
 	dn = int(round(len(ts) / n_rebalancings))
@@ -52,7 +50,6 @@ def simulate_hedging(ts, asset_price, riskless_asset, option_price, df_dx, K, r,
 			break
 
 		# calculate the optimal position
-		pi_x = df_dx[i]
 		pi_x = delta_hedge_exact(S, K, r, sigma, tau, pi_f=pi_f)
 		pi_r = -1.0 / b * (- portfolio_value[-1] + pi_x * S + pi_f * f)
 
@@ -63,20 +60,21 @@ def simulate_hedging(ts, asset_price, riskless_asset, option_price, df_dx, K, r,
 	return portfolio_value, stock_shares, option_shares, riskless_shares
 
 
-def simulate_quadratic_hedging(ts, asset_price, riskless_asset, option_price, df_dx, K, r, sigma, T, lmbda, pi_f = -1, initial_portfolio_value = 0, n_rebalancings=None):
+def simulate_quadratic_hedging(ts, asset_price, riskless_asset, option_price, K, r, sigma, T, lmbda, pi_f = -1, initial_portfolio_value = 0, n_rebalancings=None):
 	if n_rebalancings is None:
 		n_rebalancings = len(ts)
 	dn = int(round(len(ts) / n_rebalancings))
 
-	# TODO: change with the proper class for jumps
-	expected_jump_size, _ = integrate.quad(lambda u: u * norm.pdf(u/0.2), -10, 10)
+	jump = jumps.NormalJump(mean=0, std=0.2)
 
 	t, S, f, b = ts[0], asset_price[0], option_price[0], riskless_asset[0]
 	option_shares = [pi_f]
-	integral = result = option_pricing.approx_integrate(lambda u: u * (option_pricing.calculate_option_price(S * (1+u), K, r, T, sigma, lmbda, normal_jump, n_path_simulations=200) - f) * norm.pdf(u/0.2), -0.99999, 4, n=25)
+
+	integral = result = option_pricing.approx_integrate(lambda u: u * (option_pricing.calculate_option_price(S * (1+u), K, r, T - ts[1], sigma, lmbda, normal_jump, n_path_simulations=200) - f) * jump.pdf(u), -0.99999, 4, n=25)
 	sensitivity = delta_hedge_exact(S, K, r, sigma, T, pi_f=pi_f)
-	pi_x = (sigma**2 * sensitivity + 1.0/S * integral) / (sigma ** 2 + expected_jump_size)
+	pi_x = (sigma**2 * sensitivity + 1.0/S * integral) / (sigma ** 2 + jump.expected_value())
 	stock_shares = [pi_x]
+
 	pi_r = -1.0 / b * (-initial_portfolio_value + pi_x * S + pi_f * f)
 	riskless_shares = [pi_r]
 
@@ -88,25 +86,18 @@ def simulate_quadratic_hedging(ts, asset_price, riskless_asset, option_price, df
 		t, S, f, b = ts[i], asset_price[i], option_price[i], riskless_asset[i]
 		portfolio_value.append(S * stock_shares[-1] + b * riskless_shares[-1] + f * option_shares[-1])
 
-		if i % dn != 0:
+		tau = T - t
+		if i % dn != 0 or tau == 0.0:
 			# not a rebalancing time, just repeat the last weights
 			stock_shares.append(stock_shares[-1])
 			option_shares.append(option_shares[-1])
 			riskless_shares.append(riskless_shares[-1])
 			continue
-		
-		tau = T - t
-		if tau == 0.0:
-			stock_shares.append(stock_shares[-1])
-			riskless_shares.append(riskless_shares[-1])
-			option_shares.append(option_shares[-1])
-			break
 
 		# calculate the optimal position
 		integral = result = option_pricing.approx_integrate(lambda u: u * (option_pricing.calculate_option_price(S * (1+u), K, r, T - ts[i+1], sigma, lmbda, normal_jump, n_path_simulations=200) - f) * norm.pdf(u/0.2), -0.99999, 4, n=25)
-		sensitivity = df_dx[i]
 		sensitivity = delta_hedge_exact(S, K, r, sigma, tau, pi_f=pi_f)
-		phi = (sigma**2 * sensitivity + 1.0/S * integral) / (sigma ** 2 + expected_jump_size)
+		phi = (sigma**2 * sensitivity + 1.0/S * integral) / (sigma ** 2 + jump.expected_value())
 
 		pi_x = phi
 		pi_r = -1.0 / b * (- portfolio_value[-1] + pi_x * S + pi_f * f)
@@ -146,15 +137,6 @@ if __name__ == "__main__":
 
 	riskless_asset = list(map(lambda t: 1.0 * np.exp(r * t / T), ts))
 
-	df_dx = [None]
-	for i in range(1, len(asset_price)):
-		df_dx.append((call_price[i] - call_price[i-1]) / (asset_price[i] - asset_price[i-1]))
-
-	ts = ts[1:]
-	asset_price = asset_price[1:]
-	call_price = call_price[1:]
-	df_dx = df_dx[1:]
-
 	# for i in tqdm(range(len(ts))):
 	# 	t = ts[i]
 	# 	S = asset_price[i]
@@ -170,7 +152,7 @@ if __name__ == "__main__":
 	# df['t'] = ts
 	# df['x'] = asset_price
 	# df.to_csv('jump_diffusion.csv')
-	portfolio_value, stock_shares, option_shares, riskless_shares = simulate_hedging(ts, asset_price, riskless_asset, call_price, df_dx, K, r, sigma, T, pi_f=-1, initial_portfolio_value=50, n_rebalancings=3) # short one option
+	portfolio_value, stock_shares, option_shares, riskless_shares = simulate_hedging(ts, asset_price, riskless_asset, call_price, K, r, sigma, T, pi_f=-1, initial_portfolio_value=50, n_rebalancings=3) # short one option
 
 	# plt.plot(ts, portfolio_value)
 	# plt.plot(ts, stock_shares, label='stock shares')
