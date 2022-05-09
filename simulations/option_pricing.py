@@ -88,6 +88,24 @@ def calculate_option_price(S, K, r, T, sigma, lmbda, jump_size, n_path_simulatio
 	return np.sum(prices)
 
 
+def calculate_option_price_path(asset_price, K, r, T, sigma, lmbda, jump_size, n_path_simulations=200):
+	option_prices = []
+	ts = np.linspace(0, T, len(asset_price))
+
+	for i in tqdm(range(len(ts))):
+		t = ts[i]
+		S = asset_price[i]
+		tau = T - t
+		if tau == 0: # we are at time T the price is equal to the payoff which is (S - K)+
+			option_prices.append(max(0, S - K))
+		else:
+			# c = call_option_price_bs(S, K, r, tau, sigma)
+			c = calculate_option_price(S, K, r, tau, sigma, lmbda=lmbda, jump_size=jump_size, n_path_simulations=n_path_simulations)
+			option_prices.append(c)
+
+	return option_prices
+
+
 def approx_integrate(function, a, b, n=50):
 	dx = (b - a) / n
 	sum_ = 0.0
@@ -132,7 +150,7 @@ if __name__ == "__main__":
 	# print("Start")
 	# c_t = calculate_option_price(S, K, risk_free_rate, T, sigma, lmbda, normal_jump)
 
-	# result = approx_integrate(lambda u: u * (calculate_option_price(S * (1+u), K, risk_free_rate, T, sigma, lmbda, normal_jump, n_path_simulations=200) - c_t) * norm.pdf(u), -0.99999, 5, n=25)
+	# result = approx_integrate(lambda u: u * (calculate_option_price(S * (1+u), K, risk_free_rate, T, sigma, lmbda, normal_jump, n_path_simulations=200) - c_t) * norm.pdf(u/sigma), -0.99999, 5, n=25)
 	# print(result)
 	# print(result / S)
 	# exit()

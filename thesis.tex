@@ -84,6 +84,7 @@ In finance and economics, arbitrage is the practice to take advantage of market 
 \subsubsection{Example 1}
 Suppose that the stock XYZ is trading for \$50 on the NYSE and the same stock is trading at \$49.5 at the LSE (London Stock Exchange). The trader can then buy the stock at LSE for \$49.5 and immediately sell it at NYSE for \$50, thus realizing profit of \$0.5. 
 \subsubsection{Example 2}
+% TODO: do another example where P[V(T) >= 0] = 1.0 and cannot be <0
 % TODO: change this to the case when S_o e^r is not between S_u and S_d
 Let's see a more complex example. Suppose we have a stock XYZ with spot price $S_0 = 100$ and in one year period there are only two possibilities for the stock movement: it can go up to $S_1 = u * S_0$ where $u=1.15$, or it can go down to $S_1 = d * S_0$ where $d=0.9$. The risk-free rate in the market is constant during this one-year period and it is $r=1\%$. The probability that the stock will go up in that period is $p=0.4$. 
 
@@ -836,6 +837,10 @@ When pricing our options we will focus on the options that have a signle fixed e
 
 
 \chapter{Hedging}
+% what is a local martingale?
+% galtchouk kunita watanabe decomposition
+% 
+
 % Black Scholes world - delta hedge, distribution of the portfolio value dependent on the number of rebalance times - see DELTA_HEDGE_JUMP_PROCESSES_nick_thesis.pdf page 25
 % TODO: for simulations show how the parameter of the frequency of readjusting the portfolio affects the portfolio value
 
