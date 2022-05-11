@@ -752,7 +752,7 @@ and if we denote with $d\tilde{W}_t$ a process
 	d\tilde{W}_t = dW_t + \phi dt
 \end{equation} or equivalently
 \begin{equation}
-	\tilde{W}(t) = W(t) + \int_0^s \phi(s) ds
+	\tilde{W}(t) = W(t) + \int_0^t \phi(s) ds
 \end{equation} which allows us to write down our final equations as
 
 \begin{equation}\label{eqn_x_new_measure}
@@ -764,7 +764,7 @@ and if we denote with $d\tilde{W}_t$ a process
 Let us stop for a moment here and examine the equations. It can be shown that under the original probability measure $\mathbb{P}$ the process $\tilde{W}$ will not be a Wiener process:
 
 \begin{equation*}
-	\mathbb{E}^{\mathbb{P}}[\tilde{W}(t)] = \mathbb{E}^{\mathbb{P}}[W(t) + \int_0^s \phi(s) ds] = \int_0^s \phi(s) ds
+	\mathbb{E}^{\mathbb{P}}[\tilde{W}(t)] = \mathbb{E}^{\mathbb{P}}[W(t) + \int_0^t \phi(s) ds] = \int_0^t \phi(s) ds
 \end{equation*}
 % GIRSANOV THEOREM: look inside Stochastic Calculus for finance II
 However, by applying the Girsanov theorem for processes involving jumps it allows us to assert that there exists and equivalent probability measure $\tilde{\mathbb{P}}$ under which the process $\tilde{W}$ is a Wiener process and $N$ remains a jump process with intensity $\lambda$. This is a very important step as it will us to easily obtain an expression which, not only tells us a lot, but also will allow as to price our option. There is only one ingredient missing in order to obtain an expression which will tell us how to calculate the price of our option. We are interested in the discounted price of the option, so we will introduce a function of the option price and call it $g$ $$ g(f) =  fe^{-rt} $$ As we will utilize It\^{o}'s lemma in order to obtain a differential of $g$, we first have to find the expressions for partial derivatives used in the lemma, namely
@@ -840,29 +840,71 @@ In our case we will use a normally distributed jump size and the formula above i
 
 % TODO: Monte Carlo simulations describe
 % TODO: later choose some exotic option and price that one
+	\begin{tikzpicture}
+	\begin{axis}[
+		% rf=2%, lambda=2, normal_jump function, 4000 simulations per point, 
+	    title={European Call Option price with strike price $K=100$ and maturity of $1$ year},
+	    xlabel={Spot price},
+	    ylabel={Call price},
+	    xmin=0, 
+	    % xmax=1,
+	    % ymin=0, 
+	    %ymax=210,
+	    ymajorgrids=true,
+	    legend pos=north west,
+	    grid style=dashed,
+	]
+	\addplot[thick, color=magenta] table {data/option_price_lambda_0.dat};
+	\addplot[thick, color=orange] table {data/option_price_lambda_1.dat};
+	\addplot[thick, color=teal] table {data/option_price_lambda_2.dat}; 
+	\addplot[thick, color=olive] table {data/option_price_lambda_4.dat};
+	\addplot[thick, color=darkgray] table {data/option_price_lambda_8.dat}; 
+	\legend{$\lambda = 0$, $\lambda = 1$, $\lambda = 2$, $\lambda = 4$, $\lambda = 8$}
+	\end{axis}
+	\end{tikzpicture}
 
-\begin{tikzpicture}
-\begin{axis}[
-	% rf=2%, lambda=2, normal_jump function, 4000 simulations per point, 
-    title={European Call Option price with strike price $K=100$ and maturity of $1$ year},
-    xlabel={Spot price},
-    ylabel={Call price},
-    xmin=0, 
-    % xmax=1,
-    % ymin=0, 
-    %ymax=210,
-    ymajorgrids=true,
-    legend pos=north west,
-    grid style=dashed,
-]
-\addplot[thick, color=magenta] table {data/option_price_lambda_0.dat};
-\addplot[thick, color=orange] table {data/option_price_lambda_1.dat};
-\addplot[thick, color=teal] table {data/option_price_lambda_2.dat}; 
-\addplot[thick, color=olive] table {data/option_price_lambda_4.dat};
-\addplot[thick, color=darkgray] table {data/option_price_lambda_8.dat}; 
-\legend{$\lambda = 0$, $\lambda = 1$, $\lambda = 2$, $\lambda = 4$, $\lambda = 8$}
-\end{axis}
-\end{tikzpicture}
+	\begin{tikzpicture}
+	\begin{axis}[
+	    title={Price of the European Call Option that matures at $T=1$ with $K=100$, $r=2\%$},
+	    xlabel={t},
+	    ylabel={Price},
+	    xmin=0, xmax=1,
+	    % ymin=90, ymax=210,
+	    ymajorgrids=true,
+	    grid style=dashed,
+	    legend pos=north west,
+	]
+	\addplot[color=olive] table[x index=0, y index=1] {data/jump_diffusion_process.dat};
+	\addplot[color=magenta] table[x index=0, y index=2] {data/jump_diffusion_process.dat};
+	\addplot[very thick, dashed, domain=0:1.0,gray] {100};
+
+	\addlegendentry{Asset price}
+	\addlegendentry{Call price}
+	\addlegendentry{Strike price}
+	\end{axis}
+	\end{tikzpicture}
+
+	\begin{tikzpicture}
+	\begin{axis}[
+	    title={Price of the European Call Option that matures at $T=1$ with $K=100$, $r=2\%$},
+	    xlabel={t},
+	    ylabel={Price},
+	    xmin=0, xmax=1,
+	    % ymin=90, ymax=210,
+	    ymajorgrids=true,
+	    grid style=dashed,
+	    legend pos=north east,
+	]
+	\addplot[color=olive] table[x index=0, y index=1,col sep=comma] {data/jump_diffusion_process_falling1.dat};
+	\addplot[color=magenta] table[x index=0, y index=2,col sep=comma] {data/jump_diffusion_process_falling1.dat};
+	\addplot[very thick, dashed, domain=0:1.0,gray] {100};
+	% \addplot[color=magenta] table {data/jump_diffusion_process_falling.dat};
+	\addlegendentry{Asset price}
+	\addlegendentry{Call price}
+	\addlegendentry{Strike price}
+
+	\end{axis}
+	\end{tikzpicture}
 
 \begin{tikzpicture}
 \begin{axis}[

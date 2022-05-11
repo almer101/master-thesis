@@ -2,6 +2,7 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 from numpy.random import normal, standard_normal, exponential
+import jumps
 
 def bm_path(n=252, sigma=0.5):
 	# scale is std dev
@@ -92,27 +93,27 @@ if __name__ == "__main__":
 	# 	df['y'] = y
 	# 	df.to_csv(f'../jump_process_path{i+1}.dat', sep=' ', header=False, index=False)
 	
-	values = []
-	for i in range(200):
-		path, arrivals = jump_diffusion_process(T=1.0, n=n, lmbda=4, mu=0.05, sigma=0.4, x0=100, jump_size=normal_jump)
-		values.append(path[-1])	
+	# values = []
+	# for i in range(200):
+	# 	path, arrivals = jump_diffusion_process(T=1.0, n=n, lmbda=4, mu=0.05, sigma=0.4, x0=100, jump_size=normal_jump)
+	# 	values.append(path[-1])	
 
-	values = np.array(values)
-	print(values.mean())
+	# values = np.array(values)
+	# print(values.mean())
 
 	# JUMP DIFFUSION PROCESS FILE ()
-	# path, arrivals = jump_diffusion_process(T=1.0, n=n, lmbda=4, mu=0.05, sigma=0.4, x0=100, jump_size=normal_jump)
-	# for a in arrivals:
-	# 	plt.axvline(x=a, c='green', linestyle='--', alpha=0.5, linewidth=0.9)
-	# plt.plot(np.linspace(0,1,n), path, c='black', alpha=0.8)
-	# plt.show()
+	path, arrivals = jump_diffusion_process(T=1.0, n=n, lmbda=4, mu=0.05, sigma=0.4, x0=100, jump=jumps.NormalJump(mean=0, std=0.2))
+	for a in arrivals:
+		plt.axvline(x=a, c='green', linestyle='--', alpha=0.5, linewidth=0.9)
+	plt.plot(np.linspace(0,1,n), path, c='black', alpha=0.8)
+	plt.show()
 
-	# yn = input('Do you want to save?')
-	# if yn.strip() == 'y':
-	# 	df = pd.DataFrame(columns=['x', 'y'])
-	# 	df['x'] = np.linspace(0,1,n)
-	# 	df['y'] = path
-	# 	df.to_csv(f'../jump_diffusion_process.dat', sep=' ', header=False, index=False)
+	yn = input('Do you want to save?')
+	if yn.strip() == 'y':
+		df = pd.DataFrame(columns=['x', 'y'])
+		df['x'] = np.linspace(0,1,n)
+		df['y'] = path
+		df.to_csv(f'../jump_diffusion_process_falling.dat', sep=' ', header=False, index=False)
 
 	# 	max_value = 1.1 * max(path)
 	# 	for arrival in arrivals:

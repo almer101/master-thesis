@@ -129,6 +129,22 @@ if __name__ == "__main__":
 	S = 100
 	T = 1.0
 
+	df = pd.read_csv('../data/jump_diffusion_process.dat', sep=' ')
+	print(df)
+
+	call_price_path = calculate_option_price_path(asset_price=df['x'], K=100, r=0.02, T=1.0, sigma=0.4, lmbda=4, jump=jumps.NormalJump(mean=0, std=0.2), n_path_simulations=200)
+
+	df['call_price'] = call_price_path
+	plt.plot(df['t'], df['x'])
+	plt.plot(df['t'], call_price_path)
+
+	df.to_csv('../data/jump_diffusion_process.dat', index = False, sep=' ')
+
+	plt.grid()
+	plt.show()
+
+	exit()
+
 	#################################  SURFACE !!! #################################
 	# normal_jump = jumps.NormalJump(mean=0.05, std=0.3)
 	# mu = 0.05
