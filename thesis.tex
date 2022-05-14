@@ -651,7 +651,7 @@ As we can see the resulting process is again a Jump-diffusion process, but now t
 % DSP page 145
 In this section we will 
 
-\subsection{Delta hedge}
+\subsection{Delta hedge} \label{sec:delta_hedge}
 % REF: capinski marek: financial engineering
 The value of a European call or put option clearly depends on the underlying price process. For simplicity purposes we move for a bit in the Black-Scholes world where an underlying asset price follows a simple geometric Brownian motion without jumps. Let us consider a situation where we are short one option, that is, we \textit{wrote} an option and sold it to somebody. The delta hedging strategy would tell us how many units of an underlying asset we would have to buy if we want to offset the risk of our portfolio for a small time interval $dt$. In other words, if we buy a correct amount of an underlying asset to hedge our position in an option the change in value of our portfolio in a small time interval $dt$ should be zero. The downside of a delta hedge is that it requires frequent readjustments of portfolio weight, which could, in real world, lead to high transaction costs. Although this is not really our most important concern it was important to flag it. Before actually applying it to our Jump-diffusion process and observing the issue let us define the delta hedge more precisely.
 
@@ -937,7 +937,7 @@ If we take some time $t$, let us say $t=0.6$, the price of the asset is somewher
 \label{fig:call_price2}	
 \end{figure}
 
-\noindent The behaviours we have just described can be summed up in the next figure which depicts the surface of the option price depending on the spot price and time left to maturity. One can clearly see that the surface is slightly leaning towards the value of the payoff when time to maturity approaches $0$.
+\noindent The behaviours we have just described can be summed up in the Figure \ref{fig:call_surface} which depicts the surface of the option price depending on the spot price and time left to maturity. One can clearly see that the surface is leaning towards the value of the payoff as the time to maturity $\tau$ approaches $0$.
 
 \begin{figure}[ht]
 \centering
@@ -995,18 +995,151 @@ If we take some time $t$, let us say $t=0.6$, the price of the asset is somewher
 	};
 	\end{axis}
 	\end{tikzpicture}
-\label{figure_call_price1}	
 \caption{Call price surface $K=95$, $\lambda=4$, $\mu=0.05$, $\sigma=0.5$, $U\sim \mathcal{N}(0.05, 0.09)$}
+\label{fig:call_surface}
 \end{figure}
 
 
 \chapter{Hedging}
 % what is a local martingale?
 % galtchouk kunita watanabe decomposition
-% 
 
 % Black Scholes world - delta hedge, distribution of the portfolio value dependent on the number of rebalance times - see DELTA_HEDGE_JUMP_PROCESSES_nick_thesis.pdf page 25
 % TODO: for simulations show how the parameter of the frequency of readjusting the portfolio affects the portfolio value
+Hedging is an investment made with the incentive of reducing the risk of adverse price movements in an asset. Usually, this is done by taking an offsetting (opposite) position in a related security. Indeed, we have already done that when we were constructing a hedging portfolio to price our option. Investors may consider hedging in order to manage their exposure to risk. Hedging is, of course, no free-lunch and it comes with a cost. While the benefit of hedging is that it allows us to reduce the risk, it also reduces the potential gains made by the investment. If an investor is facing uncertain market conditions and his positions are not hedged, the potential gains are high, but so are the potential losses. By hedging his positions to mitigate the risk, an investor has to accept the face the fact that the potential gains will scale down as well. 
+In section \ref{sec:delta_hedge} we have already illustrated how to determine the quantity of the stock that we have to hold to hedge a position in an option written on that stock. The method we used there is called a \textit{delta hedge} ($\Delta$-hedge). Before diving into the process of hedging our option written on the stock which is governed by the jump-diffusion process, let us first take a step into the Black-Scholes world where we have \textit{ideal market conditions}:
+
+\begin{enumerate}[label=(\roman*)]
+	\item the risk free interest rate is known and is constant through time
+	\item the stock price is governed by the geometric Brownian motion $$dX_t = \mu_t X_t dt + \sigma_t X_t dW_t$$
+	\item the stock pays no dividend
+	\item the market is \textit{frictionless}, that is, there are no transaction costs
+	\item it is possible to borrow or deposit any amount of money at the risk free interest rate
+	\item there are no penalties for shot selling
+\end{enumerate}
+Our starting point was the assumption that the option price will depend on the underlying asset price, that is: $$f_t = f(X_t)$$ Later we have arrived derived that in order to hedge a short position of $1$ option we would have to hold the amount $s$ of the underlying asset, where $s$ is 
+\begin{equation} \label{eqn:s_delta}
+	s = \frac{d}{dX_t}f(X_t)
+\end{equation}
+This means that if we would hold any time $t$ this amount of the underlying, our position would be perfectly hedged. In practice, however, continuous hedging is not possible. The best we can do is to choose specific points in time at which we would rebalance our portfolio. The more rebalancing times we have, the closer we get to the continuous hedging. The effect of hedging on the value of the portfolio will be investigated soon. Let us now examine on Figure \ref{fig:gbm_price_process} a generated asset price process, together with the price process of its call option that matures at time $T=1$ and has a strike price $K=120$. As we are still in the Black-Scholes world there is an absence of jumps and the underlying process is a pure geometric Brownian motion.
+
+\begin{figure}[ht]
+\centering
+	\begin{tikzpicture}[scale=0.97]
+	\begin{axis}[
+	    % title={Price of the European Call Option that matures at $T=1$ with $K=100$, $r=2\%$},
+	    xlabel={t},
+	    ylabel={Price},
+	    xmin=0, xmax=1,
+	    % ymin=90, ymax=210,
+	    ymajorgrids=true,
+	    grid style=dashed,
+	    legend pos=north east,
+	]
+	\addplot[color=olive] table[x index=0, y index=1] {data/gbm_hedging_results.dat};
+	\addplot[color=magenta] table[x index=0, y index=2] {data/gbm_hedging_results.dat};
+	\addplot[very thick, dashed, domain=0:1.0,gray] {120};
+	% \addplot[color=magenta] table {data/jump_diffusion_process_falling.dat};
+	\addlegendentry{Asset price}
+	\addlegendentry{Call option price}
+	\addlegendentry{Strike price}
+
+	\end{axis}
+	\end{tikzpicture}
+
+\caption{Asset price governed by the geometric Brownian motion and call option price with $K=120$}
+\label{fig:gbm_price_process}	
+\end{figure}
+\noindent Suppose we wrote (shorted) one call option at time $t=0$ and we want to hedge our position as we are unsure of the future price movements. In order for our position to be perfectly hedged we want to have $s$ units of the underlying asset, but to calculate $s$ we have to be able to differentiate the option price $f$ with respect to the process $X$. Luckily, this was already done in the original \cite{black_pricing_nodate} paper. Namely, the expression for obtaining the price of the call option is:
+
+\begin{equation} \label{eqn:bs_call}
+	C_t = X_tN(d_1) - N(d_2)Ke^{-r\tau}
+\end{equation}
+where
+\begin{align*}
+	C_t &- \mbox{call price at time} t \\
+	X_t &- \mbox{price of the underlying asset at time} t \\
+	\tau &- \mbox{time to maturity} \\
+	K &- \mbox{strike price} \\
+	r &- \mbox{risk-free rate} \\
+	N &- \mbox{cumulative distribution function of } \mathcal{N}(0,1) \\
+\end{align*}
+and the terms $d_1$ and $d_2$ are
+
+\begin{equation}
+	d_1 = \frac{\ln{\frac{X_t}{K}} + \left(r + \frac{\sigma^2}{2} \right)\tau}{\sigma\sqrt{\tau}} \hspace{2cm} d_2 = d_1 - \sigma\sqrt{\tau}
+\end{equation}
+As the underlying asset price follows geometric Brownian motion we can use the expression \ref{eqn:bs_call} to obtain the call option price at each time $t$. The result can be observed in the Figure \ref{fig:gbm_price_process}. If we were to differentiate the above expression for $C$ with respect to $X$ we would obtain: 
+\begin{equation}
+	\frac{\partial C}{\partial X} = N(d_1)
+\end{equation}
+Combining this expression with the expression \ref{eqn:s_delta} we obtain that the number of assets we have to hold at each time $t$ is $N(d_1)$. Now we have all ingredients to be able to simulate and show hedging results. To illustrate the results, we set the initial portfolio value to be $50$ and we already know that we are short one call option, that means that our position in that option is $-1$. We are considering the process shown at Figure \ref{fig:gbm_price_process} and on Figure \ref{fig:hedging_gbm} we show the effect of hedging with different number of rebalancing times. The first rebalancing time occurs at time $t=0$. 
+
+\begin{figure}[ht]
+\centering
+	\begin{tikzpicture}[scale=0.97]
+	\begin{axis}[
+	    % title={Price of the European Call Option that matures at $T=1$ with $K=100$, $r=2\%$},
+	    xlabel={t},
+	    ylabel={Portfolio value},
+	    xmin=0, xmax=1,
+	    % ymin=90, ymax=210,
+	    ymajorgrids=true,
+	    grid style=dashed,
+	    legend pos=south west,
+	]
+	\addplot[semithick, color=olive] table[x index=0, y index=3] {data/gbm_hedging_results.dat};
+	\addplot[semithick, color=magenta] table[x index=0, y index=4] {data/gbm_hedging_results.dat};
+	\addplot[semithick, color=teal] table[x index=0, y index=5] {data/gbm_hedging_results.dat};
+	\addplot[semithick, color=orange] table[x index=0, y index=6] {data/gbm_hedging_results.dat};
+	% \addplot[color=magenta] table {data/jump_diffusion_process_falling.dat};
+	\addlegendentry{$n = 1$}
+	\addlegendentry{$n = 2$}
+	\addlegendentry{$n = 5$}
+	\addlegendentry{$n = 10$}
+
+	\end{axis}
+	\end{tikzpicture}
+
+\caption{Development of the portfolio value with initial value of $50$ for different number of rebalancing times $n$}
+\label{fig:hedging_gbm}	
+\end{figure}
+By frequently rebalancing our portfolio we ensure the stability in the value of our portfolio. This can be further examined if we were to plot the distributions of portfolio value at time $t=T$ for different numbers of rebalancing times. This is shown on the Figure (\ref{fig:portfolio_value_distribution}).
+
+\begin{figure}[ht]
+\centering
+	\begin{tikzpicture}[scale=0.97]
+	\begin{axis}[
+	    % title={Price of the European Call Option that matures at $T=1$ with $K=100$, $r=2\%$},
+	    xlabel={Portfolio value at $t=T$},
+	    % ylabel={Price},
+	    xmin=38, xmax=65,
+	    ymajorgrids=true,
+	    grid style=dashed,
+	    legend pos=north west,
+	]
+	% \addplot[thick, color=olive] table[x index=0, y index=1] {data/gbm_hedging_distributions.dat};
+	% \addplot[thick, color=magenta] table[x index=2, y index=3] {data/gbm_hedging_distributions.dat};
+	\addplot[thick, dashed, color=gray] table[x index=4, y index=5] {data/gbm_hedging_distributions.dat};
+	\addplot[thick, dashed, color=orange] table[x index=6, y index=7] {data/gbm_hedging_distributions.dat};
+	\addplot[thick, dashed, color=blue] table[x index=8, y index=9] {data/gbm_hedging_distributions.dat};
+	\addplot[thick, dashed, color=purple] table[x index=10, y index=11] {data/gbm_hedging_distributions.dat};
+	\addplot[thick, dashed, color=violet] table[x index=12, y index=13] {data/gbm_hedging_distributions.dat};
+	% \addplot[color=magenta] table {data/jump_diffusion_process_falling.dat};
+	% \addlegendentry{$n = 1$}
+	% \addlegendentry{$n = 2$}
+	\addlegendentry{$n = 4$}
+	\addlegendentry{$n = 10$}
+	\addlegendentry{$n = 50$}
+	\addlegendentry{$n = 100$}
+	\addlegendentry{$n = 500$}
+
+	\end{axis}
+	\end{tikzpicture}
+
+\caption{Asset price governed by the Geometric Brownian Motion and call option price with $K=120$}
+\label{fig:portfolio_value_distribution}	
+\end{figure}
 
 \chapter{Conclusion}
 Conclusion.

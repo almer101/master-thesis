@@ -82,11 +82,12 @@ def calculate_option_price(S, K, r, T, sigma, lmbda, jump, n_path_simulations=10
 	return np.sum(prices)
 
 
-def calculate_option_price_path(asset_price, K, r, T, sigma, lmbda, jump, n_path_simulations=200):
+def calculate_option_price_path(asset_price, K, r, T, sigma, lmbda=0, jump=None, n_path_simulations=200):
 	option_prices = []
 	ts = np.linspace(0, T, len(asset_price))
 
-	for i in tqdm(range(len(ts))):
+	# for i in tqdm(range(len(ts))):
+	for i in range(len(ts)):
 		t = ts[i]
 		S = asset_price[i]
 		tau = T - t
