@@ -195,7 +195,7 @@
 	{\setlength{\parskip}{0em} \parindent \z@ \raggedright \normalfont
 		\interlinepenalty\@M
 		\ifnum \c@secnumdepth >\m@ne
-			\Huge\bfseries Dodatak \thechapter \\ #1
+			\Huge\bfseries Appendix \thechapter \\ #1
 			\par\nobreak
 		\fi
 		\nobreak
@@ -231,7 +231,7 @@
 	{\setlength{\parskip}{0em} \parindent \z@ \raggedright
 		\normalfont
 		\interlinepenalty\@Mdef
-		\Huge\scshape Dodatak \\ #1\par
+		\Huge\scshape Appendix \\ #1\par
 		\nobreak
 		\vskip 40\p@
 	}

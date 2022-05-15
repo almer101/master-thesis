@@ -667,7 +667,7 @@ $$ We consider the case we illustrated above where we were short one derivative 
 	s = \frac{d}{dX_t}f(X_t)
 \end{equation} In the next section we will see how using this technique, although in another form, does not eliminate all the risk from a portfolio when the underlying asset price is governed by a jump-diffusion process. 
 
-\subsection{Delta hedge for the Jump-diffusion process}
+\subsection{Delta hedge for the Jump-diffusion process} \label{sec:delta_hedge_jd}
 As we have already announced we will consider a case when our underlying asset follows the jump-diffusion process. Before we dive in into an examination of such a hedge we will briefly give a description of the processes involved. Firstly, the price process will be satisfying the stochastic differential equation for a jump-diffusion process (\ref{eqn_jd_frac}), namely
 \begin{equation}\label{eqn_delta_hedge_x}
 	\frac{dX_t}{X_t} = (\mu - \lambda k)dt + \sigma dW_t + UdN_t
@@ -1007,7 +1007,10 @@ If we take some time $t$, let us say $t=0.6$, the price of the asset is somewher
 % Black Scholes world - delta hedge, distribution of the portfolio value dependent on the number of rebalance times - see DELTA_HEDGE_JUMP_PROCESSES_nick_thesis.pdf page 25
 % TODO: for simulations show how the parameter of the frequency of readjusting the portfolio affects the portfolio value
 Hedging is an investment made with the incentive of reducing the risk of adverse price movements in an asset. Usually, this is done by taking an offsetting (opposite) position in a related security. Indeed, we have already done that when we were constructing a hedging portfolio to price our option. Investors may consider hedging in order to manage their exposure to risk. Hedging is, of course, no free-lunch and it comes with a cost. While the benefit of hedging is that it allows us to reduce the risk, it also reduces the potential gains made by the investment. If an investor is facing uncertain market conditions and his positions are not hedged, the potential gains are high, but so are the potential losses. By hedging his positions to mitigate the risk, an investor has to accept the face the fact that the potential gains will scale down as well. 
-In section \ref{sec:delta_hedge} we have already illustrated how to determine the quantity of the stock that we have to hold to hedge a position in an option written on that stock. The method we used there is called a \textit{delta hedge} ($\Delta$-hedge). Before diving into the process of hedging our option written on the stock which is governed by the jump-diffusion process, let us first take a step into the Black-Scholes world where we have \textit{ideal market conditions}:
+In section \ref{sec:delta_hedge} we have already illustrated how to determine the quantity of the stock that we have to hold to hedge a position in an option written on that stock. The method we used there is called a \textit{delta hedge} ($\Delta$-hedge). 
+
+\section{Delta hedging in Black-Scholes world}
+Before diving into the process of hedging our option written on the stock which is governed by the jump-diffusion process, let us first take a step into the Black-Scholes world where we have \textit{ideal market conditions}:
 
 \begin{enumerate}[label=(\roman*)]
 	\item the risk free interest rate is known and is constant through time
@@ -1025,7 +1028,7 @@ This means that if we would hold any time $t$ this amount of the underlying, our
 
 \begin{figure}[ht]
 \centering
-	\begin{tikzpicture}[scale=0.97]
+	\begin{tikzpicture}
 	\begin{axis}[
 	    % title={Price of the European Call Option that matures at $T=1$ with $K=100$, $r=2\%$},
 	    xlabel={t},
@@ -1070,14 +1073,14 @@ and the terms $d_1$ and $d_2$ are
 	d_1 = \frac{\ln{\frac{X_t}{K}} + \left(r + \frac{\sigma^2}{2} \right)\tau}{\sigma\sqrt{\tau}} \hspace{2cm} d_2 = d_1 - \sigma\sqrt{\tau}
 \end{equation}
 As the underlying asset price follows geometric Brownian motion we can use the expression \ref{eqn:bs_call} to obtain the call option price at each time $t$. The result can be observed in the Figure \ref{fig:gbm_price_process}. If we were to differentiate the above expression for $C$ with respect to $X$ we would obtain: 
-\begin{equation}
+\begin{equation} \label{eqn:delta_nd1}
 	\frac{\partial C}{\partial X} = N(d_1)
 \end{equation}
 Combining this expression with the expression \ref{eqn:s_delta} we obtain that the number of assets we have to hold at each time $t$ is $N(d_1)$. Now we have all ingredients to be able to simulate and show hedging results. To illustrate the results, we set the initial portfolio value to be $50$ and we already know that we are short one call option, that means that our position in that option is $-1$. We are considering the process shown at Figure \ref{fig:gbm_price_process} and on Figure \ref{fig:hedging_gbm} we show the effect of hedging with different number of rebalancing times. The first rebalancing time occurs at time $t=0$. 
 
 \begin{figure}[ht]
 \centering
-	\begin{tikzpicture}[scale=0.97]
+	\begin{tikzpicture}
 	\begin{axis}[
 	    % title={Price of the European Call Option that matures at $T=1$ with $K=100$, $r=2\%$},
 	    xlabel={t},
@@ -1108,7 +1111,7 @@ By frequently rebalancing our portfolio we ensure the stability in the value of 
 
 \begin{figure}[ht]
 \centering
-	\begin{tikzpicture}[scale=0.97]
+	\begin{tikzpicture}
 	\begin{axis}[
 	    % title={Price of the European Call Option that matures at $T=1$ with $K=100$, $r=2\%$},
 	    xlabel={Portfolio value at $t=T$},
@@ -1137,9 +1140,52 @@ By frequently rebalancing our portfolio we ensure the stability in the value of 
 	\end{axis}
 	\end{tikzpicture}
 
-\caption{Asset price governed by the Geometric Brownian Motion and call option price with $K=120$}
+\caption{Portfolio value distributions at time $t=T$ for different numbers of rebalancing times $n$}
 \label{fig:portfolio_value_distribution}	
 \end{figure}
+
+\section{Quadratic hedging of contingent claims}
+When we were showing that a regular Black-Scholes delta hedge in case of a jump-diffusion model cannot eliminate jump risk we stopped there. In fact in \cite{chiarella_derivative_2015} the autors demonstrate that in case we have a finite number $n$ of jump amplitudes, we can hedge away the jump risk by using $n$ additional derivative securities with different strike prices and maturities. In our case the jump amplitude is normally distributed, that is, there is an infinite number of different jump sizes and we would need an infinite number of different derivative securities to hedge away the jump risk. This is not possible and that means that a contingent claim cannot be perfectly replicated and according to the TODO:ref{} we have an \textbf{incomplete market} situation. Since there will always exist some amount of hedging error the best we can do is to try and minimize that error, this leads us to investigate other hedging techniques, one of which is quadratic hedging.
+% TODO: put second fundamental theorem above in \ref{}
+Moreover, in this section we will also have a look at how to mathematically define a problem of hedging. For that we will need to introduce a notion of \textit{trading strategy}. Although we have not defined it explicitly, we have already used it. A \textbf{trading strategy} is simply our selection of a covering portfolio in the underlying asset. \cite{bingham_risk-neutral_2004} define it as
+
+\begin{definition}
+	Denote by L(X) the linear space of all $\mathbb{R}^d$-valued predictable $X$-integrable processes $\phi$. A self-financing trading strategy is any pair $(V_0, \phi)$ such that $V_0$ is and $\mathcal{F}_0$-measurable random variable and $\phi \in L(X)$.
+\end{definition}
+\noindent A value $\phi^i(t)$ can be interpreted of as a number of shares of asset $i$ held at time $t$ and $V_0$ is the initial capital of an investor. By choosing a covering portfolio, we generate a value process, which is used to cover our exposure. Its value is given by
+
+\begin{equation}
+	V_t(\phi) := V_0 + \int_0^t \phi(u) dX_u
+\end{equation} 
+And the gains made from the trading process up to time $t$ is denoted by $G_t(\phi)=\int_0^t \phi(u)dX_u$. When we choose a trading strategy and the initial capital we can then think about how to evaluate the trading strategy. At time $T$ the contingent claim will have a payoff of $H$ and our carefully chosen portfolio will have a value of $V_T(\phi)$. To asses the quality of the trading strategy we will use the difference of those 2 quantities. To be more specific, we will calculate the hedging error as the square of that difference - quadratic loss function. \cite{bingham_risk-neutral_2004} give in their book the definition of mean-variance strategy to hedge $H$
+
+\begin{definition}
+	Let $\Phi$ be a the space of all $\phi \in L(X)$ for which $G_T(\phi)$ is in $L^2(\mathbb{P})$ and the gains from the trading process $G_t(\phi)$ is a martingale under the probability measure $\tilde{\mathbb{P}}$. A pair $(V_0, \phi)$ such that $V_0 \in \mathbb{R}$ and $\phi \in \Phi$ is called a mean-variance optimal strategy for $H$, if it solves the optimization problem 
+	\begin{equation} \label{eqn:min_hedge_error}
+		\min_{\phi}\mathbb{E}\left[ (H - V_0 - G_T(\phi))^2 \right]
+	\end{equation}
+\end{definition}
+In case when there is an absence of jumps, that is, we are in the Black-Scholes world, the solution to this optimization problem is simply sensitivity of the option price with respect to the underlying asset price
+\begin{equation*}
+	\frac{\partial C}{\partial X} = N(d_1)
+\end{equation*}
+In case there is an absence of diffusion and we are left with only jump process with only 1 possible jump amplitude, the solution is:
+\begin{equation} \label{eqn:delta_no_diffusion}
+	\phi^* = \frac{C(X_t + k) - C(X_t)}{k}
+\end{equation}
+To illustrate why, we look at the time $t$ and observe an asset price $X_t$ and a price of the call option $C(X_t)$ on that asset. We know that at time $t+dt$ a process can either stay the same or jump, where the size of the jump has a single possible value $k$. We denote the value of our portfolio at time $t$ with $$V_t = \phi^* X_t - C(X_t)$$ if the jump arrives somewhere inside the time interval $dt$ the value of out portfolio will be
+$$V_{t+dt} = \phi^* (X_t + k) - C(X_t + k)$$
+and if the jump does not arrive the asset price will stay the same and the price of the call option will change by only marginal amount (because we are closer to the maturity), which can be ignored. This means that the value of our portfolio, in this case, has virtually stayed unchanged no matter the value of $\phi^*$. If we want the value of our portfolio to stay unchanged also in presence of jump inside the time interval $dt$ we have to choose $\phi^*$ wisely.
+\begin{align*}
+	V_t &= V_{t+dt} \\
+	X_t\phi^* - C(X_t) &=  X_t\phi^*+ k\phi^* - C(X_t + k) \\
+	k\phi^* &= C(X_t + k) - C(X_t)
+\end{align*} and we arrive to the final formula (\ref{eqn:delta_no_diffusion}).
+
+\noindent The derivation of the solution to the optimization problem \ref{eqn:min_hedge_error} goes beyond the scope of this thesis and is rather cumbersome. In turn, we will present the solution for the problem obtained in \cite{cont_financial_2004}:
+\begin{equation} \label{eqn:quadratic_hedge}
+	\phi^* = \frac{\sigma^2 \frac{\partial C}{\partial X} + \frac{1}{X} \int z[C(t,X(1+z))-C(t,X)] \nu_U(z)dz}{\sigma^2 + \int z^2 \nu_U(z)dz}
+\end{equation} where $C(t,X)$ is the Black-Scholes price for the call option and accordingly the $\frac{\partial C}{\partial X}$ is the sensitivity of that price with respect to the price of the underlying asset. The function $\nu_U$ is the probability density function of the jump size $U$. This result can be interpreted as the average of the simple $\Delta$-hedge in the absence of jumps and the $\Delta$-hedge in case there is no diffusion part (\ref{eqn:delta_no_diffusion}).
 
 \chapter{Conclusion}
 Conclusion.
@@ -1164,5 +1210,10 @@ Stohastički procesi imaju široku primjenu u raznim područjima računarske zna
 
 \kljucnerijeci{stohastički procesi, financije, određivanje cijene, opcije, premošćivanje rizika}
 \end{sazetak}
+
+\appendix
+
+\chapter{First}
+Here goes my first appendix
 
 \end{document}
