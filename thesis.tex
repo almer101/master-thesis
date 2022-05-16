@@ -1185,7 +1185,23 @@ and if the jump does not arrive the asset price will stay the same and the price
 \noindent The derivation of the solution to the optimization problem \ref{eqn:min_hedge_error} goes beyond the scope of this thesis and is rather cumbersome. In turn, we will present the solution for the problem obtained in \cite{cont_financial_2004}:
 \begin{equation} \label{eqn:quadratic_hedge}
 	\phi^* = \frac{\sigma^2 \frac{\partial C}{\partial X} + \frac{1}{X} \int z[C(t,X(1+z))-C(t,X)] \nu_U(z)dz}{\sigma^2 + \int z^2 \nu_U(z)dz}
-\end{equation} where $C(t,X)$ is the Black-Scholes price for the call option and accordingly the $\frac{\partial C}{\partial X}$ is the sensitivity of that price with respect to the price of the underlying asset. The function $\nu_U$ is the probability density function of the jump size $U$. This result can be interpreted as the average of the simple $\Delta$-hedge in the absence of jumps and the $\Delta$-hedge in case there is no diffusion part (\ref{eqn:delta_no_diffusion}).
+\end{equation} where $C(t,X)$ is the Black-Scholes price for the call option and accordingly the $\frac{\partial C}{\partial X}$ is the sensitivity of that price with respect to the price of the underlying asset. The function $\nu_U$ is the probability density function of the jump size $U$. This result can be interpreted as the average of the simple $\Delta$-hedge in the absence of jumps and the $\Delta$-hedge in case there is no diffusion part (\ref{eqn:delta_no_diffusion}). To check the effectiveness of the quadratic hedge, we will first use the jump-diffusion process on figure \ref{fig:call_price1} and compare the performance of the quadratic hedge and the regular $\Delta$-hedge, where we pretend that the underlying process has only diffusion component without jumps. 
+
+% STEP 1:
+% we generate 30+ jump-diffusion paths and store them in a csv
+% set lambda to be bigger (cca 8) and jump size to be N(mean=0.08, std=0.35)
+% columns are
+% t  x1  call1  x2  call2 ...
+
+% STEP 2:
+% on each of those paths evaluate hedging performance for delta-hedge and quadratic-hedge
+% you end up with a table like this
+% delta    quadratic    diff(quad-delta)
+% 48.8       47.9          -0.9
+% etc.....
+
+% STEP 3:
+% perform a paired t-test on the sample and see whether the quadratic hedge is better
 
 \chapter{Conclusion}
 Conclusion.

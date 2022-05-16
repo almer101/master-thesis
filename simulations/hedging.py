@@ -63,7 +63,7 @@ def simulate_hedging(ts, asset_price, option_price, K, r, sigma, T, pi_f = -1, i
 	return portfolio_value, stock_shares, option_shares, riskless_shares
 
 
-def simulate_quadratic_hedging(ts, asset_price, option_price, K, r, sigma, T, lmbda, pi_f = -1, initial_portfolio_value = 0, n_rebalancings=None):
+def simulate_quadratic_hedging(ts, asset_price, option_price, K, r, sigma, T, pi_f = -1, initial_portfolio_value = 0, n_rebalancings=None):	
 	if n_rebalancings is None:
 		n_rebalancings = len(ts)
 	dn = int(round(len(ts) / n_rebalancings))
@@ -75,9 +75,12 @@ def simulate_quadratic_hedging(ts, asset_price, option_price, K, r, sigma, T, lm
 	t, S, f, b = ts[0], asset_price[0], option_price[0], riskless_asset[0]
 	option_shares = [pi_f]
 
-	integral = option_pricing.approx_integrate(lambda u: u * (option_pricing.calculate_option_price(S * (1+u), K, r, T - ts[1], sigma, lmbda, normal_jump, n_path_simulations=200) - f) * jump.pdf(u), -0.99999, 4, n=25)
+	c_no_jump = call_option_price_bs(S, K, r, T, sigma)
+	integral = integrate.quad(lambda u: u * jump.pdf(u) * (call_option_price_bs(S * (1+u), K, r, T, sigma) - c_no_jump), -0.99999, 5)[0]
+	squared_expectation = integrate.quad(lambda u: u**2 * jump.pdf(u), -0.99999, 5)[0]
 	sensitivity = delta_hedge_exact(S, K, r, sigma, T, pi_f=pi_f)
-	pi_x = (sigma**2 * sensitivity + 1.0/S * integral) / (sigma ** 2 + jump.expected_value())
+
+	pi_x = (sigma**2 * sensitivity + 1.0/S * integral) / (sigma ** 2 + squared_expectation)
 	stock_shares = [pi_x]
 
 	pi_r = -1.0 / b * (-initial_portfolio_value + pi_x * S + pi_f * f)
@@ -100,11 +103,15 @@ def simulate_quadratic_hedging(ts, asset_price, option_price, K, r, sigma, T, lm
 			continue
 
 		# calculate the optimal position
-		integral = option_pricing.approx_integrate(lambda u: u * (option_pricing.calculate_option_price(S * (1+u), K, r, T - ts[i], sigma, lmbda, normal_jump, n_path_simulations=200) - f) * norm.pdf(u/0.2), -0.99999, 4, n=25)
-		sensitivity = delta_hedge_exact(S, K, r, sigma, tau, pi_f=pi_f)
-		phi = (sigma**2 * sensitivity + 1.0/S * integral) / (sigma ** 2 + jump.expected_value())
+		c_no_jump = call_option_price_bs(S, K, r, tau, sigma)
+		integral = integrate.quad(lambda u: u * jump.pdf(u) * (call_option_price_bs(S * (1+(max(u, -0.99999))), K, r, tau, sigma) - c_no_jump), -4, 4)[0]
+		squared_expectation = integrate.quad(lambda u: u**2 * jump.pdf(u), -0.99999, 4)[0]
 
-		pi_x = phi
+		sensitivity = delta_hedge_exact(S, K, r, sigma, tau, pi_f=pi_f)
+		phi_x = (sigma**2 * sensitivity + 1.0/S * integral) / (sigma ** 2 + squared_expectation)
+		# phi_x = delta_hedge_exact(S, K, r, sigma, tau, pi_f=pi_f)
+
+		pi_x = phi_x
 		pi_r = -1.0 / b * (- portfolio_value[-1] + pi_x * S + pi_f * f)
 
 		stock_shares.append(pi_x)
@@ -230,11 +237,45 @@ def analyze_hedging_results():
 
 	df.to_csv('../data/gbm_hedging_distributions.dat', index=False, sep=' ')
 
+
+def compare_quadratic_and_delta():
+	df = pd.read_csv('../data/jump_diffusion_process.dat', sep=' ')
+	print(df)
+
+	portfolio_value, stock_shares, option_shares, riskless_shares = simulate_hedging(df['t'], df['x'], df['call_price'], K=100, r=0.02, sigma=0.4, T=1.0, pi_f = -1, initial_portfolio_value = 50, n_rebalancings = 5)
+	portfolio_value1, stock_shares1, option_shares1, riskless_shares1 = simulate_quadratic_hedging(df['t'], df['x'], df['call_price'], K=100, r=0.02, sigma=0.4, T=1.0, pi_f = -1, initial_portfolio_value = 50, n_rebalancings=5)
+
+	plt.plot(df['t'], portfolio_value1, label='quadratic')
+	plt.plot(df['t'], portfolio_value, label='delta')
+	plt.grid()
+	plt.legend()
+	plt.show()
+	
+	jump = jumps.NormalJump(mean=0, std=0.2)
+	
+	S = 100
+	K = 100
+	r = 0.02
+	tau = 1.0
+	sigma = 0.4
+	c_no_jump = call_option_price_bs(S, K, r, tau, sigma)
+
+	# call_option_price_bs(S, K, r, T, sigma)
+	integral = integrate.quad(lambda u: u * jump.pdf(u) * (call_option_price_bs(S * (1+u), K, r, tau, sigma) - c_no_jump), -0.99999, 5)[0]
+	squared_expectation = integrate.quad(lambda u: u**2 * jump.pdf(u), -0.99999, 5)[0]
+	
+	# integral = integrate(lambda u: u * (option_pricing.calculate_option_price(S * (1+u), K, r, T - ts[i], sigma, lmbda, normal_jump, n_path_simulations=200) - f) * norm.pdf(u/0.2), -0.99999, 4, n=25)
+	sensitivity = delta_hedge_exact(S, K, r, sigma, tau, pi_f=-1)
+	phi = (sigma**2 * sensitivity + 1.0/S * integral) / (sigma ** 2 + squared_expectation)
+
+	print(phi)
+
 if __name__ == "__main__":
 	
 	# gbm_hedging()
 	# show_gbm_hedging_result()
-	analyze_hedging_results()
+	# analyze_hedging_results()
+	compare_quadratic_and_delta()
 	exit()
 
 	n = 252
