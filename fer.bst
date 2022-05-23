@@ -990,29 +990,29 @@ FUNCTION {unpublished}
 FUNCTION {default.type} { misc }
 
 
-MACRO {jan} {"Sije\v{c}anj"}
+MACRO {jan} {"January"}
 
-MACRO {feb} {"Velja\v{c}a"}
+MACRO {feb} {"February"}
 
-MACRO {mar} {"O\v{z}ujak"}
+MACRO {mar} {"March"}
 
-MACRO {apr} {"Travanj"}
+MACRO {apr} {"April"}
 
-MACRO {may} {"Svibanj"}
+MACRO {may} {"May"}
 
-MACRO {jun} {"Lipanj"}
+MACRO {jun} {"June"}
 
-MACRO {jul} {"Srpanj"}
+MACRO {jul} {"July"}
 
-MACRO {aug} {"Kolovoz"}
+MACRO {aug} {"August"}
 
-MACRO {sep} {"Rujan"}
+MACRO {sep} {"September"}
 
-MACRO {oct} {"Listopad"}
+MACRO {oct} {"October"}
 
-MACRO {nov} {"Studeni"}
+MACRO {nov} {"November"}
 
-MACRO {dec} {"Prosinac"}
+MACRO {dec} {"December"}
 
 
 

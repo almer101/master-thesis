@@ -9,6 +9,7 @@ from option_pricing import *
 from tqdm import tqdm
 from statsmodels.distributions.empirical_distribution import ECDF
 from scipy.interpolate import interp1d
+from scipy.stats import ttest_rel, ttest_1samp
 
 def delta_hedge_exact(S, K, r, sigma, T, pi_f = -1):
 	d1 = (np.log(S/K) + (r + 0.5 * sigma**2) * T) / (sigma * np.sqrt(T))
@@ -242,8 +243,8 @@ def compare_quadratic_and_delta():
 	df = pd.read_csv('../data/jump_diffusion_process.dat', sep=' ')
 	print(df)
 
-	portfolio_value, stock_shares, option_shares, riskless_shares = simulate_hedging(df['t'], df['x'], df['call_price'], K=100, r=0.02, sigma=0.4, T=1.0, pi_f = -1, initial_portfolio_value = 50, n_rebalancings = 5)
-	portfolio_value1, stock_shares1, option_shares1, riskless_shares1 = simulate_quadratic_hedging(df['t'], df['x'], df['call_price'], K=100, r=0.02, sigma=0.4, T=1.0, pi_f = -1, initial_portfolio_value = 50, n_rebalancings=5)
+	portfolio_value, stock_shares, option_shares, riskless_shares = simulate_hedging(df['t'], df['x'], df['call_price'], K=100, r=0.02, sigma=0.4, T=1.0, pi_f = -1, initial_portfolio_value = 50, n_rebalancings = 100)
+	portfolio_value1, stock_shares1, option_shares1, riskless_shares1 = simulate_quadratic_hedging(df['t'], df['x'], df['call_price'], K=100, r=0.02, sigma=0.4, T=1.0, pi_f = -1, initial_portfolio_value = 50, n_rebalancings=100)
 
 	plt.plot(df['t'], portfolio_value1, label='quadratic')
 	plt.plot(df['t'], portfolio_value, label='delta')
@@ -269,13 +270,157 @@ def compare_quadratic_and_delta():
 	phi = (sigma**2 * sensitivity + 1.0/S * integral) / (sigma ** 2 + squared_expectation)
 
 	print(phi)
+	new_df = pd.DataFrame(columns=['t', 'delta', 'quadratic'])
+	new_df['t'] = df['t']
+	new_df['delta'] = portfolio_value
+	new_df['quadratic'] = portfolio_value1
+
+	new_df.to_csv('../data/one_process_hedging_comparison.csv', index=False, sep=' ')
+
+
+def generate_jump_diffusion_paths():
+	n_samples = 30
+
+	T = 1.0
+	lmbda = 4
+	mu = 0.05
+	sigma = 0.5
+	K = 100
+	x0 = 100
+	n = 1000
+	r = 0.02
+	normal_jump = jumps.NormalJump(mean=0.05, std=0.22)
+
+	columns = reduce(lambda value, e: value + e, map(lambda e: [f'x_{e+1}', f'call_price_{e+1}'], range(n_samples)), [])
+	columns = ['t'] + columns
+	df = pd.DataFrame(columns=['t'])
+
+	ts = np.linspace(0, T, n)
+	df['t'] = ts
+
+	for i in range(20, n_samples):
+		# N(mean=0.08, std=0.35)
+		print(f'({i+1}/{n_samples})')
+		# generate path
+		x, jump_arrivals = jump_diffusion_process(T=T, n=n, lmbda=lmbda, mu=mu, sigma=sigma, x0=x0, jump=normal_jump)
+		df[f'x_{i+1}'] = x
+		# plt.plot(ts, x, label=f'process{i+1}')
+
+		# calculate call path
+		call_price_path = calculate_option_price_path(asset_price=x, K=K, r=r, T=T, sigma=sigma, lmbda=lmbda, jump=normal_jump, n_path_simulations=200)
+		df[f'call_price_{i+1}'] = call_price_path
+
+		df.to_csv(f'iterations/jump_diffusion_paths_it{i+1}.csv', index=False)
+		print(f"Saved iteration {i+1}")
+		# plt.plot(ts, x, label=f'x_{i+1}')
+		# plt.plot(ts, call_price_path, label=f'call_price_{i+1}')
+
+
+def merge_files():
+	df1 = pd.read_csv('iterations/jump_diffusion_paths_it10.csv')
+	df2 = pd.read_csv('iterations/jump_diffusion_paths_it20.csv')
+	df3 = pd.read_csv('iterations/jump_diffusion_paths_it30.csv')
+
+	df = pd.DataFrame()
+	df['t'] = df1['t']
+
+	for d in [df1, df2, df3]:
+		for col in d.columns[1:]:
+			df[col] = d[col]
+
+	print(df.columns)
+	print(df)
+
+	df.to_csv('jump_diffusion_paths_combined.csv', index=False)
+
+
+def compare_hedging_methods():
+	n_rebalancings = 100
+
+	T = 1.0
+	lmbda = 4
+	mu = 0.05
+	sigma = 0.5
+	K = 100
+	x0 = 100
+	n = 1000
+	r = 0.02
+	normal_jump = jumps.NormalJump(mean=0.05, std=0.22)
+
+	df = pd.read_csv('jump_diffusion_paths_combined.csv')
+	ts = df['t']
+
+	results = pd.DataFrame()
+	results['t'] = df['t']
+
+	for i in tqdm(range(30)): # because we have 30 simulations
+		portfolio_value, stock_shares, option_shares, riskless_shares = simulate_hedging(ts, df[f'x_{i+1}'], df[f'call_price_{i+1}'], K=K, r=r, sigma=sigma, T=T, pi_f = -1, initial_portfolio_value = 50, n_rebalancings = n_rebalancings)
+		portfolio_value1, stock_shares1, option_shares1, riskless_shares1 = simulate_quadratic_hedging(ts, df[f'x_{i+1}'], df[f'call_price_{i+1}'], K=K, r=r, sigma=sigma, T=T, pi_f = -1, initial_portfolio_value = 50, n_rebalancings=n_rebalancings)
+
+		results[f'delta_{i+1}'] = portfolio_value
+		results[f'quadratic_{i+1}'] = portfolio_value1
+
+	results.to_csv('hedging_results.csv', index=False)
+
+
+def test_hypothesis():
+	initial_portfolio_value = 50
+	r = 0.02
+	maturity_riskless = initial_portfolio_value * np.e**r
+
+	df = pd.read_csv('hedging_results.csv')
+	last_row = df.iloc[len(df) - 1].values[1:]
+
+	delta_hedge = last_row[0:len(last_row):2]
+	quadratic_hedge = last_row[1:len(last_row):2]
+
+	df_ttest = pd.DataFrame(columns=['delta', 'quadratic', 'difference'])
+
+	df_ttest['delta'] = delta_hedge
+	df_ttest['quadratic'] = quadratic_hedge
+
+	df_ttest['delta'] = np.abs(df_ttest['delta'] - maturity_riskless)
+	df_ttest['quadratic'] = np.abs(df_ttest['quadratic'] - maturity_riskless)
+
+	df_ttest['diff'] = df_ttest['delta'] - df_ttest['quadratic']
+	print(ttest_1samp(df_ttest['diff'], 0, alternative='greater'))
+
+	result = ttest_rel(df_ttest['delta'], df_ttest['quadratic'], alternative='greater')
+	print(result)
+
+
+def create_latex_table():
+	initial_portfolio_value = 50
+	r = 0.02
+	maturity_riskless = initial_portfolio_value * np.e**r
+
+	df = pd.read_csv('hedging_results.csv')
+	last_row = df.iloc[len(df) - 1].values[1:]
+
+	delta_hedge = last_row[0:len(last_row):2]
+	quadratic_hedge = last_row[1:len(last_row):2]
+
+	s = "\\begin{center}\n\\begin{table}\n\\centering\n\\begin{tabular}{c c c c c c}\n\\hline\nn & $\\Delta$-hedge($u$) & Quadratic hedge ($v$) & $d_1=|u - Ve^{rT}|$ & $d_2=|v - Ve^{rT}|$ & d = d1 - d2\\\\\n\\hline \\hline\n"
+
+	for i in range(len(delta_hedge)):
+	    s+=f"{i+1} & {round(delta_hedge[i], 4)} & {round(quadratic_hedge[i], 4)} & {round(abs(delta_hedge[i] - maturity_riskless), 4)} & {round(abs(quadratic_hedge[i] - maturity_riskless), 4)} & {round(abs(delta_hedge[i] - maturity_riskless) - abs(quadratic_hedge[i] - maturity_riskless), 4)} \\\\ \n\\hline \n"
+	    
+	s+="\\end{tabular}\n\\caption{Portfolio value at time of maturity $T$ for $2$ hedging methods where number of rebalancings was $n=100$}\n\\end{table}\n\\end{center}\n"
+	print(s)
+
+	print(ttest_1samp(abs(np.array(delta_hedge) - maturity_riskless) - abs(np.array(quadratic_hedge) - maturity_riskless), 0, alternative='greater'))
 
 if __name__ == "__main__":
 	
 	# gbm_hedging()
 	# show_gbm_hedging_result()
 	# analyze_hedging_results()
-	compare_quadratic_and_delta()
+	# compare_quadratic_and_delta()
+	# generate_jump_diffusion_paths()
+	# merge_files()
+	# compare_hedging_methods()
+	test_hypothesis()
+	# create_latex_table()
 	exit()
 
 	n = 252
