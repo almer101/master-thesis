@@ -6,6 +6,7 @@
 \usepackage{hyperref}
 \usepackage{enumitem}
 \usepackage{pgfplots}
+\usepackage{longtable}
 
 \pgfplotsset{width=13cm, compat=1.5}
 \pgfplotsset{soldot/.style={color=black,only marks,mark=*}} \pgfplotsset{holdot/.style={color=black,fill=white,only marks,mark=*}}
@@ -182,10 +183,10 @@ we substitute $n=\frac{t}{\Delta t}$
 	X(t) \sim \mathcal{N}(\mu t, \sigma^2t)
 \end{equation}
 \begin{equation}
-	\mu := \lim_{\Delta x \to 0, h \to 0} \frac{h(p-q)}{\Delta t}
+	\mu := \lim_{\Delta t \to 0, h \to 0} \frac{h(p-q)}{\Delta t}
 \end{equation}
 \begin{equation}
-	\sigma^2 := \lim_{\Delta x \to 0, h \to 0} \frac{4h^2pq}{\Delta t}
+	\sigma^2 := \lim_{\Delta t \to 0, h \to 0} \frac{4h^2pq}{\Delta t}
 \end{equation}
 
 Where $\mu$ is called the \textbf{drift} and $\sigma^2$ the \textbf{diffusion} of the process $X(t)$. We can have a look at the special case where $p=q=0.5$ and $h=\sqrt{t/n}=\sqrt{\Delta t}$ and it is easy to see that then $X(t)$ has the following distribution:
@@ -1116,15 +1117,15 @@ This means that if we would hold any time $t$ this amount of the underlying, our
 \caption{Asset price governed by the geometric Brownian motion and call option price with $K=120$}
 \label{fig:gbm_price_process}	
 \end{figure}
-\noindent Suppose we wrote (shorted) one call option at time $t=0$ and we want to hedge our position as we are unsure of the future price movements. In order for our position to be perfectly hedged we want to have $s$ units of the underlying asset, but to calculate $s$ we have to be able to differentiate the option price $f$ with respect to the process $X$. Luckily, this was already done in the original \cite{black_pricing_nodate} paper. Namely, the expression for obtaining the price of the call option is:
+\noindent Suppose we wrote (shorted) one call option at time $t=0$ and we want to hedge our position as we are unsure of the future price movements. In order for our position to be perfectly hedged we want to have $s$ units of the underlying asset, but to calculate $s$ we have to be able to differentiate the option price $f$ with respect to the process $X$. Luckily, this was already done in the original \cite{black_pricing_nodate} paper. Namely, the expression for obtaining the price of a call option is:
 
 \begin{equation} \label{eqn:bs_call}
 	C_t = X_tN(d_1) - N(d_2)Ke^{-r\tau}
 \end{equation}
 where
 \begin{align*}
-	C_t &- \mbox{call price at time} t \\
-	X_t &- \mbox{price of the underlying asset at time} t \\
+	C_t &- \mbox{call price at time } t \\
+	X_t &- \mbox{price of the underlying asset at time } t \\
 	\tau &- \mbox{time to maturity} \\
 	K &- \mbox{strike price} \\
 	r &- \mbox{risk-free rate} \\
@@ -1132,10 +1133,10 @@ where
 \end{align*}
 and the terms $d_1$ and $d_2$ are
 
-\begin{equation}
+\begin{equation} \label{eqn:d1d2}
 	d_1 = \frac{\ln{\frac{X_t}{K}} + \left(r + \frac{\sigma^2}{2} \right)\tau}{\sigma\sqrt{\tau}} \hspace{2cm} d_2 = d_1 - \sigma\sqrt{\tau}
 \end{equation}
-As the underlying asset price follows geometric Brownian motion we can use the expression \ref{eqn:bs_call} to obtain the call option price at each time $t$. The result can be observed in the Figure \ref{fig:gbm_price_process}. If we were to differentiate the above expression for $C$ with respect to $X$ we would obtain: 
+As the underlying asset price follows geometric Brownian motion we can use the expression \ref{eqn:bs_call} to obtain the call option price at each time $t$. The result can be observed in the Figure \ref{fig:gbm_price_process}. If we were to differentiate the above expression for $C$ with respect to $X$ we would obtain (for details refer to \ref{sec:obtain_delta_hedge}): 
 \begin{equation} \label{eqn:delta_nd1}
 	\frac{\partial C}{\partial X} = N(d_1)
 \end{equation}
@@ -1339,14 +1340,59 @@ Stohastički procesi imaju široku primjenu u raznim područjima računarske zna
 
 \appendix
 \chapter{Tables and derivations}
-\section{Delta hedge}
+\section{Delta hedge} \label{sec:obtain_delta_hedge}
+
+Starting from \ref{eqn:bs_call} and \ref{eqn:d1d2} we want to obtain the expression \ref{eqn:delta_nd1}. Of course we just need to differentiate the call price by $X$, but also $d_1$ and $d_2$ are functions of $X$ and it is maybe not immediately straighforward how to obtain the expression \ref{eqn:delta_nd1}. 
+\begin{equation*}
+	C_t = X_tN(d_1) - N(d_2)Ke^{-r\tau} \hspace{0.5cm} \Big/ \frac{\partial}{\partial X}
+\end{equation*}
+\begin{equation*}
+	\frac{\partial C}{\partial X} = \frac{\partial}{\partial X}\left[ XN(d_1) \right] - \frac{\partial}{\partial X} \left[ N(d_2)Ke^{-r\tau} \right]
+\end{equation*}
+\begin{equation} \label{eqn:dC_dX}
+	\frac{\partial C}{\partial X} = N(d_1) + X\frac{\partial N(d_1)}{\partial X} - Ke^{-r\tau}\frac{\partial N(d_2)}{\partial X}
+\end{equation} Now we will decompose the terms $\frac{\partial N(d_1)}{\partial X}$ and $\frac{\partial N(d_2)}{\partial X}$, but first let us take a look at what $N(z)$ represents. $N$ is a unit normal cumulative distribution function, that is:
+\begin{equation} 
+	N(z) = \frac{1}{\sqrt{2\pi}} \int_{-\infty}^{z} e^{-\frac{u^2}{2}}du
+\end{equation} which means that the $\frac{\partial N}{\partial z}$ is the value of the unit normal probability density function at the point $z$ or in our case this would mean:
+\begin{equation}
+	\frac{\partial N}{\partial d_1} = \frac{1}{\sqrt{2\pi}} e^{-\frac{d_1^2}{2}} \hspace{0.5cm} \mbox{and} \hspace{0.5cm} \frac{\partial N}{\partial d_2} = \frac{1}{\sqrt{2\pi}} e^{-\frac{d_2^2}{2}}
+\end{equation} We also repeat expressions for $d_1$ and $d_2$:
+
+\begin{equation*}
+	d_1 = \frac{\ln{\frac{X_t}{K}} + \left(r + \frac{\sigma^2}{2} \right)\tau}{\sigma\sqrt{\tau}} \hspace{2cm} d_2 = d_1 - \sigma\sqrt{\tau}
+\end{equation*} Let us now go back to $\frac{\partial N(d_1)}{\partial X}$ and $\frac{\partial N(d_2)}{\partial X}$ we obtain the following expression for $\frac{\partial N(d_1)}{\partial X}$:
+\begin{equation*}
+	\frac{\partial N(d_1)}{\partial X} = \frac{\partial N}{\partial d_1} \frac{\partial d_1}{\partial X} = \frac{1}{\sqrt{2\pi}}e^{-\frac{d_1^2}{2}}\frac{1}{\sigma\sqrt{\tau}}\frac{K}{X}\frac{1}{K}
+\end{equation*}
+\begin{equation}
+	\frac{\partial N(d_1)}{\partial X} = \frac{1}{X\sigma\sqrt{2\pi\tau}}e^{-\frac{d_1^2}{2}}
+\end{equation} and analoguously for $d_2$
+\begin{equation*}
+	\frac{\partial N(d_2)}{\partial X} = \frac{1}{X\sigma\sqrt{2\pi\tau}}e^{-\frac{d_2^2}{2}} = \frac{1}{X\sigma\sqrt{2\pi\tau}}e^{-\frac{(d_1 - \sigma\sqrt{\tau})^2}{2}}
+\end{equation*}
+\begin{equation}
+	\frac{\partial N(d_2)}{\partial X} = \frac{1}{X\sigma\sqrt{2\pi\tau}}e^{-\frac{d_1^2}{2}} \cdot e^{d_1\sigma\sqrt{\tau}} \cdot e^{-\tau\frac{\sigma^2}{2}}
+\end{equation} Now we will plug it all back in into the equation \ref{eqn:dC_dX} we obtain
+
+\begin{align*}
+	\frac{\partial C}{\partial X} &= N(d_1) + \frac{e^{-\frac{d_1^2}{2}}}{X\sigma\sqrt{2\pi\tau}} \left[ X - Ke^{-r\tau} e^{\ln{\frac{X}{K}} + (r+\frac{\sigma^2}{2})\tau} \cdot e^{-\tau\frac{\sigma^2}{2}} \right] \\
+	&= N(d_1) + \frac{e^{-\frac{d_1^2}{2}}}{X\sigma\sqrt{2\pi\tau}} \left[ X - Ke^{\ln{\frac{X}{K}}} \right] \\
+	&= N(d_1) + \frac{e^{-\frac{d_1^2}{2}}}{X\sigma\sqrt{2\pi\tau}} \left[ X - X \right]
+\end{align*}
+
+\begin{equation}
+	\boxed{
+		\frac{\partial C}{\partial X} = N(d_1)
+	}
+\end{equation}
 
 \section{Tables} \label{appendix:section_tables}
-\begin{table}
-\centering
-\begin{tabular}{c c c c c c}
+\begin{longtable}{c c c c c c}
+% \centering
+% \begin{tabular}{c c c c c c}
 \hline
-n & $\Delta$ ($u$) & Quadratic ($v$) & $d_1=|u - Ve^{rT}|$ & $d_2=|v - Ve^{rT}|$ & d = d1 - d2\\
+n & $\Delta$ $[u]$ & Quadratic $[v]$ & $d_1=|u - Ve^{rT}|$ & $d_2=|v - Ve^{rT}|$ & $d = d_1 - d_2$\\
 \hline \hline
 1 & 51.2364 & 50.7511 & 0.2263 & 0.259 & -0.0327 \\
 \hline
@@ -1408,8 +1454,8 @@ n & $\Delta$ ($u$) & Quadratic ($v$) & $d_1=|u - Ve^{rT}|$ & $d_2=|v - Ve^{rT}|$
 \hline
 30 & 51.9582 & 52.1369 & 0.9481 & 1.1269 & -0.1787 \\
 \hline
-\end{tabular}
+% \end{tabular}
 \caption{Portfolio value at time of maturity $T$ for $2$ hedging methods where number of rebalancings was $n=100$}
-\end{table}
+\end{longtable}
 
 \end{document}
