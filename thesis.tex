@@ -7,6 +7,11 @@
 \usepackage{enumitem}
 \usepackage{pgfplots}
 \usepackage{longtable}
+\usepackage{indentfirst}
+% \usepackage[
+% backend=biber,
+% style=alphabetic,
+% ]{biblatex}
 
 \pgfplotsset{width=13cm, compat=1.5}
 \pgfplotsset{soldot/.style={color=black,only marks,mark=*}} \pgfplotsset{holdot/.style={color=black,fill=white,only marks,mark=*}}
@@ -62,19 +67,19 @@ As already mentioned, markets in perfect competition have a high number of parti
 In this section we will cover a few basic financial instruments. As discussed earlier, different types of markets offer different types of goods. A \textbf{bond market} (also called fixed-income markets) is a collective name attributed to all issues and trades of debt securities. Stock exchange is another type of market where, among many other things, \textbf{stocks} and \textbf{derivatives} can be traded. 
 
 \hfill \break
-A \textbf{bond} is a fixed-income financial instrument typically issued by governments or corporations in order to raise money needed to fund a certain project, for example. When a corporation (or a government) needs to borrow money, it issues bonds that include the terms of the loan, the time at which the loaned funds (bond principal) must be paid back (maturity date) and the interest payments that will be paid. They can essentially be thought of as a contract issued by the borrower promising to pay back the loan plus some interest on it at some time in the future. An interest is a premium for the person loaning the money, because by buying a bond (loaning money) the buyer takes on a risk that the issuer will not be able to pay back at maturity (risk of default). Governments are typically less likely to fail than corporations, therefore the interest paid on government bonds is genereally lower than the interest paid on corporate bonds. There are also bonds that pay additional coupons between the issuance and maturity, but they will not be of particular interest to us in the scope of this thesis.
+\indent A \textbf{bond} is a fixed-income financial instrument typically issued by governments or corporations in order to raise money needed to fund a certain project, for example. When a corporation (or a government) needs to borrow money, it issues bonds that include the terms of the loan, the time at which the loaned funds (bond principal) must be paid back (maturity date) and the interest payments that will be paid. They can essentially be thought of as a contract issued by the borrower promising to pay back the loan plus some interest on it at some time in the future. An interest is a premium for the person loaning the money, because by buying a bond (loaning money) the buyer takes on a risk that the issuer will not be able to pay back at maturity (risk of default). Governments are typically less likely to fail than corporations, therefore the interest paid on government bonds is genereally lower than the interest paid on corporate bonds. There are also bonds that pay additional coupons between the issuance and maturity, but they will not be of particular interest to us in the scope of this thesis.
 
 \hfill \break
-A \textbf{stock} (also called \textit{equity}) is a type of a security issued by the corporations and represents the ownership of a fraction of a company. The units of stock are called \textit{shares}. They are issued for a company to raise funds to operate their business. It is important to point out that corporations are treated as legal persons, so a shareholder does not \textit{own} a corporation, but own shares issued by the corporations and have a claim on its assets and earnings.
+\indent A \textbf{stock} (also called \textit{equity}) is a type of a security issued by the corporations and represents the ownership of a fraction of a company. The units of stock are called \textit{shares}. They are issued for a company to raise funds to operate their business. It is important to point out that corporations are treated as legal persons, so a shareholder does not \textit{own} a corporation, but own shares issued by the corporations and have a claim on its assets and earnings.
 
 \hfill \break
-Having explained the characteristics of bonds and stocks we arrive at securities that are not completely basic. \textbf{Derivatives} are a type of security which \textit{derives} its value from another asset (e.g. stock). There are many types of derivatives, but we will focus on the ones used in this thesis and those are options. \textbf{Option} is a contract that gives the buyer a right, but not an obligation, to buy or sell (depending on the type of the contract they hold) the underlying asset at a certain time in future. 
+\indent Having explained the characteristics of bonds and stocks we arrive at securities that are not completely basic. \textbf{Derivatives} are a type of security which \textit{derives} its value from another asset (e.g. stock). There are many types of derivatives, but we will focus on the ones used in this thesis and those are options. \textbf{Option} is a contract that gives the buyer a right, but not an obligation, to buy or sell (depending on the type of the contract they hold) the underlying asset at a certain time in future. 
 
 \hfill \break
-\textbf{European options} (also called \textit{vanilla} options) are the most basic form of an option. We differentiate two different types of european options: \textit{call} and \textit{put} option. A call option gives a buyer a right to buy the underlying security at some predetermined price (strike price) at a certain time in future (maturity). In case the price of the underlying asset is greater than the strike price at the time of maturity, the buyer can buy the underlying asset at the strike price and immediately sell the asset at its market price which is now higher than the strike price, thus making a profit. However, if the price of the underlying asset is lower than the strike price at maturity, it does not make sense for the buyer to excercise the option and buy the asset at strike price, because she/he can simply buy the asset at the market price. A put option works in an opposite way, as it gives a buyer a right to sell the underlying security at the strike price at maturity. Put option expires worthless in case the price of the underlying asset is greater than the strike price as the buyer can than simply sell the security at its market price. In this case an option expires without excercising, the only loss made by the buyer is the amount paid for the option in the first place. To illustrate this very important concept of European options let us look at the following example:
+\indent \textbf{European options} (also called \textit{vanilla} options) are the most basic form of an option. We differentiate two different types of european options: \textit{call} and \textit{put} option. A call option gives a buyer a right to buy the underlying security at some predetermined price (strike price) at a certain time in future (maturity). In case the price of the underlying asset is greater than the strike price at the time of maturity, the buyer can buy the underlying asset at the strike price and immediately sell the asset at its market price which is now higher than the strike price, thus making a profit. However, if the price of the underlying asset is lower than the strike price at maturity, it does not make sense for the buyer to excercise the option and buy the asset at strike price, because she/he can simply buy the asset at the market price. A put option works in an opposite way, as it gives a buyer a right to sell the underlying security at the strike price at maturity. Put option expires worthless in case the price of the underlying asset is greater than the strike price as the buyer can than simply sell the security at its market price. In this case an option expires without excercising, the only loss made by the buyer is the amount paid for the option in the first place. To illustrate this very important concept of European options let us look at the following example:
 
 \hfill \break
-\noindent Suppose at time $t=0$ the price of an asset is $S_0 = 100$ and that we can buy a \textit{put} option with maturity $T$ and strike price $K=90$. The price of such option contract at time $t=0$ is $P = 5$. Let us assume that at maturity the price of the asset is $S_T = 93$. This means that the buyer will simply let the contract expire because the asset can be sold at a market price which is higher than the strike price of the \textit{put} option. If, however, the price of an asset dips below $S_0$ to value of $S_T = 80$, the buyer can buy the asset in the market for the price of $80$ and immediately sell it in the market for $K=90$ by excercising the option. Thus, making a profit of $(K-S_T) - P = (90 - 80) - 5 = 5$. 
+\indent \noindent Suppose at time $t=0$ the price of an asset is $S_0 = 100$ and that we can buy a \textit{put} option with maturity $T$ and strike price $K=90$. The price of such option contract at time $t=0$ is $P = 5$. Let us assume that at maturity the price of the asset is $S_T = 93$. This means that the buyer will simply let the contract expire because the asset can be sold at a market price which is higher than the strike price of the \textit{put} option. If, however, the price of an asset dips below $S_0$ to value of $S_T = 80$, the buyer can buy the asset in the market for the price of $80$ and immediately sell it in the market for $K=90$ by excercising the option. Thus, making a profit of $(K-S_T) - P = (90 - 80) - 5 = 5$. 
 \hfill \break
 Note that in this example, the time value of money was disregarded for simplicity purposes. 
 
@@ -99,7 +104,7 @@ We decide to short-sell the stock today and put that money in the bank to be rem
 \hfill \break
 Although at the first glance this does not look like a good deal, we have to take into account the probabilities of these events happening. More specifically, let us look at the expecte payoff at time $t=1$:
 
-$$\mathbb{E}[\text{payoff at } t=1] = 0.4 * (-14) + 0.6 * 11 = 1$$
+$$\mathbb{E}[\text{payoff at } t=1] = 0.4 \cdot (-14) + 0.6 \cdot 11 = 1$$
 
 \newpage
 \section{Fundamental theorems of asset pricing}
@@ -147,63 +152,63 @@ The goal of this chapter is to show how Brownian motion can be derived from a ra
 
 \begin{equation}
 X_i \sim \left( \begin{array}{cc} h & -h \\
-					p & q \end{array} \right)
+					p & q \end{array} \right),
 \end{equation}
-Where $X_i$ describes the move of the particle in the the $i$-th step.
+where $X_i$ describes the move of the particle in the the $i$-th step and $q=1-p$.
 Let us calculate the expected value and the variance of each step:
 \begin{equation}
 	\begin{array}{rl}
-									\mathbb{E}[X_i] &= h(p-q) \\
+									\mathbb{E}[X_i] &= h(p-q)\hspace{0.1cm}, \\
 		Var[X_i] = \mathbb{E}[X_i^2] - \mathbb{E}[X_i]^2 &= h^2(p-q) - h^2(p-q)^2 \\
 										&= h^2p + h^2q - h^2(p^2 - 2p1 + q^2)\\
 										&= h^2p(1-p) + h^2q(1-q) + 2h^2pq\\
-										&= 4h^2pq \\
+										&= 4h^2pq\hspace{0.1cm}. \\
 	\end{array}
 \end{equation}
 Now that we have the building blocks of the random walk, let us define the state of the random walk after $n$ steps as a random variable $X(t) = \sum_{i=1}^n X_i$. Where $t$ is the length of the interval $[0,t]$. This interval is divided into $n$ equal intervals of length $\Delta t$, so we have:
 \begin{equation}
-	\Delta t = \frac{t}{n}
+	\Delta t = \frac{t}{n}\hspace{0.1cm}.
 \end{equation}
 We calculate the expected value and the variance of this new random variable:
 \begin{equation}
 	\begin{array}{rl}
-		\mathbb{E}[X(t)] &= nh(p-q) \\
-		Var[X(t)] &\indeq \sum_{i=1}^n Var[X_i] = 4nh^2pq \\
+		\mathbb{E}[X(t)] &= nh(p-q), \\
+		Var[X(t)] &\indeq \sum_{i=1}^n Var[X_i] = 4nh^2pq \hspace{0.05cm}.\\
 	\end{array}
 \end{equation}
 According to the Central Limit Theorem with $n \rightarrow \infty$ we know that $X(t)$ will have a normal distribution, namely:
-$$ \frac{\sum_{i=1}^n X_i - nh(p-q)}{\sqrt{n}\sqrt{Var[X_i]}} = \frac{\sum_{i=1}^n X_i - nh(p-q)}{2h\sqrt{n}\sqrt{pq}} \sim \mathcal{N}(0,1) $$
-$$ \Rightarrow \sum_{i=1}^n X_i - nh(p-q) \sim \mathcal{N}(0,4nh^2pq)$$
+$$ \frac{\sum_{i=1}^n X_i - nh(p-q)}{\sqrt{n}\sqrt{Var[X_i]}} = \frac{\sum_{i=1}^n X_i - nh(p-q)}{2h\sqrt{n}\sqrt{pq}} \sim \mathcal{N}(0,1)\hspace{0.1cm}, $$
+$$ \Rightarrow \sum_{i=1}^n X_i - nh(p-q) \sim \mathcal{N}(0,4nh^2pq)\hspace{0.1cm},$$
 \begin{equation}
-	\sum_{i=1}^n X_i \sim \mathcal{N}(nh(p-q), 4nh^2pq)
+	\sum_{i=1}^n X_i \sim \mathcal{N}(nh(p-q), 4nh^2pq)\hspace{0.1cm}.
 \end{equation}
-we substitute $n=\frac{t}{\Delta t}$
+We substitute $n=\frac{t}{\Delta t}$:
 \begin{equation}
-	X(t) \sim \mathcal{N}(\mu t, \sigma^2t)
-\end{equation}
-\begin{equation}
-	\mu := \lim_{\Delta t \to 0, h \to 0} \frac{h(p-q)}{\Delta t}
+	X(t) \sim \mathcal{N}(\mu t, \sigma^2t)\hspace{0.1cm},
 \end{equation}
 \begin{equation}
-	\sigma^2 := \lim_{\Delta t \to 0, h \to 0} \frac{4h^2pq}{\Delta t}
+	\mu := \lim_{\Delta t \to 0, h \to 0} \frac{h(p-q)}{\Delta t}\hspace{0.1cm},
+\end{equation}
+\begin{equation}
+	\sigma^2 := \lim_{\Delta t \to 0, h \to 0} \frac{4h^2pq}{\Delta t}\hspace{0.1cm}.
 \end{equation}
 
-\noindent Where $\mu$ is called the \textbf{drift} and $\sigma^2$ the \textbf{diffusion} of the process $X(t)$. We can have a look at the special case where $p=q=0.5$ and $h=\sqrt{t/n}=\sqrt{\Delta t}$ and it is easy to see that then $X(t)$ has the following distribution:
+\noindent Here $\mu$ is called the \textbf{drift} and $\sigma^2$ the \textbf{diffusion} of the process $X(t)$. We can have a look at the special case where $p=q=0.5$ and $h=\sqrt{t/n}=\sqrt{\Delta t}$ and it is easy to see that then $X(t)$ has the following distribution:
 \begin{equation} 
-	X(t) \sim \mathcal{N}(0, t)
+	X(t) \sim \mathcal{N}(0, t)\hspace{0.1cm}.
 \end{equation}	
 
 \noindent The above mentioned process is called \textbf{Wiener process} and is often denoted by $W = \{W_t:t\ge 0\}$ where $W_t \sim \mathcal{N}(0,t)$. The formal definition is the following:
 
 % REF: Tomas Bjork book reference
-\begin{definition}[Wiener process]
+\begin{definition}
 A Wiener process is the process with the following properties:
 \begin{enumerate}
-	\item $W_0 = 0$
-	\item $W_t$ is continuous in $t$
-	\item $W_t$ has independent increments, i.e. for every $r < s \leq t < u$ increments $(W_u - W_t)$ and $(W_s - W_r)$ are independent random variables
+	\item $W_0 = 0\hspace{0.05cm},$
+	\item $W_t$ is continuous in $t\hspace{0.05cm},$
+	\item $W_t$ has independent increments, i.e. for every $r < s \leq t < u$ increments $(W_u - W_t)$ and $(W_s - W_r)$ are independent random variables,
 	\item $W$ has Gaussian increments, i.e. for every $u,t \geq 0$: 
-		\begin{equation}(W_{t+u} - W_t) \sim \mathcal{N}(0,u) \end{equation}
+		\begin{equation}(W_{t+u} - W_t) \sim \mathcal{N}(0,u)\hspace{0.1cm}. \end{equation}
 \end{enumerate}
 \end{definition}
 
@@ -212,28 +217,27 @@ A Wiener process is the process with the following properties:
 As already stated in the earlier chapters, one of the objectives of this book is to study asset pricing in financial markets using stochastic processes. We want to model the price as a continuous time stochastic process and for this case the most complete and elegant theory is obtained if we use \textbf{diffusion processes} and \textbf{stochastic differential equations} as main building blocks. Although we already mentioned diffusion a couple of times, we have not really intuitively explained what it is. Loosely speaking, a stochastic process is a diffusion if its local dynamics can be approximated with the following stochastic difference equation:
 
 \begin{equation}
-	X_{t+h} - X_t = \mu(t,X_t)\Delta t + \sigma(t, X_t)\Delta W_t
+	X_{t+h} - X_t = \mu(t,X_t)\Delta t + \sigma(t, X_t)\Delta W_t\hspace{0.1cm},
 \end{equation}
 
 \noindent where $\Delta W_t$ is defined as:
 \begin{equation}
-	\Delta W_t = W_{t+h} - W_t
+	\Delta W_t = W_{t+h} - W_t\hspace{0.1cm}.
 \end{equation}
 
 \noindent If we let $h$ tend to $0$ we can write the above equation like this:
 \begin{equation}
-	dX_t = \mu(t,X_t)dt + \sigma(t, X_t)dW_t
+	dX_t = \mu(t,X_t)dt + \sigma(t, X_t)dW_t\hspace{0.1cm},
 \end{equation}
-\noindent Which can be interpreted as a shorthand for the folowing integral equation:
-
+\noindent which can be interpreted as a shorthand for the folowing integral equation:
 \begin{equation}
-	X_t = X_0 + \int_0^t \mu(s,X_s)ds + \int_0^t \sigma(s,X_s)dW_s
+	X_t = X_0 + \int_0^t \mu(s,X_s)ds + \int_0^t \sigma(s,X_s)dW_s\hspace{0.1cm}.
 \end{equation}
 
 \noindent The $ds$ integral can be viewed as a regular Riemann integral, whereas for the $dW_t$ integral we have to introduce a new concept - \textit{It\^{o} integral}.
 In order to be able to construct a stochastic integral of form:
 \begin{equation}
-	\int_0^t g_sdW_s
+	\int_0^t g_sdW_s\hspace{0.1cm},
 \end{equation}
 \noindent we have to impose some kind of integrability condition on another stochastic process $g_s$.
 
@@ -241,15 +245,15 @@ In order to be able to construct a stochastic integral of form:
 \begin{enumerate}[label=(\roman*)]
 	\item We say that the process $g_s$ belongs to the class $\mathcal{L}^2[a,b]$ if the following holds:
 	\begin{itemize}
-		\item $ \int_a^b\mathbb{E}[g_s^2]ds < \infty $
-		\item The process $g_s$ is adapted to filtration $\mathcal{F}_t^W$
+		\item $ \int_a^b\mathbb{E}[g_s^2]ds < \infty\hspace{0.05cm},$
+		\item The process $g_s$ is adapted to filtration $\mathcal{F}_t^W\hspace{0.05cm}.$
 	\end{itemize}
-	\item We say the process $g$ belongs to the class $\mathcal{L}^2$ if $g$ belongs to $\mathcal{L}^2[0,t]$ for every $t$
+	\item We say the process $g$ belongs to the class $\mathcal{L}^2$ if $g$ belongs to $\mathcal{L}^2[0,t]$ for every $t\hspace{0.05cm}.$
 \end{enumerate}
 \end{definition}
 
 \noindent We will show how the define the stochastic integral for the case of $g_s$ which is \textbf{simple}, i.e. such $g_s$ that there exist deterministic points in time $a=t_0 < t_1 < ... < t_n = b$, such that $g$ is constant on each subinterval. To put this formally, $g_s=g_{t_k}$ where $s \in [t_k,t_{k+1})$. In that case, the stochastic integral can be defined as follows:
-$$ \int_a^bg_sdW_s = \lim_{n\rightarrow\infty} \sum_{k=1}^n g_{t_k-1}(W_{t_k} - W_{t_{k-1}}) \hspace{0.5cm} \text{, where } t_k = k\frac{t}{n}$$
+$$ \int_a^bg_sdW_s = \lim_{n\rightarrow\infty} \sum_{k=1}^n g_{t_k-1}(W_{t_k} - W_{t_{k-1}}) \hspace{0.5cm} \text{, where } t_k = k\frac{t}{n}\hspace{0.1cm}.$$
 
 \noindent The process $g_s$ is evaluated in the summation on the left-hand point ($t_{k-1}$) which is known as a \textbf{non-anticipatory} integration. This is a natural choice in finance ensuring that we use no information from the fututre for our present actions.
 
@@ -273,16 +277,16 @@ $$\mathbb{E}[X|\mathcal{F}_t]$$
 represent the \textit{"expected value of $X$ given the information available up to time $t$"}. It is important to note here that for a fixed $t$, the object $\mathbb{E}[X|\mathcal{F}_t]$ is a random variable. Let, for example, a filtration be generated by the process $Y$, then the information available up to time $t$ will, of course, be dependent on the behaviour of the process $Y$ in the time interval $[0,t]$. Before defining a continous time martingale, let us first consider the following proposition:
 
 \begin{itemize}
-	\item \textit{If $Y$ and $Z$ are random variables, and $Z$ is $\mathcal{F}_t$-measurable (known at time $t$), then} $$\mathbb{E}[Z\cdot Y|\mathcal{F}_t] = Z \cdot \mathbb{E}[Y|\mathcal{F}_t]$$
-	\item \textit{If $Y$ is a random variable and $s<t$, then} $$\mathbb{E}[\mathbb{E}[Y|\mathcal{F}_t]|\mathcal{F}_s] = \mathbb{E}[Y|\mathcal{F}_s]$$
+	\item \textit{If $Y$ and $Z$ are random variables, and $Z$ is $\mathcal{F}_t$-measurable (known at time $t$), then} $$\mathbb{E}[Z\cdot Y|\mathcal{F}_t] = Z \cdot \mathbb{E}[Y|\mathcal{F}_t]\hspace{0.1cm}.$$
+	\item \textit{If $Y$ is a random variable and $s<t$, then} $$\mathbb{E}[\mathbb{E}[Y|\mathcal{F}_t]|\mathcal{F}_s] = \mathbb{E}[Y|\mathcal{F}_s]\hspace{0.1cm}.$$
 \end{itemize}
 
 \begin{definition}
 A stochastic process $X$ is an $(\mathcal{F}_t)$-martingale if the following conditions hold:
 \begin{itemize}
-	\item $X$ is adapted to filtration $\{\mathcal{F}_t\}_{t\geq 0}$
-	\item For all $t$ we have $$\mathbb{E}[|X_t|] < \infty$$
-	\item For all $s$ and $t$, where $s\leq t$ we have $$\mathbb{E}[X_t|\mathcal{F}_s] = X_s$$
+	\item $X$ is adapted to filtration $\{\mathcal{F}_t\}_{t\geq 0}$,
+	\item For all $t$ we have $$\mathbb{E}[|X_t|] < \infty \hspace{0.05cm},$$
+	\item For all $s$ and $t$, where $s\leq t$ we have $$\mathbb{E}[X_t|\mathcal{F}_s] = X_s\hspace{0.1cm}.$$
 \end{itemize}
 \end{definition}
 
@@ -293,14 +297,14 @@ A stochastic process $X$ is an $(\mathcal{F}_t)$-martingale if the following con
 When talking about stochastic processes, one can see that they are different than the usual functions. If we look at a infinitesimally small time interval $\Delta t$ and observe the function behaviourin that time interval, the function is a straight line. This is unfortunately not the case with the stochastic processes, where even if we \textit{zoom-in} on the trajectory, the trajectory is not smooth. Therefore, a japanese mathematician Kiyoshi It\^{o} started and created the field of \textbf{stochastic calculus} which is able to operate on stochastic processes. We come to the very important theorem in the field of stochastic calculus and that is \textbf{It\^{o}'s lemma}.
 
 \begin{theorem}[It\^{o}'s Lemma]
-Assume that the process $X$ has a stochastic differential given by $$dX_t = \mu_t X_t dt + \sigma_t X_t dW_t$$ where $\mu$ and $\sigma$ are adapted processes, and let $f$ be a $C^{1,2}$-function. Define the process $Z$ by $Z(t) = f(t,X_t)$. Then $Z$ has a stochastic differential given by 
-$$df(t, X_t) = \left(\frac{\partial f}{\partial t} + \mu_t X_t \frac{\partial f}{\partial x}+\frac{1}{2}\sigma_t^2 X_t^2 \frac{\partial^2f}{\partial x^2}\right)dt + \sigma X_t \frac{\partial f}{\partial x}dW_t$$
+Assume that the process $X$ has a stochastic differential given by $$dX_t = \mu_t X_t dt + \sigma_t X_t dW_t\hspace{0.1cm},$$ where $\mu$ and $\sigma$ are adapted processes, and let $f$ be a $C^{1,2}$-function. Define the process $Z$ by $Z(t) = f(t,X_t)$. Then $Z$ has a stochastic differential given by 
+$$df(t, X_t) = \left(\frac{\partial f}{\partial t} + \mu_t X_t \frac{\partial f}{\partial x}+\frac{1}{2}\sigma_t^2 X_t^2 \frac{\partial^2f}{\partial x^2}\right)dt + \sigma X_t \frac{\partial f}{\partial x}dW_t\hspace{0.1cm}.$$
 \end{theorem}
 \noindent A proof of this theorem is outside the scope of this thesis and it is rather cumbersome. The power and importance of this theorem is that we can define the differential of a function of a stochastic process. This will prove to be an indispensible tool when we will be pricing an option, as the price of the option depends on the price of an asset, which means it is a function of the asset price. 
 
 \noindent We also introduce an alternative, more general, form of It\^{o}'s lemma which we will use in the following section to obtain an expression for the process governed by the geometric Brownian motion:
 \begin{equation} \label{eqn:ito_general}
-	df = \frac{\partial f}{\partial t}dt + \frac{\partial f}{\partial x}dX_t + \frac{1}{2}\frac{\partial^2 f}{\partial x^2}(dX_t)^2
+	df = \frac{\partial f}{\partial t}dt + \frac{\partial f}{\partial x}dX_t + \frac{1}{2}\frac{\partial^2 f}{\partial x^2}(dX_t)^2 \hspace{0.1cm}.
 \end{equation}
 
 \subsection{Geometric Brownian motion} \label{section_gbm}
@@ -309,16 +313,14 @@ Let us now show how to apply It\^{o}'s formula for the case of \textit{geometric
 
 \begin{definition}
 A process $X$ is said to be a \textbf{geometric Brownian motion} if it satisfies the following stochastic differential equation:
-
-\begin{equation}
-	dX_t = \mu_t X_t dt + \sigma_t X_t dW_t
-\end{equation}
-
+	\begin{equation}
+		dX_t = \mu_t X_t dt + \sigma_t X_t dW_t \hspace{0.1cm}.
+	\end{equation}
 \end{definition}
 
-\noindent where $\mu_t$ and $\sigma_t$ are \textit{drift} and \textit{diffusion} (respectively) of the process $X$. $W_t$ is the basic Brownian motion, that is, $W_t \sim \mathcal{N}(0,t)$. Let us now consider a function $f(t,X_t) = \ln(X_t)$ which, of course, yields another stochastic process. We will employ an alternative form of It\^{o}'s lemma found in the equation \ref{eqn:ito_general}. If we expand the $(dX_t)^2$ we get: 
+\noindent In the equation above $\mu_t$ and $\sigma_t$ are \textit{drift} and \textit{diffusion} (respectively) of the process $X$. $W_t$ is the basic Brownian motion, that is, $W_t \sim \mathcal{N}(0,t)$. Let us now consider a function $f(t,X_t) = \ln(X_t)$ which, of course, yields another stochastic process. We will employ an alternative form of It\^{o}'s lemma found in the equation \ref{eqn:ito_general}. If we expand the $(dX_t)^2$ we get: 
 \begin{equation}
-	(dX_t)^2 = (\mu_t X_t dt + \sigma_t X_t dW_t)^2 = \mu_t^2 X_t^2 (dt)^2 + 2\mu_t\sigma_tX_t^2dtdW_t + \sigma_t^2X_t^2(dW_t)^2
+	(dX_t)^2 = (\mu_t X_t dt + \sigma_t X_t dW_t)^2 = \mu_t^2 X_t^2 (dt)^2 + 2\mu_t\sigma_tX_t^2dtdW_t + \sigma_t^2X_t^2(dW_t)^2 \hspace{0.1cm},
 \end{equation}
 where we use the formal multiplication table: 
 
@@ -326,41 +328,40 @@ where we use the formal multiplication table:
 	\left\{ \begin{array}{c} (dt)^2 = 0, \\ dt\cdot dW_t = 0, \\ (dW_t)^2 = dt \end{array} \right. 
 \end{equation} so we have: 
 \begin{equation}
-	(dX_t)^2 = \sigma_t^2X_t^2dt
+	(dX_t)^2 = \sigma_t^2X_t^2dt \hspace{0.1cm}.
 \end{equation}
-Before we apply the It\^{o}'s formula to this problem, let us first calculate the partial derivatives that appear in the formula. 
+Before we apply the It\^{o}'s formula to this problem, let us first calculate the partial derivatives that appear in the formula:
 \begin{equation}
-	\frac{\partial \ln(X_t)}{\partial t} = 0 \hspace{0.25cm} ; \hspace{0.25cm} \frac{\partial \ln(X_t)}{\partial x} = \frac{1}{x} \hspace{0.25cm} ; \hspace{0.25cm} \frac{\partial^2 \ln(X_t)}{\partial x^2} = -\frac{1}{x^2}
+	\frac{\partial \ln(X_t)}{\partial t} = 0 \hspace{0.25cm} , \hspace{0.25cm} \frac{\partial \ln(X_t)}{\partial x} = \frac{1}{x} \hspace{0.25cm} \mbox{and} \hspace{0.25cm} \frac{\partial^2 \ln(X_t)}{\partial x^2} = -\frac{1}{x^2} \hspace{0.1cm}.
 \end{equation}
 
 \noindent Now we are finally ready to apply the formula. We will step by step derive the formula for $X_t$:
 \begin{equation*}
-	df = 0\cdot dt + \frac{1}{X_t}dX_t - \frac{1}{2} \frac{1}{X_t^2}(dX_t)^2 
+	df = 0\cdot dt + \frac{1}{X_t}dX_t - \frac{1}{2} \frac{1}{X_t^2}(dX_t)^2 \hspace{0.1cm},
 \end{equation*}
 \begin{equation*}
-	df = \frac{1}{X_t} (\mu_t X_t dt + \sigma_t X_t dW_t) - \frac{1}{2}\frac{1}{X_t^2}\sigma_t^2 X_t^2 dt
+	df = \frac{1}{X_t} (\mu_t X_t dt + \sigma_t X_t dW_t) - \frac{1}{2}\frac{1}{X_t^2}\sigma_t^2 X_t^2 dt \hspace{0.1cm},
 \end{equation*}
 \begin{equation}
-	df = (\mu_t - \frac{1}{2}\sigma_t^2)dt + \sigma_t dW_t
+	df = (\mu_t - \frac{1}{2}\sigma_t^2)dt + \sigma_t dW_t \hspace{0.1cm},
 \end{equation}
 and if we integrate it over the time interval $[0,t]$ we get
 \begin{equation}
-	\int_0^t df(s) = \int_0^t (\mu_s - \frac{1}{2}\sigma_s^2) ds + \int_0^t \sigma_s dW_s
+	\int_0^t df(s) = \int_0^t (\mu_s - \frac{1}{2}\sigma_s^2) ds + \int_0^t \sigma_s dW_s \hspace{0.1cm}.
 \end{equation}
 For simplicity purposes, let us assume that $\mu$ and $\sigma$ are constants. Then they can come outside of the integral and the resulting formula is
 \begin{equation}
-	\ln(X_t) - \ln(X) = (\mu-\frac{1}{2}\sigma^2)t + \sigma (W_t - W_0)
+	\ln(X_t) - \ln(X) = (\mu-\frac{1}{2}\sigma^2)t + \sigma (W_t - W_0) \hspace{0.1cm}.
 \end{equation}
 Remembering that the $W_0 = 0$ we get the following result:
 \begin{equation*}
-	\ln\frac{X_t}{X_0} = (\mu-\frac{1}{2}\sigma^2)t + \sigma W_t
+	\ln\frac{X_t}{X_0} = (\mu-\frac{1}{2}\sigma^2)t + \sigma W_t \hspace{0.1cm},
 \end{equation*}
 \begin{equation} \label{eqn_gbm}
-	X_t = X_0\exp\left\{ (\mu-\frac{1}{2}\sigma^2)t + \sigma W_t \right\}
+	X_t = X_0\exp\left\{ (\mu-\frac{1}{2}\sigma^2)t + \sigma W_t \right\} \hspace{0.1cm}.
 \end{equation}
 
-\noindent This model is in finance also known as \textbf{log-normal asset return model}, because we are using logarithmic prices. It is important to note that this model only has \textbf{positive values} of stock prices, which is in that sense in line with the real world, where stock prices can not become negative. 
-
+\noindent This model is in finance also known as \textbf{log-normal asset return model}, because we are using logarithmic prices. It is important to note that this model only has \textbf{positive values} of stock prices, which is in that sense in line with the real world, where stock prices can not become negative. Sample paths of such model can be observed on the Figure \ref{fig:gbm_paths}.
 \vspace{1cm}
 \begin{figure}[ht]
 \centering
@@ -391,31 +392,31 @@ The famous Black-Scholes model assumes that the price of the asset follows the g
 	Poisson process and exponential distribution are very closely linked so let us have a look at exponential distribution first. Poisson process has some convenient mathematical properties, which has led to it being used as a mathematical model for seemingly random processes in various disciplines, including, of course, economics. It is named after French mathematician Simeon Denis Poisson despite the fact that he has never studied this process. The reason why it is called a Poisson process is that if a collection of points in some space forms a Poisson process than the number of those points in a finite size region is a random variable with a Poisson distribution. This will be step by step explained in next sections.
 		\subsection{Exponential distribution}
 		As mentioned earlier, exponential distribution is very closely linked to the Poisson process as the time between events in Poisson process has exponential distribution. It is a continuous analogue of the geometric distribution.
-			\begin{definition}[Exponential distribution]
+			\begin{definition}
 			\label{exponential}
 			We say that a random variable $X$ is exponentially distributed if its probability density function (PDF) is:
 			\begin{equation}
 				f(x) = \left\{ \begin{array}{lc} \lambda e^{-\lambda x} &, x \geq 0 \\
-												0 &, x < 0 \end{array}\right.
+												0 &, x < 0 \end{array}\right. \hspace{0.1cm},
 			\end{equation}
 
-			\noindent where $\lambda > 0$ is the parameter of the distribution, often called the rate parameter. The notation to indicate that a random variable is exponentially distributed is $$X \sim \varepsilon(\lambda)$$
+			\noindent where $\lambda > 0$ is the parameter of the distribution, often called the rate parameter. The notation to indicate that a random variable is exponentially distributed is $$X \sim \varepsilon(\lambda) \hspace{0.1cm}.$$
 			\end{definition}
 
 			% REF: memorylessness -> https://en.wikipedia.org/wiki/Memorylessness
-			\noindent The expected value of a random variable $X$ which is exponentially distributed is \begin{equation} \mathbb{E}[X] = \frac{1}{\lambda} \end{equation} The most famous property of the exponential distribution is memorylessness. \textbf{Memorylessness} is a property of certain probability distributions which refers to the fact that the waiting time until the occurrence of a certain event does not depend on how mych time has already elapsed. Memorylessness of an exponential distribution is formally expressed as: \begin{equation} P(X > t + s | X>s) = e^{-\lambda t} = P(X > t) \end{equation} If $X$ is a random variable modelling a waiting time, this would mean that the probability that we wait more than $t+s$ if we already know that at least $s$ time has elapsed, is the same as the probability that we will wait more than $t$. 
+			\noindent The expected value of a random variable $X$ which is exponentially distributed is \begin{equation} \mathbb{E}[X] = \frac{1}{\lambda} \hspace{0.1cm}.\end{equation} The most famous property of the exponential distribution is memorylessness. \textbf{Memorylessness} is a property of certain probability distributions which refers to the fact that the waiting time until the occurrence of a certain event does not depend on how much time has already elapsed. Memorylessness of an exponential distribution is formally expressed as: \begin{equation} P(X > t + s | X>s) = e^{-\lambda t} = P(X > t) \hspace{0.1cm}.\end{equation} If $X$ is a random variable modelling a waiting time, this would mean that the probability that we wait more than $t+s$ if we already know that at least $s$ time has elapsed, is the same as the probability that we will wait more than $t$. 
 		\subsection{Defining a Poisson process}
 		A \textbf{Poisson process} registers the occurrences of the certain event in a finite time interval. It notes the number of occurrences as well as times when the event happened. 
-		\begin{definition}[Poisson process]
+		\begin{definition}
 			Poisson process $(N_t, t \geq 0)$ is given by the following conditions:
 			\begin{enumerate}
 				\item $N_0 = 0$
 				\item $N$ has independent increments
 				\item Random variable $N(s,t) = N_t - N_s$ where $0 \leq s \leq t$, has a Poisson distribution with parameter $\lambda (t-s)$, that is, 
-				\begin{equation} P(N_t - N_s = n) = e^{-\lambda(t-s)}\frac{[\lambda(t-s)]^n}{n!} \end{equation}
+				\begin{equation} P(N_t - N_s = n) = e^{-\lambda(t-s)}\frac{[\lambda(t-s)]^n}{n!} \hspace{0.1cm}.\end{equation}
 			\end{enumerate}
 		\end{definition}
-
+\noindent If we would like to show the trajectory of such a process we have to simulate it. One way to simulate it is through simulating the waiting times between arrivals as we know that the waiting time is exponentially distributed with parameter $\lambda$. Trajectory simulation of one Poisson process is shown on the Figure \ref{fig:poisson_process}.
 		% TODO: automate this part to be generated by the python script
 		\begin{figure}[ht]
 		\centering
@@ -451,16 +452,16 @@ The famous Black-Scholes model assumes that the price of the asset follows the g
 		\noindent There is an alternative definition of a Poisson process which we will use when we will be defining a jump-diffusion process. As we already mentioned before, Poisson process registers occurrences of a certain event on a \textit{finite time interval}. If we let that interval to become very small and denote it by $h$, we denote the probabilities of the number occurrences by: 
 		\begin{equation}
 			\begin{array}{rcl}
-				P(N(h) \geq 2) &\mbox{=}& o(h) \\
-				P(N(h) = 1) &\mbox{=}& \lambda h \\
-				P(N(h) = 0) &\mbox{=}& 1 - \lambda h + o(h)
+				P(N(h) \geq 2) &\mbox{=}& o(h) \hspace{0.1cm}, \\
+				P(N(h) = 1) &\mbox{=}& \lambda h \hspace{0.1cm}, \\
+				P(N(h) = 0) &\mbox{=}& 1 - \lambda h + o(h) \hspace{0.1cm},
 			\end{array}
 		\end{equation}
-		Where $o(h)$ is infinitesimally small amount, that is, some function with with the property: \begin{equation} \lim_{h \to 0} \frac{o(h)}{h} = 0 \end{equation} Then we can let $dN$ denote an increment in the Poisson process on an infinitesimally small time interval $dt$. 
+		Where $o(h)$ is infinitesimally small amount, that is, some function with with the property: \begin{equation} \lim_{h \to 0} \frac{o(h)}{h} = 0 \hspace{0.1cm}. \end{equation} Then we can let $dN$ denote an increment in the Poisson process on an infinitesimally small time interval $dt$. $dN$ is the given by
 		\begin{equation} 
 			dN = \left\{  \begin{array}{lcl} 1 & \mbox{with probability} & \lambda dt \\
 																	0 & \mbox{with probability} & (1 - \lambda dt) \end{array} \right.
-		\end{equation}
+		 \hspace{0.1cm}. \end{equation}
 	
 	\section{Pure Jump process}
 		\subsection{Definition}
@@ -470,29 +471,13 @@ The famous Black-Scholes model assumes that the price of the asset follows the g
 		\begin{definition}
 			We define a Jump process as 
 			\begin{equation}
-				J(t) = \sum_{i=1}^{N(t)} U_i
+				J(t) = \sum_{i=1}^{N(t)} U_i \hspace{0.1cm},
 			\end{equation}
 			assuming $J(0) = 0$. The Jump process is right-continuous.
 		\end{definition}
 
-		\noindent We will use $\mathbb{Q}_j$ and $\mathbb{Q}_u$ to indicate the probability measure governing the jump arrival times and the probability measure governing the jump sizes, respectively. We assume independence of the mentioned probability measures. Let us now have a look at the expected value of the Jump process we have just defined:
+		\noindent On the Figure \ref{fig:pure_jump_process} we can observe trajectories of different pure jump process realizations. The process we are observing has $\lambda=6$ and a jump amplitude drawn from a normal distribution $U \sim \mathcal{N}(\mu=0,\sigma^2=0.04)$.
 
-		\begin{equation} \label{eqn_e_jump} % \ref{eqn_e_jump}
-		\mathbb{E}[J(t)] = \mathbb{E}^{\mathbb{Q}_j}\mathbb{E}^{\mathbb{Q}_u} \sum_{i=1}^{N(t)} U_i
-		\end{equation}
-
-		\noindent When performing the calculation we have to have in mind that $\mathbb{E}^{\mathbb{Q}_u}[U_i] = k$.
-
-		\begin{equation}
-		\begin{split}
-			\mathbb{E}[J(t)] &= \sum_{n=0}^{\infty}\mathbb{E}^{\mathbb{Q}_u} \left[ \sum_{i=1}^{n} U_i \right] P(N(t)=n) = \sum_{n=0}^{\infty}\sum_{i=1}^{n} \mathbb{E}^{\mathbb{Q}_u}\left[U_i\right] P(N(t)=n) \\
-			&= \sum_{n=0}^{\infty} nk\frac{(\lambda t)^n}{n!}e^{-\lambda t} = \sum_{n=1}^{\infty} nk\frac{(\lambda t)^n}{n!}e^{-\lambda t} \\
-			&= ke^{-\lambda t}\lambda t\sum_{n=1}^{\infty}\frac{(\lambda t)^{n-1}}{(n-1)!} = k\lambda te^{-\lambda t}\sum_{n=1}^{\infty}\frac{(\lambda t)^n}{n!} \\
-			&= k\lambda t
-		\end{split}
-		\end{equation}
-
-		% \vspace{1cm}
 		\begin{figure}
 		\centering
 		\begin{tikzpicture}
@@ -514,11 +499,30 @@ The famous Black-Scholes model assumes that the price of the asset follows the g
 		\label{fig:pure_jump_process}
 		\end{figure}
 
+		We will use $\mathbb{Q}_j$ and $\mathbb{Q}_u$ to indicate the probability measure governing the jump arrival times and the probability measure governing the jump sizes, respectively. We assume independence of the mentioned probability measures. Let us now have a look at the expected value of the Jump process we have just defined:
+
+		\begin{equation} \label{eqn_e_jump} % \ref{eqn_e_jump}
+		\mathbb{E}[J(t)] = \mathbb{E}^{\mathbb{Q}_j}\mathbb{E}^{\mathbb{Q}_u} \sum_{i=1}^{N(t)} U_i \hspace{0.1cm}.
+		\end{equation}
+
+		\noindent When performing the calculation we have to have in mind that $\mathbb{E}^{\mathbb{Q}_u}[U_i] = k$:
+
+		\begin{equation}
+		\begin{split}
+			\mathbb{E}[J(t)] &= \sum_{n=0}^{\infty}\mathbb{E}^{\mathbb{Q}_u} \left[ \sum_{i=1}^{n} U_i \right] P(N(t)=n) = \sum_{n=0}^{\infty}\sum_{i=1}^{n} \mathbb{E}^{\mathbb{Q}_u}\left[U_i\right] P(N(t)=n) \\
+			&= \sum_{n=0}^{\infty} nk\frac{(\lambda t)^n}{n!}e^{-\lambda t} = \sum_{n=1}^{\infty} nk\frac{(\lambda t)^n}{n!}e^{-\lambda t} \\
+			&= ke^{-\lambda t}\lambda t\sum_{n=1}^{\infty}\frac{(\lambda t)^{n-1}}{(n-1)!} = k\lambda te^{-\lambda t}\sum_{n=1}^{\infty}\frac{(\lambda t)^n}{n!} \\
+			&= k\lambda t \hspace{0.1cm}.
+		\end{split}
+		\end{equation}
+
 		\noindent As we can see the the expected value of the Jump process at time $t$ is different than $0$ which will subsequently lead to the conclusion that the process $J(t)$ is not a martingale. Sometimes it is useful to work with a Jump process which, in turn, is a martingale. Such process is called a \textbf{compensated Jump process}. 
 		
+		\vspace{2cm}
+
 		\begin{proposition} Let us denote a compensated Jump process with $\tilde{J}(t)$ and let it be defined by:
 			\begin{equation}
-			\tilde{J}(t) := J(t) - k\lambda t
+			\tilde{J}(t) := J(t) - k\lambda t \hspace{0.1cm}.
 			\end{equation}
 			Such a process is a martingale.
 		\end{proposition}
@@ -530,7 +534,7 @@ The famous Black-Scholes model assumes that the price of the asset follows the g
 				&= \mathbb{E}[\tilde{J}(t - s)] + \tilde{J}(s) \hspace{3cm} \mbox{\textit{(independent increments)}} \\
 				&= \mathbb{E}[J(t - s) - k\lambda (t-s)] + \tilde{J}(s)\\
 				&= k\lambda (t-s) - k\lambda (t-s) + \tilde{J}(s) \\
-				&= \tilde{J}(s)
+				&= \tilde{J}(s)  \hspace{0.1cm}.
 			\end{align*}
 		\end{proof}
 
@@ -538,16 +542,16 @@ The famous Black-Scholes model assumes that the price of the asset follows the g
 	\begin{equation}
 		d\tilde{J} = \left\{  \begin{array}{lcl} U_i - k\lambda dt& \mbox{with probability} & \lambda dt \\
 																	- k\lambda dt & \mbox{with probability} & (1 - \lambda dt) \end{array} \right.
-	\end{equation}
+	 \hspace{0.1cm}.\end{equation}
 
 	\section{Jump-diffusion process}
 	This has led us to the final part where we will obtain the final process of our asset price. This process will be the combination of the geometric Brownian motion and a (compensated) Jump process. The reason to use a Jump-diffusion process as a process which will govern the price of an asset is because it better mimics the real-world situation where unexpected jumps can happen. In the previously defined jump process the jump sizes were \textit{iid} random variables $U_i$. We wish to make the jumps proportional to the value of the geometric Brownian motion at that point in time. Formally the differential form of a jump-diffusion process will be:
 
 	\begin{equation} \label{eqn_jd}
-		dX_t = \mu_tX_tdt + \sigma_tX_tdW_t + X_tUdN_t
+		dX_t = \mu_tX_tdt + \sigma_tX_tdW_t + X_tUdN_t \hspace{0.1cm},
 	\end{equation} or also,
 	\begin{equation} \label{eqn_jd_frac}
-		\frac{dX_t}{X_t} = \mu_tdt + \sigma_tdW_t + UdN_t
+		\frac{dX_t}{X_t} = \mu_tdt + \sigma_tdW_t + UdN_t \hspace{0.1cm}.
 	\end{equation} 
 	% TODO: add a picture of an index with jumps
 	We will assume, for simplicity purposes, that the $\mu, \sigma$ and $\lambda$ are constant in time. Further more, if we observe the behaviour of the process we can differentiate two different types of segments in the process:
@@ -559,38 +563,38 @@ The famous Black-Scholes model assumes that the price of the asset follows the g
 	% REF: DSP pg. 260
 	\noindent For the first case when the process is driven by a pure diffusion process we have
 	\begin{equation}
-		\frac{dX_t}{X_t} = \mu dt + \sigma dW_t
+		\frac{dX_t}{X_t} = \mu dt + \sigma dW_t \hspace{0.1cm},
 	\end{equation} which can be written also as 
 	\begin{equation}
-		d(\ln X_t) = (\mu - \frac{1}{2}\sigma^2)dt + \sigma dW_t
+		d(\ln X_t) = (\mu - \frac{1}{2}\sigma^2)dt + \sigma dW_t \hspace{0.1cm}.
 	\end{equation}
 
 	% TODO: add charts
 	\noindent After a jump at time $\tau_i$ we have that
 	\begin{equation*}
-		X(\tau_i) - X(\tau_i^-) = U_i X(\tau_i^-)
+		X(\tau_i) - X(\tau_i^-) = U_i X(\tau_i^-) \hspace{0.1cm},
 	\end{equation*}
 	\noindent or equivalently
 	\begin{equation}
-		X(\tau_i) = X(\tau_i^-)(1 + U_i)
+		X(\tau_i) = X(\tau_i^-)(1 + U_i) \hspace{0.1cm}.
 	\end{equation}
-	\noindent In the part \ref{section_gbm} we have shown that the formula for the value of the diffusion process at time $t$ is $$X(t) = X(0)\exp\left[ (\mu-\frac{1}{2}\sigma^2)t + \sigma W_t \right]$$ which enables us to denote the value of the process right after the $i$-th jump as 
+	\noindent In the part \ref{section_gbm} we have shown that the formula for the value of the diffusion process at time $t$ is $$X(t) = X(0)\exp\left[ (\mu-\frac{1}{2}\sigma^2)t + \sigma W_t \right]  \hspace{0.1cm}, $$ which enables us to denote the value of the process right after the $i$-th jump as 
 
-	$$X(\tau_i) = X(\tau_{i-1})\exp\left[ (\mu - \frac{1}{2}\sigma^2)\Delta\tau + \sigma W_{\Delta\tau} \right]\bigg(1+U_i\bigg)$$ 
+	$$X(\tau_i) = X(\tau_{i-1})\exp\left[ (\mu - \frac{1}{2}\sigma^2)\Delta\tau + \sigma W_{\Delta\tau} \right]\bigg(1+U_i\bigg) \hspace{0.1cm},$$ 
 	where $\Delta\tau = \tau_i - \tau_{i-1}$. If we would iterate this process, starting at $t=0$ and assuming there were no jumps at that time, we would get the final equation of the resulting asset price process:
 
 	\begin{equation}\label{eqn_jump_diff}
-		X(t) = X(0)\exp\left[ (\mu - \frac{1}{2}\sigma^2)t + \sigma W_{t} \right]\left(\prod_{i=1}^{N(t)}1+U_i\right)
+		X(t) = X(0)\exp\left[ (\mu - \frac{1}{2}\sigma^2)t + \sigma W_{t} \right]\left(\prod_{i=1}^{N(t)}1+U_i\right) \hspace{0.1cm}.
 	\end{equation}
 
 	\noindent We have, however, not taken into account that the expected change in the resulting process is not anymore $X_t\mu dt$, because we have incorporated jumps and we have not compensated for it. In order to fix that we would have to compensate for that like we did earlier with the compensated Jump process. Doing that and then following the same logic as above we would obtain the following resulting equation for the value of the compensated jump-diffusion process at time $t$:
 	\begin{equation} \label{eqn_jump_diff_compensated}
-		X(t) = X(0)\exp\left[ (\mu - k\lambda- \frac{1}{2}\sigma^2)t + \sigma W_{t} \right]\left(\prod_{i=1}^{N(t)}1+U_i\right)
+		X(t) = X(0)\exp\left[ (\mu - k\lambda- \frac{1}{2}\sigma^2)t + \sigma W_{t} \right]\left(\prod_{i=1}^{N(t)}1+U_i\right) \hspace{0.1cm}.
 	\end{equation}
 
 	% \section{Simulations}
 	% TODO: compare log-returns of GBM, JD and real stock log-returns - to obtain a normal-like distribution and show the difference
-	\noindent With the equation \ref{eqn_jump_diff_compensated} we have obtained an expression needed to simulate the jump-diffusion path. On Figure \ref{figure_jump_diffusion} there is one such 
+	\noindent With the equation \ref{eqn_jump_diff_compensated} we have obtained an expression needed to simulate the jump-diffusion path. On Figure \ref{figure_jump_diffusion} we can observe a trajectory of a jump diffusion process with parameters ($\mu = 0.05$, $\sigma = 0.4$, $\lambda = 4$) and jump size $U \sim \mathcal{N}(0,0.04)$.
 
 	\begin{figure}[ht]
 	\centering
@@ -618,7 +622,7 @@ The famous Black-Scholes model assumes that the price of the asset follows the g
 
 	\end{axis}
 	\end{tikzpicture}
-	\caption{Jump-diffusion process ($\mu$ = 0.05, $\sigma$ = 0.4, $\lambda$ = 4) with jump size $U \sim \mathcal{N}(0,0.04)$}
+	\caption{Jump-diffusion process ($\mu = 0.05$, $\sigma = 0.4$, $\lambda = 4$) with jump size $U \sim \mathcal{N}(0,0.04)$}
 	\label{figure_jump_diffusion}
 	\end{figure}
 
@@ -638,7 +642,7 @@ An option is a form of financial derivative, which gives the buyer a right, but 
 European options are often called vanilla options, because of their simplicity. A European Call option gives the buyer a right to buy the underlying asset at maturity $T$ and pay for it the value of strike price $K$. Similarly, a European Put option gives the buyer a right to sell the underlying asset at maturity and get for it the value of the strike price. 
 
 \hfill \break
-Let us assume that we can trade an asset with the current price (spot price) of $X_0 = 100$. At this moment in time, we are convinced that the price of the asset will rise in the future and as an alternative to the direct purchase of the asset, we decided to buy a call option on that asset. The call option with maturity of one month and a strike price $K=102$ is trading at $C=6$, but considering the fact that one call option contract refers to $100$ units of the underlying stock, the price of one such contract is then $100 \cdot 6 = 600$. For simplicity, we can assume that after one month there are only two possible scenarios:
+\indent Let us assume that we can trade an asset with the current price (spot price) of $X_0 = 100$. At this moment in time, we are convinced that the price of the asset will rise in the future and as an alternative to the direct purchase of the asset, we decided to buy a call option on that asset. The call option with maturity of one month and a strike price $K=102$ is trading at $C=6$, but considering the fact that one call option contract refers to $100$ units of the underlying stock, the price of one such contract is then $100 \cdot 6 = 600$. For simplicity, we can assume that after one month there are only two possible scenarios:
 \begin{itemize}
 	\item $X_T = 120$
 	\item $X_T = 90$
@@ -647,12 +651,12 @@ Let us assume that we can trade an asset with the current price (spot price) of 
 \noindent Now that we have a proper understanding of how options work we can put that into practice and dive into the pricing of the option. Although we have described both call and put options, in the following chapters we will focus on pricing a call option, but the process is analogous for the put option. 
 
 \section{It\^{o}'s Lemma for the Jump-diffusion Process}
-Although Ito's lemma could have already been introduced and used to obtain the formulas \ref{eqn_jump_diff} and \ref{eqn_jump_diff_compensated} we chose to use the iterative process to obtain them. Now, when talking about pricing an option, which is a financial derivative and therefore \textit{derives} its value from the underlying price process, it comes naturally. The term derives means that price of an option can be defined as a function of the underlying price process. Let us denote with $X_t$ the underlying price process, which will be a \textbf{jump-diffusion process}. We are interested in obtaining a stochastic process driving the $f$ where: $$ f = f(X_t) $$
+Although Ito's lemma could have already been introduced and used to obtain the formulas \ref{eqn_jump_diff} and \ref{eqn_jump_diff_compensated} we chose to use the iterative process to obtain them. Now, when talking about pricing an option, which is a financial derivative and therefore \textit{derives} its value from the underlying price process, it comes naturally. The term derives means that price of an option can be defined as a function of the underlying price process. Let us denote with $X_t$ the underlying price process, which will be a \textbf{jump-diffusion process}. We are interested in obtaining a stochastic process driving the $f$ where: $$ f = f(X_t) \hspace{0.1cm}.$$
 At times between the jumps, the process $X_t$ follows the simple diffusion and the change in $f$ in intervals between jumps can be expressed using It\^{o}'s lemma: 
 \begin{equation} \label{eqn_diff_part}
 \begin{split}
 	df &= \frac{\partial f}{\partial t}dt + \frac{\partial f}{\partial x}dX_t + \frac{1}{2}\frac{\partial^2f}{\partial x^2}(dX_t)^2 \\
-	   &= \bigg(\frac{\partial f}{\partial t} + X_t(\mu - \lambda k)\frac{\partial f}{\partial x} + \frac{1}{2}X_t^2\sigma^2\frac{\partial^2 f}{\partial x^2}\bigg)dt + X_t\sigma\frac{\partial f}{\partial x}dW_t
+	   &= \bigg(\frac{\partial f}{\partial t} + X_t(\mu - \lambda k)\frac{\partial f}{\partial x} + \frac{1}{2}X_t^2\sigma^2\frac{\partial^2 f}{\partial x^2}\bigg)dt + X_t\sigma\frac{\partial f}{\partial x}dW_t \hspace{0.1cm}.
 \end{split}
 \end{equation}
 
@@ -660,47 +664,47 @@ At times between the jumps, the process $X_t$ follows the simple diffusion and t
 \begin{equation}
 \begin{split}
 	f(X_{\tau_i}) - f(X_{\tau_i^-}) &= f(X_{\tau_i^-} + X_{\tau_i^-}U_i) - f(X_{\tau_i^-}) \\
-	   &= f(X_{\tau_i^-}(1+U_i)) - f(X_{\tau_i^-})
+	   &= f(X_{\tau_i^-}(1+U_i)) - f(X_{\tau_i^-}) \hspace{0.1cm}.
 \end{split}
 \end{equation}
 The above equation can be rewritten for any time $t$ which is in that case
 \begin{equation} \label{eqn_jump_part}
-	f(X_t) - f(X_{t^-}) = [f(X_{t^-}(1 + U)) - f(X_{t^-})]dN_t
+	f(X_t) - f(X_{t^-}) = [f(X_{t^-}(1 + U)) - f(X_{t^-})]dN_t \hspace{0.1cm}.
 \end{equation}
 Let us now define the expected change of f at jump times. This will be useful further on. If we donote the expected change in $f$ at jump times as $k_f$ it is
 \begin{equation}
-	k_f = \mathbb{E}^{\mathbb{Q}_u}[f(X_t) - f(X_{t^-})] = \int[f(X_{t^-}(1 + u)) - f(X_{t^-})]g(u)du
+	k_f = \mathbb{E}^{\mathbb{Q}_u}[f(X_t) - f(X_{t^-})] = \int[f(X_{t^-}(1 + u)) - f(X_{t^-})]g(u)du \hspace{0.1cm},
 \end{equation} where $g(u)$ is the probability density function of the jump size.
 If we were to look at the change $df$ in an infinitesimally small interval $dt$ conceptually we could define it as something like this:
 $$
 	df = \left\{  \begin{array}{lcl} DP & \mbox{with probability} & (1 - \lambda dt) \\
-			  DP + JP & \mbox{with probability} & \lambda dt \end{array} \right. 
-$$ where $DP$ is the change due to diffusion part (equation \ref{eqn_diff_part}), and $JP$ is the change due to the jump property of the underlying price process (equation \ref{eqn_jump_part}). Let us now examine the expected value of the change in $f$ with respect to both jump size distribution as well as jump time distribution. 
+			  DP + JP & \mbox{with probability} & \lambda dt \end{array} \right.  \hspace{0.1cm},
+$$ where $DP$ is the change due to diffusion part (equation \ref{eqn_diff_part}), and $JP$ is the change due to the jump property of the underlying price process (equation \ref{eqn_jump_part}). Let us now examine the expected value of the change in $f$ with respect to both jump size distribution as well as jump time distribution:
 
 \begin{align*}
 \mathbb{E}[df] = \mathbb{E}^{\mathbb{Q}_j}\mathbb{E}^{\mathbb{Q}_u}\mathbb{E}^{\mathbb{P}}[df] =& \bigg(\frac{\partial f}{\partial t} + X_t(\mu - \lambda k)\frac{\partial f}{\partial x} + \frac{1}{2}X_t^2\sigma^2\frac{\partial^2 f}{\partial x^2}\bigg)dt(1-\lambda dt) + \\
 & \bigg[\bigg(\frac{\partial f}{\partial t} + X_t(\mu - \lambda k)\frac{\partial f}{\partial x} + \frac{1}{2}X_t^2\sigma^2\frac{\partial^2 f}{\partial x^2}\bigg)dt + k_f \lambda dt \bigg]\lambda dt \\
 =& \bigg(\frac{\partial f}{\partial t} + X_t(\mu - \lambda k)\frac{\partial f}{\partial x} + \frac{1}{2}X_t^2\sigma^2\frac{\partial^2 f}{\partial x^2}\bigg)dt + k_f \lambda dt \\
-=& \bigg(\frac{\partial f}{\partial t} + X_t(\mu - \lambda k)\frac{\partial f}{\partial x} + \frac{1}{2}X_t^2\sigma^2\frac{\partial^2 f}{\partial x^2} + k_f \lambda dt\bigg)dt
+=& \bigg(\frac{\partial f}{\partial t} + X_t(\mu - \lambda k)\frac{\partial f}{\partial x} + \frac{1}{2}X_t^2\sigma^2\frac{\partial^2 f}{\partial x^2} + k_f \lambda dt\bigg)dt \hspace{0.1cm}.
 \end{align*}
 We can denote with $\mu_f$ drift of the process $f$
 
 \begin{equation}
-	\mu_f = \frac{\partial f}{\partial t} + X_t(\mu - \lambda k)\frac{\partial f}{\partial x} + \frac{1}{2}X_t^2\sigma^2\frac{\partial^2 f}{\partial x^2} + k_f \lambda dt
+	\mu_f = \frac{\partial f}{\partial t} + X_t(\mu - \lambda k)\frac{\partial f}{\partial x} + \frac{1}{2}X_t^2\sigma^2\frac{\partial^2 f}{\partial x^2} + k_f \lambda dt \hspace{0.1cm},
 \end{equation}
-And the expectation of the change in $f$ is then simply
+and the expectation of the change in $f$ is then simply
 $$
-	\mathbb{E}[df] = \mu_f dt
+	\mathbb{E}[df] = \mu_f dt \hspace{0.1cm}.
 $$
 This allows us to specify $df$ more precisely than our conceptual picture of it:
 $$
 	df = \left\{  \begin{array}{lcl} (\mu_f - \lambda k_f)dt + \sigma_f dW_t & \mbox{with probability} & (1 - \lambda dt) \\
-			  (\mu_f - \lambda k_f)dt + \sigma_f dW_t + [f(X_t) - f(X_{t^-})] & \mbox{with probability} & \lambda dt \end{array} \right. 
-$$ where $$ \sigma_f = \sigma X_t\frac{\partial f}{\partial x} $$
+			  (\mu_f - \lambda k_f)dt + \sigma_f dW_t + [f(X_t) - f(X_{t^-})] & \mbox{with probability} & \lambda dt \end{array} \right.  \hspace{0.1cm},
+$$ where $$ \sigma_f = \sigma X_t\frac{\partial f}{\partial x} \hspace{0.1cm}. $$
 The final part now is to rewrite it in the form of It\^{o}'s lemma:
 
 \begin{equation} \label{eqn_ito_lemma_jd}
-	df = (\mu_f - \lambda k_f)dt + \sigma_f dW_t + [f(X_t) - f(X_{t^-})]dN_t
+	df = (\mu_f - \lambda k_f)dt + \sigma_f dW_t + [f(X_t) - f(X_{t^-})]dN_t \hspace{0.1cm}.
 \end{equation}
 As we can see the resulting process is again a Jump-diffusion process, but now the drift $\mu_f$ of the process is not constant as before. We can see that $\mu_f$ as well as $k_f$ are now dependent also on $X_t$, but this is not an issue as the definition of a diffusion process allows that as well. For simplicity purposes earlier we decided to keep the $\mu$ and $\sigma$ constant. Now we have a general form of It\^{o}'s lemma for a function of our Jump-diffusion driven price process and this will help us in the next chapter where we will show that jumps add a non-systematic risk in play which is not possible to hedge using just the famous \textbf{delta hedge}.
 
@@ -722,73 +726,74 @@ The value of an option clearly depends on the underlying price process. This is,
 Let us consider a situation where we are short one option, that is, we \textit{wrote} an option and sold it to somebody. The delta hedging strategy would tell us how many units of an underlying asset we would have to buy if we want to offset the risk of our portfolio for a small time interval $dt$. In other words, if we buy a correct amount of an underlying asset to hedge our position in an option the change in value of our portfolio in a small time interval $dt$ should be zero. The downside of a delta hedge is that it requires frequent readjustments of portfolio weights, which could, in real world, lead to high transaction costs. Although this is not really our most important concern it was important to flag it. Before actually applying it to our Jump-diffusion process and observing the issue let us define the delta hedge more precisely.
 
 We take a portfolio composed of stock, bond and a derivative security (option). The value of the portfolio is given by
-$$ V(X_t) = sX_t + yB(t) + zf(X_t)$$
+$$ V(X_t) = sX_t + yB(t) + zf(X_t) \hspace{0.1cm},$$
 where $s$ is the number of units of stock in the portfolio, $y$ is the number of units of a riskless asset (bond) in the portfolio and $z$ is the number of units of the derivative security.
 The change in the portfolio value in an infinitesimally small time interval can be expressed as
 $$
-	dV(X_t) = \frac{d}{dX_t}V(X_t) \cdot dX_t
-$$ We consider the case we illustrated above where we were short one derivative security or $z=-1$. The price of the bond is not dependend on the price of out stock so the derivative of portfolio value with respect to stock price is then $$ \frac{d}{dX_t}V(X_t) = s - \frac{d}{dX_t}f(X_t) $$ the goal of the delta hedge is to obtain such a portfolio that the change in the portfolio value with respect to change in price of the underlying asset is zero. More precisely the equation $\frac{dV}{dX_t} = 0$ must hold, which gives us the solution for the amount of stock that we have to buy to offset the portfolio risk we took over when we shorted one option. 
+	dV(X_t) = \frac{d}{dX_t}V(X_t) \cdot dX_t \hspace{0.1cm}.
+$$ We consider the case we illustrated above where we were short one derivative security or $z=-1$. The price of the bond is not dependend on the price of out stock so the derivative of portfolio value with respect to stock price is then $$ \frac{d}{dX_t}V(X_t) = s - \frac{d}{dX_t}f(X_t) \hspace{0.1cm}.$$ The goal of the delta hedge is to obtain such a portfolio that the change in the portfolio value with respect to change in price of the underlying asset is zero. More precisely the equation $\frac{dV}{dX_t} = 0$ must hold, which gives us the solution for the amount of stock that we have to buy to offset the portfolio risk we took over when we shorted one option:
 
 \begin{equation}
-	s = \frac{d}{dX_t}f(X_t)
+	s = \frac{d}{dX_t}f(X_t) \hspace{0.1cm}.
 \end{equation} In the next section we will see how using this technique, although in another form, does not eliminate all the risk from a portfolio when the underlying asset price is governed by a jump-diffusion process. 
 
 \subsection{Delta hedge for the Jump-diffusion process} \label{sec:delta_hedge_jd}
 As we have already announced we will consider a case when our underlying asset follows the jump-diffusion process. Before we dive in into an examination of such a hedge we will briefly give a description of the processes involved. Firstly, the price process will be satisfying the stochastic differential equation for a jump-diffusion process (\ref{eqn_jd_frac}), namely
 \begin{equation}\label{eqn_delta_hedge_x}
-	\frac{dX_t}{X_t} = (\mu - \lambda k)dt + \sigma dW_t + UdN_t
+	\frac{dX_t}{X_t} = (\mu - \lambda k)dt + \sigma dW_t + UdN_t \hspace{0.1cm}.
 \end{equation}
 
 \noindent For the option price we will slightly modify the notation of certain parts of the equation \ref{eqn_ito_lemma_jd} to use $\mu_1, k_1$ and $\sigma_1$ instead of $\mu_f, k_f$ and $\sigma_f$
-$$ df = (\mu_1 - \lambda k_1)dt + \sigma_1 dW_t + [f(X_t) - f(X_{t^-})]dN_t $$ where, of course, they stay the same:
+$$ df = (\mu_1 - \lambda k_1)dt + \sigma_1 dW_t + [f(X_t) - f(X_{t^-})]dN_t  \hspace{0.1cm},$$ where, of course, they stay the same:
 
-$$ k_1 = \mathbb{E}^{\mathbb{Q}_u}[f(X_t) - f(X_{t^-})] = \int[f(X_{t^-}(1 + u)) - f(X_{t^-})]g(u)du $$
-$$ \mu_1 = \frac{\partial f}{\partial t} + X_t(\mu - \lambda k)\frac{\partial f}{\partial x} + \frac{1}{2}X_t^2\sigma^2\frac{\partial^2 f}{\partial x^2} + k_1 \lambda dt $$
-$$ \sigma_1 = \sigma X_t\frac{\partial f}{\partial x} $$
+$$ k_1 = \mathbb{E}^{\mathbb{Q}_u}[f(X_t) - f(X_{t^-})] = \int[f(X_{t^-}(1 + u)) - f(X_{t^-})]g(u)du \hspace{0.1cm}, $$
+$$ \mu_1 = \frac{\partial f}{\partial t} + X_t(\mu - \lambda k)\frac{\partial f}{\partial x} + \frac{1}{2}X_t^2\sigma^2\frac{\partial^2 f}{\partial x^2} + k_1 \lambda dt  \hspace{0.1cm}, $$
+$$ \sigma_1 = \sigma X_t\frac{\partial f}{\partial x} \hspace{0.1cm}.$$
 The reason for that is to have a nice notation when we divide the equation by $f$ to obtain the relative change in $f$:
 
 \begin{equation} \label{eqn_delta_hedge_f}
-	\frac{df}{f} = (\mu_f - \lambda k_f)dt + \sigma_f dW_t + U_fdN_t
+	\frac{df}{f} = (\mu_f - \lambda k_f)dt + \sigma_f dW_t + U_fdN_t  \hspace{0.1cm},
 \end{equation} where now we have $\mu_f = \frac{\mu_1}{f}, k_f = \frac{k_1}{f}$ and $\frac{\sigma_1}{f}$. One new notation detail that we introduced here is the $U_f$ which is defined as
 
 \begin{equation}
-	U_f = \frac{f(X_t) - f(X_{t^-})}{f(X_t)}
+	U_f = \frac{f(X_t) - f(X_{t^-})}{f(X_t)} \hspace{0.1cm}.
 \end{equation}
 
 \noindent One last thing we still have to define is the portfolio and its value. The portoflio is a set of weights $[\pi_1, \pi_2, ...]$ which tells us the proportion of our money invested into financial instruments 1,2,.. etc. 
 
-$$ \sum_{i=1}^{n} \pi_i = 1 \hspace{0.5cm} \pi_i \in \mathbb{R},\forall i $$
+$$ \sum_{i=1}^{n} \pi_i = 1 \hspace{0.5cm} \pi_i \in \mathbb{R},\forall i  \hspace{0.1cm}.$$
 
 \noindent We can see that the weights can be negative, which would mean that we are in short position for that instrument, that is, we sold some amount of that instrument and will at some point have to buy back the same amount to cover. In our case we will have just a stock, a derivative security (option) and a riskless asset which can be for example a bond. Such defined portfolio then looks like this 
-$$ \pi = [\pi_x, \pi_f, \pi_r] $$
+$$ \pi = [\pi_x, \pi_f, \pi_r] \hspace{0.1cm}.$$
 The relative change in the portfolio value $V$ can be expressed as the following
 \begin{equation}\label{eqn_delta_hedge_v}
-	\frac{dV}{V} = \pi_x\frac{dX_t}{X_t} + \pi_f\frac{df}{f} + \pi_r dr
+	\frac{dV}{V} = \pi_x\frac{dX_t}{X_t} + \pi_f\frac{df}{f} + \pi_r dr \hspace{0.1cm}.
 \end{equation}
 
-\noindent Now we will incorporate the equations \ref{eqn_delta_hedge_x} and \ref{eqn_delta_hedge_f} into the above equation and regroup it a bit
+\noindent Now we will incorporate the equations \ref{eqn_delta_hedge_x} and \ref{eqn_delta_hedge_f} into the above equation and regroup it a bit:
 
 \begin{align*}
 	\frac{dV}{V} =& \pi_x [(\mu - \lambda k)dt + \sigma dW_t + UdN_t] \\&+\pi_f [(\mu_f - \lambda k_f)dt + \sigma_f dW_t + U_fdN_t] +\pi_r r dt \\
 				 =& (\pi_x(\mu-\lambda k) + \pi_f (\mu_f - \lambda k_f) + \pi_r r) dt \\&+ (\pi_x\sigma + \pi_f\sigma_f)dW_t + (\pi_x U + \pi_f U_f)dN_t \\
-				 =& (\mu_V - \lambda k_V) + \sigma_V dW_t + U_V dN_t
-\end{align*} with this we obtained yet another jump diffusion process which now has new parameters $\mu_V, k_V, \sigma_V$ and $U_V$. Let us explicitly state the value of each one of them as we will see they will come in handy soon.
+				 =& (\mu_V - \lambda k_V) + \sigma_V dW_t + U_V dN_t \hspace{0.1cm}.
+\end{align*} 
+With this we obtained yet another jump diffusion process which now has new parameters $\mu_V, k_V, \sigma_V$ and $U_V$. Let us explicitly state the value of each one of them as we will see they will come in handy soon.
 
 \begin{equation} \label{eqn_portfolio_params}
 \begin{split}
-	\mu_V =& \pi_x(\mu - r) + \pi_f(\mu_f - r) + r \\
-	k_V =& \pi_x k + \pi_f k_f = \mathbb{E}^{\mathbb{Q}_U}[U_V] \\
-	\sigma_V =& \pi_x\sigma + \pi_f\sigma_f \\
-	U_V =& \pi_x U + \pi_f U_f
+	\mu_V =& \pi_x(\mu - r) + \pi_f(\mu_f - r) + r  \hspace{0.1cm},\\
+	k_V =& \pi_x k + \pi_f k_f = \mathbb{E}^{\mathbb{Q}_U}[U_V]  \hspace{0.1cm},\\
+	\sigma_V =& \pi_x\sigma + \pi_f\sigma_f  \hspace{0.1cm},\\
+	U_V =& \pi_x U + \pi_f U_f \hspace{0.1cm}.
 \end{split}
 \end{equation}
 If a process follows a simple diffusion process like in Black-Scholes world we would obtain a delta neutral portfolio by setting $\pi_x, \pi_f$ such that
 \begin{equation} \label{eqn_portfolio_weights}
-	\sigma_V = \pi_x\sigma + \pi_f\sigma_f = 0
+	\sigma_V = \pi_x\sigma + \pi_f\sigma_f = 0 \hspace{0.1cm}.
 \end{equation}
 However, this choice of portfolio weights will not be able to eliminate the risk cause by the jump property of the resulting process. Actually, no choice of weights will be able to eliminate that risk. If we were to set the weights $\pi_x, \pi_f$ that will satisfy the equation \ref{eqn_portfolio_weights} and denote them with $\pi_x^*, \pi_f^*$ we would obtain a process defining the relative change in value $V^*$ of such portfolio
 \begin{equation}
-	\frac{dV^*}{V^*} = (\mu_V^* - \lambda k_V^*) + U_V^* dN_t
+	\frac{dV^*}{V^*} = (\mu_V^* - \lambda k_V^*) + U_V^* dN_t \hspace{0.1cm}.
 \end{equation}
 Employing only the delta hedge we see that we did not offset all the risk and the problem of pricing our option is still left unsolved. The risk we still have is the jump risk and it represents \textit{non-systematic} risk. The ideas of \textit{systematic} and \textit{non-systematic} risk will be discussed in the following section together with a new idea that has to be employed in order to find the price of our option.
 
@@ -796,99 +801,99 @@ Employing only the delta hedge we see that we did not offset all the risk and th
 \subsubsection{Capital Asset Pricing model (CAPM)} % REF: Hull; appendix CAPM
 The \textbf{capital asset pricing model} is a model that describes the relationship between the expected return from an asset and the risk that comes with it. It assumes that the return should only be dependent on the systematic risk. \textit{Systematic} risk is the risk that is related to the market as a whole and it cannot be diversified away, whereas \textit{non-systematic} risk is unique to the asset and can be diversified away by choosing a large enough portfolio of different assets. The capital asset pricing formula is as follows:
 \begin{equation} \label{eqn_capm}
-	\mathbb{E}[R_i] = R_f + \beta_i (\mathbb{E}[R_m] - R_f)
+	\mathbb{E}[R_i] = R_f + \beta_i (\mathbb{E}[R_m] - R_f) \hspace{0.1cm},
 \end{equation}
 where $R_i$ denotes the return of the investment, $R_f$ is the return on the risk-free investment (i.e. risk-free rate), $R_m$ denotes the return of the market and $\beta$ is the factor that measures the systematic risk of the investment. When we say \textit{return of the market} we think of it as a return of some well-diversified stock index like NASDAQ or S\&P. The expression $(\mathbb{E}[R_m] - R_f)$ is called \textbf{market risk premium}, that is, a premium received for taking over the risk by being exposed to the market. We can think of the $\beta$ factor of some potential investment as a measure of how sensitive the return of the investment is to the return of the market. 
 
 \noindent To put this into perspective, if we encounter a factor $\beta = 0.5$ this means that, on average, the excess return of the investment is half the excess return of the market. When $\beta = 0$ that means that the investment is not sensitive to the movements in the market and therefore has no systematic risk. This may sound trivial, but this will be crucial in the next section when we will use this idea to obtain a fair price of the option.
 
 \subsubsection{Obtaining the expression of the Option price}
-From modern portfolio theory we know that portfolios containing only non-systematic risk have a $\beta$ factor equal to zero. From the CAPM formula for the expected return of investment it follows that a portfolio return must equal the riskless rate which we denote with $r$: $$ \mu_V = r $$ or if we incorporate that in \ref{eqn_portfolio_params} we get
+From modern portfolio theory we know that portfolios containing only non-systematic risk have a $\beta$ factor equal to zero. From the CAPM formula for the expected return of investment it follows that a portfolio return must equal the riskless rate which we denote with $r$: $$ \mu_V = r \hspace{0.1cm},$$ or if we incorporate that in \ref{eqn_portfolio_params} we get
 \begin{equation} \label{eqn_comb_1}
-	\pi_x(\mu - r) + \pi_f(\mu_f - r) = 0
+	\pi_x(\mu - r) + \pi_f(\mu_f - r) = 0 \hspace{0.1cm}.
 \end{equation}
 If we would also take the equation \ref{eqn_portfolio_weights} which ensures that we have a delta-neutral portfolio, we then obtain
 
 \begin{equation} \label{eqn_sharpe}
-	\frac{\mu - r}{\sigma} = \frac{\mu_f - r}{\sigma_f} = \phi
+	\frac{\mu - r}{\sigma} = \frac{\mu_f - r}{\sigma_f} = \phi \hspace{0.1cm}.
 \end{equation}
 The above ratio is called a \textbf{market price of risk} or  \textbf{Sharpe ratio}. We will denote it with $\phi$. There is a way to obtain a martingale representation of the price, although we will have to change to probability measure. We now incorporate the above equation into equations \ref{eqn_delta_hedge_x} and \ref{eqn_delta_hedge_f} and they can now be written as
 
-$$ \frac{dX_t}{X_t} = (r - \lambda k)dt + \sigma (dW_t + \phi dt) + UdN_t $$
-$$ \frac{df}{f} = (r - \lambda k_f)dt + \sigma_f (dW_t + \phi dt) + U_fdN_t $$
-and if we denote with $d\tilde{W}_t$ a process
+$$ \frac{dX_t}{X_t} = (r - \lambda k)dt + \sigma (dW_t + \phi dt) + UdN_t \hspace{0.1cm},$$
+$$ \frac{df}{f} = (r - \lambda k_f)dt + \sigma_f (dW_t + \phi dt) + U_fdN_t  \hspace{0.1cm}.$$
+If we additionally denote with $d\tilde{W}_t$ a process
 \begin{equation}
-	d\tilde{W}_t = dW_t + \phi dt
+	d\tilde{W}_t = dW_t + \phi dt \hspace{0.1cm},
 \end{equation} or equivalently
 \begin{equation}
-	\tilde{W}(t) = W(t) + \int_0^t \phi(s) ds
-\end{equation} which allows us to write down our final equations as
+	\tilde{W}(t) = W(t) + \int_0^t \phi(s) ds \hspace{0.1cm},
+\end{equation} it allows us to write down our final equations as
 
 \begin{equation}\label{eqn_x_new_measure}
-	\frac{dX_t}{X_t} = (r - \lambda k)dt + \sigma d\tilde{W}_t + UdN_t
+	\frac{dX_t}{X_t} = (r - \lambda k)dt + \sigma d\tilde{W}_t + UdN_t \hspace{0.1cm},
 \end{equation}
 \begin{equation}
-	\frac{df}{f} = (r - \lambda k_f)dt + \sigma_f d\tilde{W}_t + U_fdN_t
+	\frac{df}{f} = (r - \lambda k_f)dt + \sigma_f d\tilde{W}_t + U_fdN_t \hspace{0.1cm}.
 \end{equation}
 Let us stop for a moment here and examine the equations. It can be shown that under the original probability measure $\mathbb{P}$ the process $\tilde{W}$ will not be a Wiener process:
 
 \begin{equation*}
-	\mathbb{E}^{\mathbb{P}}[\tilde{W}(t)] = \mathbb{E}^{\mathbb{P}}[W(t) + \int_0^t \phi(s) ds] = \int_0^t \phi(s) ds
+	\mathbb{E}^{\mathbb{P}}[\tilde{W}(t)] = \mathbb{E}^{\mathbb{P}}[W(t) + \int_0^t \phi(s) ds] = \int_0^t \phi(s) ds \hspace{0.1cm}.
 \end{equation*}
 % GIRSANOV THEOREM: look inside Stochastic Calculus for finance II
-However, by applying the Girsanov theorem for processes involving jumps it allows us to assert that there exists and equivalent probability measure $\tilde{\mathbb{P}}$ under which the process $\tilde{W}$ is a Wiener process and $N$ remains a jump process with intensity $\lambda$. This is a very important step as it will us to easily obtain an expression which, not only tells us a lot, but also will allow as to price our option. There is only one ingredient missing in order to obtain an expression which will tell us how to calculate the price of our option. We are interested in the discounted price of the option, so we will introduce a function of the option price and call it $g$ $$ g(f) =  fe^{-rt} $$ As we will utilize It\^{o}'s lemma in order to obtain a differential of $g$, we first have to find the expressions for partial derivatives used in the lemma, namely
+However, by applying the Girsanov theorem for processes involving jumps it allows us to assert that there exists and equivalent probability measure $\tilde{\mathbb{P}}$ under which the process $\tilde{W}$ is a Wiener process and $N$ remains a jump process with intensity $\lambda$. This is a very important step as it will us to easily obtain an expression which, not only tells us a lot, but also will allow as to price our option. There is only one ingredient missing in order to obtain an expression which will tell us how to calculate the price of our option. We are interested in the discounted price of the option, so we will introduce a function of the option price and call it $g$, $$ g(f) =  fe^{-rt}  \hspace{0.1cm}.$$ As we will utilize It\^{o}'s lemma in order to obtain a differential of $g$, we first have to find the expressions for partial derivatives used in the lemma, namely
 $$
-	\frac{\partial g}{\partial t} = -fre^{-rt} \hspace{0.25cm} ; \hspace{0.25cm} \frac{\partial g}{\partial f} = e^{-rt} \hspace{0.25cm} ; \hspace{0.25cm} \frac{\partial^2 g}{\partial f^2} = 0
+	\frac{\partial g}{\partial t} = -fre^{-rt} \hspace{0.25cm} , \hspace{0.25cm} \frac{\partial g}{\partial f} = e^{-rt} \hspace{0.25cm} \mbox{and} \hspace{0.25cm} \frac{\partial^2 g}{\partial f^2} = 0  \hspace{0.1cm}.
 $$
-and we apply the lemma to obtain the expression for the term $dg$
+We now apply the lemma to obtain the expression for the term $dg$
 \begin{align*}
 	d(fe^{-rt}) &= \frac{\partial g}{\partial t}dt + \frac{\partial g}{\partial f}df + \frac{1}{2}\frac{\partial^2 g}{\partial f^2}(df)^2 \\
 				&= -re^{-rt}fdt + e^{-rt}df + 0 \\
 				&= -re^{-rt}fdt + fe^{-rt}[r dt + \sigma_f d\tilde{W}_t + (U_fdN_t - \lambda k_f dt)] \\
 				% &= -re^{-rt}fdt + re^{-rt}fdt + fe^{-rt}\sigma_f d\tilde{W}_t + fe^{-rt}(U_fdN_t-\lambda k_f dt) \\
-				&= fe^{-rt}\sigma_f d\tilde{W}_t + fe^{-rt}(U_fdN_t-\lambda k_f dt)
+				&= fe^{-rt}\sigma_f d\tilde{W}_t + fe^{-rt}(U_fdN_t-\lambda k_f dt) \hspace{0.1cm}.
 \end{align*}
 The expected value of the change in the discounted option value process is $0$ which leads us to the conclusion that the process $g$ is a \textbf{martingale} under $\tilde{\mathbb{P}}$. This means that the following holds: 
 \begin{equation*}
 	\begin{split}
 		f(t)e^{-rt} =& \mathbb{E}^{\tilde{\mathbb{P}}}[f(T)e^{-rT}|\mathcal{F}_t]\\
-		f(t)e^{-rt} =& e^{-rT}\mathbb{E}^{\tilde{\mathbb{P}}}[f(T)|\mathcal{F}_t]
+		f(t)e^{-rt} =& e^{-rT}\mathbb{E}^{\tilde{\mathbb{P}}}[f(T)|\mathcal{F}_t] \hspace{0.1cm},
 	\end{split}	
 \end{equation*}
-Which yields the final equation that we will use to price our option
+which yields the final equation that we will use to price our option
 \begin{equation} \label{eqn_option_price}
-f(t) = e^{-r(T-t)} \mathbb{E}^{\tilde{\mathbb{P}}}[f(T)|\mathcal{F}_t]
+	f(t) = e^{-r(T-t)} \mathbb{E}^{\tilde{\mathbb{P}}}[f(T)|\mathcal{F}_t] \hspace{0.1cm}.
 \end{equation}
-When pricing our options we will focus on the options that have a signle fixed excercise date, which is the case for European options. If we think about it, the price of the European option at maturity $T$ has to be equal to the payoff of the option and the payoff is easy to calculate if we know the strike price and current price of the underlying security at $T$. The way we will utilize the expression obtained above is that we will simulate the paths of the process $X_t$ (\ref{eqn_x_new_measure}) and we will be able to emprically obtain the expected payoff of the option and with it, the price of the option.
+When pricing our option we will focus on the options that have a signle fixed excercise date, which is the case for European options. If we think about it, the price of the European option at maturity $T$ has to be equal to the payoff of the option and the payoff is easy to calculate if we know the strike price and current price of the underlying security at $T$. The way we will utilize the expression obtained above is that we will simulate the paths of the process $X_t$ (\ref{eqn_x_new_measure}) and we will be able to emprically obtain the expected payoff of the option and with it, the price of the option.
 
 \section{Obtaining a formula for European Call Option}
 In the previous section we have obtained an expression (\ref{eqn_option_price}) which tells us that a premium requested by the writer of the option is equal to the discounted expected future price of the option under the equivalent probability measure $\tilde{\mathbb{P}}$. When it comes to European options they can be excercised only at maturity $T$, which is different from American options that can be excercised at any time before maturity. In this section we will focus on European options. 
 
 \noindent As already stated, the price of the option at maturity will be equal to its payoff, because otherwise market is not arbitrage-free. Putting together the equation \ref{eqn_option_price} and this idea, we obtain the following expression: 
 \begin{equation}
-	f(t) = e^{-r(T-t)} \mathbb{E}^{\tilde{\mathbb{P}}}[P[f(T)]|\mathcal{F}_t]
-\end{equation} where $P$ denotes the payoff of the option. In case of the European call option this payoff is $$P(f(T)) = (X(T) - K)^+$$ If we further incorporate the price process $X$ inside and denote the time to maturity with $\tau = T - t$, we get:
+	f(t) = e^{-r(T-t)} \mathbb{E}^{\tilde{\mathbb{P}}}[P[f(T)]|\mathcal{F}_t] \hspace{0.1cm},
+\end{equation} where $P$ denotes the payoff of the option. In case of the European call option this payoff is $$P(f(T)) = (X(T) - K)^+ \hspace{0.1cm}.$$ If we further incorporate the price process $X$ inside and denote the time to maturity with $\tau = T - t$, we get:
 
 \begin{align*}
 	f(t) &= e^{-r\tau} \mathbb{E}^{\tilde{\mathbb{P}}}\left[\left(X(0)\exp\left[ (r - k\lambda- \frac{1}{2}\sigma^2)T + \sigma \tilde{W}_{T} \right]\left(\prod_{i=1}^{N(T)}1+U_i\right) - K \right)^+\Bigg|\mathcal{F}_t\right] \\
-		 &= e^{-r\tau} \mathbb{E}^{\tilde{\mathbb{P}}}\left[\left(X(t)\exp\left[ (r - k\lambda- \frac{1}{2}\sigma^2)\tau + \sigma \tilde{W}_{\tau} \right]\left(\prod_{i=1}^{N(\tau)}1+U_i\right) - K \right)^+\Bigg|\mathcal{F}_t\right] \\
-\end{align*} we know that under the risk-neutral probability measure $\tilde{\mathbb{P}}$ the process $\tilde{W}$ is a regular Wiener process and $N$ is a Poisson process with the same intensity $\lambda$. Furthermore, $X(t)$ is adapted to filtration $\mathcal{F}_t$, that is, it is known at time $t$. This allows us to write the above expression as follows
+		 &= e^{-r\tau} \mathbb{E}^{\tilde{\mathbb{P}}}\left[\left(X(t)\exp\left[ (r - k\lambda- \frac{1}{2}\sigma^2)\tau + \sigma \tilde{W}_{\tau} \right]\left(\prod_{i=1}^{N(\tau)}1+U_i\right) - K \right)^+\Bigg|\mathcal{F}_t\right] \hspace{0.1cm}. \\
+\end{align*} We know that under the risk-neutral probability measure $\tilde{\mathbb{P}}$ the process $\tilde{W}$ is a regular Wiener process and $N$ is a Poisson process with the same intensity $\lambda$. Furthermore, $X(t)$ is adapted to filtration $\mathcal{F}_t$, that is, it is known at time $t$. This allows us to write the above expression as follows
 
 \begin{equation} \label{eqn_f_t_before_bs}
-	f(t) = e^{-r\tau} \mathbb{E}\left[\left(X(t)\exp\left[ (r - k\lambda- \frac{1}{2}\sigma^2)\tau + \sigma W_{\tau} \right]\left(\prod_{i=1}^{N(\tau)}1+U_i\right) - K \right)^+\Bigg|\mathcal{F}_t\right]
-\end{equation} from Black-Scholes theory we know that the call option price $c_{BS}$ is expressed as 
+	f(t) = e^{-r\tau} \mathbb{E}\left[\left(X(t)\exp\left[ (r - k\lambda- \frac{1}{2}\sigma^2)\tau + \sigma W_{\tau} \right]\left(\prod_{i=1}^{N(\tau)}1+U_i\right) - K \right)^+\Bigg|\mathcal{F}_t\right]  \hspace{0.1cm}.
+\end{equation} From Black-Scholes theory we know that the call option price $c_{BS}$ is expressed as 
 \begin{equation*}
-	c_{BS}(x,t) = e^{-r(T-t)} \mathbb{E}\left[\left(x\exp\left[ (r - \frac{1}{2}\sigma^2)(T-t) + \sigma W_{T-t} \right] - K \right)^+\Bigg|\mathcal{F}_t\right]
+	c_{BS}(x,t) = e^{-r(T-t)} \mathbb{E}\left[\left(x\exp\left[ (r - \frac{1}{2}\sigma^2)(T-t) + \sigma W_{T-t} \right] - K \right)^+\Bigg|\mathcal{F}_t\right] \hspace{0.1cm}.
 \end{equation*} If we regroup the elements in our process we get 
 \begin{align*}
 	&X(t)\exp\left[ (r - k\lambda- \frac{1}{2}\sigma^2)(T-t) + \sigma W_{T-t} \right]\left(\prod_{i=1}^{N(T-t)}1+U_i\right) \\
-	&= X(t)\exp\left[ (r - \frac{1}{2}\sigma^2)(T-t) + \sigma W_{T-t} \right]\exp\left[ -k\lambda(T-t) \right]\left(\prod_{i=1}^{N(T-t)}1+U_i\right)
+	&= X(t)\exp\left[ (r - \frac{1}{2}\sigma^2)(T-t) + \sigma W_{T-t} \right]\exp\left[ -k\lambda(T-t) \right]\left(\prod_{i=1}^{N(T-t)}1+U_i\right) \hspace{0.1cm}.
 \end{align*} This means that we can rewrite the equation \ref{eqn_f_t_before_bs} in terms of Black-Scholes formula
 \begin{equation}
-	f(t) = \mathbb{E}\left[c_{BS}\left(X(t)\exp\left[ -k\lambda(T-t) \right]\left(\prod_{i=1}^{N(T-t)}1+U_i\right), t\right)\right]
-\end{equation} Now because of the independence of the Poisson process $N$ and the jump size $U_i$ we can calculate the above expectation as a sum of expectations for every possible number of jumps and every possible jump size.
+	f(t) = \mathbb{E}\left[c_{BS}\left(X(t)\exp\left[ -k\lambda(T-t) \right]\left(\prod_{i=1}^{N(T-t)}1+U_i\right), t\right)\right] \hspace{0.1cm}.
+\end{equation} Now because of the independence of the Poisson process $N$ and the jump size $U_i$ we can calculate the above expectation as a sum of expectations for every possible number of jumps and every possible jump size:
 \begin{equation}
-	f(t) = \sum_{n=0}^{\infty}\mathbb{E}\left[c_{BS}\left(X(t)e^{-k\lambda(T-t)}\left(\prod_{i=1}^{n}1+U_i\right), t\right)\right]e^{-\lambda(T-t)}\frac{[\lambda(T-t)]^n}{n!}
+	f(t) = \sum_{n=0}^{\infty}\mathbb{E}\left[c_{BS}\left(X(t)e^{-k\lambda(T-t)}\left(\prod_{i=1}^{n}1+U_i\right), t\right)\right]e^{-\lambda(T-t)}\frac{[\lambda(T-t)]^n}{n!} \hspace{0.1cm}.
 \end{equation}
 
 \noindent In our case we will use a normally distributed jump size and the formula above is the farthest we can go. We will still have to simulate the jumps and obtain Black-Scholes price like that, but this result is more specific than the formula we proposed initially (\ref{eqn_option_price}). In the following section there are the results obtained using this formula for different values of parameters.
@@ -939,11 +944,12 @@ In this section we will now utilize our newly developed formula to simulate opti
 \label{fig:call_prices_different_lambdas}
 \end{figure}
 
-\noindent We notice that the higher the value of $\lambda$ the higher the price of the option. This makes sense, because the for a process with more frequent jumps the asset price process has more probability to end up in the teritory above the strike price $K$ and have a positive payoff. We remind that a European option cannot have a negative payoff, we just simply do not excercise it in case the asset price process yields our option to be unprofitable. 
+We notice that the higher the value of $\lambda$ the higher the price of the option. This makes sense, because the for a process with more frequent jumps the asset price process has more probability to end up in the teritory above the strike price $K$ and have a positive payoff. We remind that a European option cannot have a negative payoff, we just simply do not excercise it in case the asset price process yields our option to be unprofitable. 
 
-\noindent Next we examine how the price of the same European call option develops through time if it matures at time of $1$ year from now. As we approach the maturity of the option the price of the option will be closer and closer to its payoff. Let us observe the following 2 plots depicting the price of the Euorpean call option for 2 simulated process. First of the processes (Figure \ref{fig:call_price1}) remains almost exclusively in the teritory north of the strike price $K$, while other process (Figure \ref{fig:call_price2}) spends some time both above and under the strike price. What we examine here is, of course, expected, but it is very interesting to observe. Namely, for the first case we see that the \textit{sensitivity} of the option price to the movements of the asset price is fairly high. It may be immediately clear why this is the case, but let us support it with one example:
+Next we examine how the price of the same European call option develops through time if it matures at time of $1$ year from now. As we approach the maturity of the option the price of the option will be closer and closer to its payoff. Let us observe the following 2 plots depicting the price of the Euorpean call option for 2 simulated process. First of the processes (Figure \ref{fig:call_price1}) remains almost exclusively in the teritory north of the strike price $K$, while other process (Figure \ref{fig:call_price2}) spends some time both above and under the strike price. What we examine here is, of course, expected, but it is very interesting to observe. Namely, for the first case we see that the \textit{sensitivity} of the option price to the movements of the asset price is fairly high. It may be immediately clear why this is the case, but let us support it with one example:
 
-\noindent If we are at the time maturity $t=T$, we know that the price of the option will be equal to its payoff which is now known - $(S_T - K)^+$. Now, if we were to move back in time for some small time interval $\Delta t$, the option has still $\Delta t$ time left to maturity and in this time interval the asset price process can move in either direction. Since there is not much time left to maturity, we expect the price of the option to be close to the payoff if the option would mature now, that is, $(S_{T-\Delta t} - K)^+$. If we continue this pattern we may, loosely speaking, interpret the option price to be determined by the payoff if the option would mature at that moment, but adding to it a part determined by the uncertainty of where the asset price process will end up at maturity.
+\hfill \break
+\indent If we are at the time maturity $t=T$, we know that the price of the option will be equal to its payoff which is now known - $(S_T - K)^+$. Now, if we were to move back in time for some small time interval $\Delta t$, the option has still $\Delta t$ time left to maturity and in this time interval the asset price process can move in either direction. Since there is not much time left to maturity, we expect the price of the option to be close to the payoff if the option would mature now, that is, $(S_{T-\Delta t} - K)^+$. If we continue this pattern we may, loosely speaking, interpret the option price to be determined by the payoff if the option would mature at that moment, but adding to it a part determined by the uncertainty of where the asset price process will end up at maturity.
 If we take some time $t$, let us say $t=0.6$, the price of the asset is somewhere between $160$ and $180$ which means that it has a higher probabilty of staying in the profitable teritory and therefore the option moves in high correlation with the asset price. For the same reason we see on the second plot that as we move closer and closer to maturity, while the asset price stays below the strike price, the price of the call option is less and less responsive to the movements in the price of the underlying asset. 
 
 \begin{figure}[ht]
@@ -1075,16 +1081,16 @@ In section \ref{sec:delta_hedge} we have already illustrated how to determine th
 Before diving into the process of hedging our option written on the stock which is governed by the jump-diffusion process, let us first take a step into the Black-Scholes world where we have \textit{ideal market conditions}:
 
 \begin{enumerate}[label=(\roman*)]
-	\item the risk free interest rate is known and is constant through time
-	\item the stock price is governed by the geometric Brownian motion $$dX_t = \mu_t X_t dt + \sigma_t X_t dW_t$$
-	\item the stock pays no dividend
-	\item the market is \textit{frictionless}, that is, there are no transaction costs
-	\item it is possible to borrow or deposit any amount of money at the risk free interest rate
-	\item there are no penalties for shot selling
+	\item the risk free interest rate is known and is constant through time,
+	\item the stock price is governed by the geometric Brownian motion $$dX_t = \mu_t X_t dt + \sigma_t X_t dW_t \hspace{0.1cm},$$
+	\item the stock pays no dividend,
+	\item the market is \textit{frictionless}, that is, there are no transaction costs,
+	\item it is possible to borrow or deposit any amount of money at the risk free interest rate,
+	\item there are no penalties for shot selling.
 \end{enumerate}
-Our starting point was the assumption that the option price will depend on the underlying asset price, that is: $$f_t = f(X_t)$$ Later we have arrived derived that in order to hedge a short position of $1$ option we would have to hold the amount $s$ of the underlying asset, where $s$ is 
+Our starting point was the assumption that the option price will depend on the underlying asset price, that is: $$f_t = f(X_t) \hspace{0.1cm}.$$ Later we have arrived derived that in order to hedge a short position of one option we would have to hold the amount $s$ of the underlying asset, where $s$ is 
 \begin{equation} \label{eqn:s_delta}
-	s = \frac{d}{dX_t}f(X_t)
+	s = \frac{d}{dX_t}f(X_t) \hspace{0.1cm}.
 \end{equation}
 This means that if we would hold any time $t$ this amount of the underlying, our position would be perfectly hedged. In practice, however, continuous hedging is not possible. The best we can do is to choose specific points in time at which we would rebalance our portfolio. The more rebalancing times we have, the closer we get to the continuous hedging. The effect of hedging on the value of the portfolio will be investigated soon. Let us now examine on Figure \ref{fig:gbm_price_process} a generated asset price process, together with the price process of its call option that matures at time $T=1$ and has a strike price $K=120$. As we are still in the Black-Scholes world there is an absence of jumps and the underlying process is a pure geometric Brownian motion.
 
@@ -1118,7 +1124,7 @@ This means that if we would hold any time $t$ this amount of the underlying, our
 \noindent Suppose we wrote (shorted) one call option at time $t=0$ and we want to hedge our position as we are unsure of the future price movements. In order for our position to be perfectly hedged we want to have $s$ units of the underlying asset, but to calculate $s$ we have to be able to differentiate the option price $f$ with respect to the process $X$. Luckily, this was already done in the original \cite{black_pricing_1972} paper. Namely, the expression for obtaining the price of a call option is:
 
 \begin{equation} \label{eqn:bs_call}
-	C_t = X_tN(d_1) - N(d_2)Ke^{-r\tau}
+	C_t = X_tN(d_1) - N(d_2)Ke^{-r\tau} \hspace{0.1cm},
 \end{equation}
 where
 \begin{align*}
@@ -1132,11 +1138,11 @@ where
 and the terms $d_1$ and $d_2$ are
 
 \begin{equation} \label{eqn:d1d2}
-	d_1 = \frac{\ln{\frac{X_t}{K}} + \left(r + \frac{\sigma^2}{2} \right)\tau}{\sigma\sqrt{\tau}} \hspace{2cm} d_2 = d_1 - \sigma\sqrt{\tau}
+	d_1 = \frac{\ln{\frac{X_t}{K}} + \left(r + \frac{\sigma^2}{2} \right)\tau}{\sigma\sqrt{\tau}} \hspace{1cm} \mbox{and} \hspace{1cm} d_2 = d_1 - \sigma\sqrt{\tau} \hspace{0.1cm}.
 \end{equation}
 As the underlying asset price follows geometric Brownian motion we can use the expression \ref{eqn:bs_call} to obtain the call option price at each time $t$. The result can be observed in the Figure \ref{fig:gbm_price_process}. If we were to differentiate the above expression for $C$ with respect to $X$ we would obtain (for details refer to \ref{sec:obtain_delta_hedge}): 
 \begin{equation} \label{eqn:delta_nd1}
-	\frac{\partial C}{\partial X} = N(d_1)
+	\frac{\partial C}{\partial X} = N(d_1) \hspace{0.1cm}.
 \end{equation}
 Combining this expression with the expression \ref{eqn:s_delta} we obtain that the number of assets we have to hold at each time $t$ is $N(d_1)$. Now we have all ingredients to be able to simulate and show hedging results. To illustrate the results, we set the initial portfolio value to be $50$ and we already know that we are short one call option, that means that our position in that option is $-1$. We are considering the process shown at Figure \ref{fig:gbm_price_process} and we will perform delta hedging with different number of rebalancing times. On Figure \ref{fig:hedging_gbm} one can observe the effect of hedging with different number of rebalancing times. The first rebalancing time occurs at time $t=0$. 
 
@@ -1210,41 +1216,45 @@ Combining this expression with the expression \ref{eqn:s_delta} we obtain that t
 When we were showing that a regular Black-Scholes delta hedge in case of a jump-diffusion model cannot eliminate jump risk we stopped there. In fact in \cite{chiarella_derivative_2015} the autors demonstrate that in case we have a finite number $n$ of jump amplitudes, we can hedge away the jump risk by using $n$ additional derivative securities with different strike prices and maturities. In our case the jump amplitude is normally distributed, that is, there is an infinite number of different jump sizes and we would need an infinite number of different derivative securities to hedge away the jump risk. This is not possible and that means that a contingent claim cannot be perfectly replicated and according to the Theorem \ref{tm:ftap2} we have an \textbf{incomplete market} situation. Since there will always exist some amount of hedging error the best we can do is to try and minimize that error, this leads us to investigate other hedging techniques, one of which is quadratic hedging. Moreover, in this section we will also have a look at how to mathematically define a problem of hedging. For that we will need to introduce a notion of a \textit{trading strategy}. Although we have not defined it explicitly, we have already used it. A \textbf{trading strategy} is simply our selection of a covering portfolio in the underlying asset. \cite{bingham_risk-neutral_2004} define it as
 
 \begin{definition}
-	Denote by L(X) the linear space of all $\mathbb{R}^d$-valued predictable $X$-integrable processes $\phi$. A self-financing trading strategy is any pair $(V_0, \phi)$ such that $V_0$ is and $\mathcal{F}_0$-measurable random variable and $\phi \in L(X)$.
+	Denote by $L(X)$ the linear space of all $\mathbb{R}^d$-valued predictable $X$-integrable processes $\phi$. A self-financing trading strategy is any pair $(V_0, \phi)$ such that $V_0$ is and $\mathcal{F}_0$-measurable random variable and $\phi \in L(X)$.
 \end{definition}
 \noindent A value $\phi^i(t)$ can be interpreted of as a number of shares of asset $i$ held at time $t$ and $V_0$ is the initial capital of an investor. By choosing a covering portfolio, we generate a value process, which is used to cover our exposure. Its value is given by
 
 \begin{equation}
-	V_t(\phi) := V_0 + \int_0^t \phi(u) dX_u
+	V_t(\phi) := V_0 + \int_0^t \phi(u) dX_u \hspace{0.1cm},
 \end{equation} 
-And the gains made from the trading process up to time $t$ is denoted by $G_t(\phi)=\int_0^t \phi(u)dX_u$. When we choose a trading strategy and the initial capital we can then think about how to evaluate the trading strategy. At time $T$ the contingent claim will have a payoff of $H$ and our carefully chosen portfolio will have a value of $V_T(\phi)$. To asses the quality of the trading strategy we will use the difference of those 2 quantities. To be more specific, we will calculate the hedging error as the square of that difference - quadratic loss function. \cite{bingham_risk-neutral_2004} give in their book the definition of mean-variance strategy to hedge $H$ (Definition \ref{def:mean_variance_hedge}). So far, we have mentioned a term \textit{risk} multiple times and it is mostly clear what it means, but it may be unclear how to measure it. There are various ways of quantifying risk. One such is to quantify it represent it through the variance of returns. Logically, if we have a process with low variance, this means that the probability of a process steering far away from its expected value is low. Analogously, for a high-variance process we can with less certainty predict its movements and future paths. This is the core idea of hedging methods that aim to reduce the risk of the future payoff.
+and the gains made from the trading process up to time $t$ is denoted by 
+\begin{equation} 
+	G_t(\phi) := \int_0^t \phi(u)dX_u \hspace{0.1cm}.
+\end{equation} 
+When we choose a trading strategy and the initial capital we can then think about how to evaluate the trading strategy. At time $T$ the contingent claim will have a payoff of $H$ and our carefully chosen portfolio will have a value of $V_T(\phi)$. To asses the quality of the trading strategy we will use the difference of those 2 quantities. To be more specific, we will calculate the hedging error as the square of that difference - quadratic loss function. \cite{bingham_risk-neutral_2004} give in their book the definition of mean-variance strategy to hedge $H$ (Definition \ref{def:mean_variance_hedge}). So far, we have mentioned a term \textit{risk} multiple times and it is mostly clear what it means, but it may be unclear how to measure it. There are various ways of quantifying risk. One such is to quantify it represent it through the variance of returns. Logically, if we have a process with low variance, this means that the probability of a process steering far away from its expected value is low. Analogously, for a high-variance process we can with less certainty predict its movements and future paths. This is the core idea of hedging methods that aim to reduce the risk of the future payoff.
 
 \begin{definition} \label{def:mean_variance_hedge}
 	Let $\Phi$ be a the space of all $\phi \in L(X)$ for which $G_T(\phi)$ is in $L^2(\mathbb{P})$ and the gains from the trading process $G_t(\phi)$ is a martingale under the probability measure $\tilde{\mathbb{P}}$. A pair $(V_0, \phi)$ such that $V_0 \in \mathbb{R}$ and $\phi \in \Phi$ is called a mean-variance optimal strategy for $H$, if it solves the optimization problem 
 	\begin{equation} \label{eqn:min_hedge_error}
-		\min_{\phi}\mathbb{E}\left[ (H - V_0 - G_T(\phi))^2 \right]
+		\min_{\phi}\mathbb{E}\left[ (H - V_0 - G_T(\phi))^2 \right] \hspace{0.1cm}.
 	\end{equation}
 \end{definition}
 \noindent In case there is an absence of jumps, that is, we are in the Black-Scholes world, the solution to this optimization problem is simply sensitivity of the option price with respect to the underlying asset price
 \begin{equation*}
-	\frac{\partial C}{\partial X} = N(d_1)
+	\frac{\partial C}{\partial X} = N(d_1) \hspace{0.1cm}.
 \end{equation*}
 In case there is an absence of diffusion and we are left with only jump process with only 1 possible jump amplitude, the solution is:
 \begin{equation} \label{eqn:delta_no_diffusion}
-	\phi^* = \frac{C(X_t + k) - C(X_t)}{k}
+	\phi^* = \frac{C(X_t + k) - C(X_t)}{k} \hspace{0.1cm}.
 \end{equation}
-To illustrate why, we look at the time $t$ and observe an asset price $X_t$ and a price of the call option $C(X_t)$ on that asset. We know that at time $t+dt$ a process can either stay the same or jump, where the size of the jump has a single possible value $k$. We denote the value of our portfolio at time $t$ with $$V_t = \phi^* X_t - C(X_t)$$ if the jump arrives inside the time interval $dt$ the value of out portfolio will be
-$$V_{t+dt} = \phi^* (X_t + k) - C(X_t + k)$$
-and if the jump does not arrive the asset price will stay the same and the price of the call option will change by only marginal amount (because we are closer to the maturity), which can be ignored. This means that the value of our portfolio, in this case, has virtually stayed unchanged no matter the value of $\phi^*$. If we want the value of our portfolio to stay unchanged also in presence of jump inside the time interval $dt$ we have to choose $\phi^*$ wisely.
+To illustrate why, we look at the time $t$ and observe an asset price $X_t$ and a price of the call option $C(X_t)$ on that asset. We know that at time $t+dt$ a process can either stay the same or jump, where the size of the jump has a single possible value $k$. We denote the value of our portfolio at time $t$ with $$V_t = \phi^* X_t - C(X_t) \hspace{0.1cm}.$$ If the jump arrives inside the time interval $dt$ the value of out portfolio will be
+$$V_{t+dt} = \phi^* (X_t + k) - C(X_t + k) \hspace{0.1cm},$$
+and if the jump does not arrive the asset price will stay the same and the price of the call option will change by only marginal amount (because we are closer to the maturity), which can be ignored. This means that the value of our portfolio, in this case, has virtually stayed unchanged no matter the value of $\phi^*$. If we want the value of our portfolio to stay unchanged also in presence of jump inside the time interval $dt$ we have to choose $\phi^*$ wisely:
 \begin{align*}
 	V_t &= V_{t+dt} \\
 	X_t\phi^* - C(X_t) &=  X_t\phi^*+ k\phi^* - C(X_t + k) \\
-	k\phi^* &= C(X_t + k) - C(X_t)
+	k\phi^* &= C(X_t + k) - C(X_t) \hspace{0.1cm},
 \end{align*} and we arrive to the final formula (\ref{eqn:delta_no_diffusion}).
 
 \noindent The derivation of the solution to the optimization problem \ref{eqn:min_hedge_error} goes beyond the scope of this thesis and is rather cumbersome. In turn, we will present the solution for the problem obtained in \cite{cont_financial_2004}:
 \begin{equation} \label{eqn:quadratic_hedge}
-	\phi^* = \frac{\sigma^2 \frac{\partial C}{\partial X} + \frac{1}{X} \int z[C(t,X(1+z))-C(t,X)] \nu_U(z)dz}{\sigma^2 + \int z^2 \nu_U(z)dz}
+	\phi^* = \frac{\sigma^2 \frac{\partial C}{\partial X} + \frac{1}{X} \int z[C(t,X(1+z))-C(t,X)] \nu_U(z)dz}{\sigma^2 + \int z^2 \nu_U(z)dz} \hspace{0.1cm},
 \end{equation} where $C(t,X)$ is the Black-Scholes price for the call option and accordingly the $\frac{\partial C}{\partial X}$ is the sensitivity of that price with respect to the price of the underlying asset. The function $\nu_U$ is the probability density function of the jump size $U$. This result can be interpreted as the average of the simple $\Delta$-hedge in the absence of jumps and the $\Delta$-hedge in case there is no diffusion part (\ref{eqn:delta_no_diffusion}). To check the effectiveness of the quadratic hedge, we will first use the jump-diffusion process on figure \ref{fig:call_price1} and compare the performance of the quadratic hedge and the regular $\Delta$-hedge, where we pretend that the underlying process has only diffusion component without jumps. 
 
 \begin{figure}[ht]
@@ -1307,7 +1317,7 @@ $T$ & option maturity & $1$ \\
 \end{table}
 
 
-\noindent A table with final values of the portfolio can be seen in Appendix \ref{appendix:section_tables}. To obtain a numerical comparison between the two hedging methods we perform a paired t-test, as the two methods are not independent. They are related through the generated processes. We quantify the success of each portfolio as the absolute distance from final value of the  risk-free portfolio with the same initial value. We want to test whether the value absolute difference of the quadratically hedged portfolio is lower than the absolute difference of the $\Delta$-hedged portfolio. By setting up this one-sided alternative, we obtain a p-value of $0.7366$. In other words, there is no evidence that the quadratic hedge does a better job than a classic $\Delta$-hedge. It is, in fact, even more leaned towards the side of the $\Delta$-hedge doing a better job. One could argue that by increasing the jump intensity our quadratic hedge could really shine. The reason for that is that the path of a process with lower intensity has a higher probability of being \textit{closer} to the path generated by a regular geometric Brownian motion. Further improvements could be made to tune the jump intensity parameter and jump size distribution to mimic the real world as closely as possible, and perform this analysis again. Nevertheless, by introducing the quadratic hedging we have obtained a new, very capable, tool which could in future help us hedge our portfolios in presence of processes with jump characteristics.
+A table with final values of the portfolio can be seen in Appendix \ref{appendix:section_tables}. To obtain a numerical comparison between the two hedging methods we perform a paired t-test, as the two methods are not independent. They are related through the generated processes. We quantify the success of each portfolio as the absolute distance from final value of the  risk-free portfolio with the same initial value. We want to test whether the value absolute difference of the quadratically hedged portfolio is lower than the absolute difference of the $\Delta$-hedged portfolio. By setting up this one-sided alternative, we obtain a p-value of $0.7366$. In other words, there is no evidence that the quadratic hedge does a better job than a classic $\Delta$-hedge. It is, in fact, even more leaned towards the side of the $\Delta$-hedge doing a better job. One could argue that by increasing the jump intensity our quadratic hedge could really shine. The reason for that is that the path of a process with lower intensity has a higher probability of being \textit{closer} to the path generated by a regular geometric Brownian motion. Further improvements could be made to tune the jump intensity parameter and jump size distribution to mimic the real world as closely as possible, and perform this analysis again. Nevertheless, by introducing the quadratic hedging we have obtained a new, very capable, tool which could in future help us hedge our portfolios in presence of processes with jump characteristics.
 
 \chapter{Conclusion}
 We have undergone a journey starting from the basic financial concepts and establishing a process that will model a price of an asset, through pricing an option that derives its value from this asset and finally we have shown how to hedge such a contingent claim. The theory of derivatives market is more concerned about the relationship between the underlying and its derivative and much less with economic fundamentals that determine the price of the underlying. However, some basic economic reasoning and concepts have to be incorporated, but the focus is on the mathematical formulation. 
@@ -1316,9 +1326,9 @@ We have constructed a mathematical model of real markets, which is of course sti
 
 Further improvements of this work are naturally possible. For example, one could incorporate stochastic processes that will model volatility and risk-free rate, both of which have been kept constant in the our work so far. Nonetheless, we have created a decent model of the market with less constraints than the one proposed by \cite{black_pricing_1972}. By doing this, we have taken a serious step into derivative pricing, a field that has a lot of ideas still left to explore. Hopefully, this thesis has given a reader a thourough overview of the main ideas in mathematical finance and derivative pricing which forms a stable foundation for further exploration in the field. 
 
+\bibliographystyle{abbrv}
 \bibliography{bibliography}
 % Use zotero for this
-\bibliographystyle{fer}
 \nocite{*}
 
 \listoffigures
