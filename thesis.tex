@@ -54,99 +54,31 @@ Stochastic processes have a very wide application in the field of finance. The m
 
 The goal of this thesis is to utilize stochastic processes and apply them to tackle some of the problems from mathematical finance. Firstly, I will start with defining necessary mathematical and financial concepts which will be used throughout this thesis. After the foundation is set, starting with the Brownian motion, step-by-step we will arrive at the jump-diffusion process which will be used as a process of the price of an asset. We will then introduce the idea of a financial derivative, in our case an option, and we will tackle the problem of determining a fair price of the option. Lastly, we will introduce the idea of risk, how to quantify it and how to hedge the risk of our position in the asset or the option. It is my hope that, this thesis will not only provide you with a good overview of pricing and hedging of financial instruments, but also give you the understanding of such the underlying processes are useful to model the scenarios that occur every day in the market.
 
-\chapter{Financial concepts}
-% \section{General terms}
-% market, trade, law of supply and demand
-Let us start by defining what a market is. \textbf{Market} is a place where parties can meet to engage in an economic transaction. Usually, while only two parties are needed to make a trade, at minimum one more party is needed to introduce competition and bring balance to the market. A market in a state of \textbf{perfect competition} is characterized by a high number of active buyers and sellers. Markets vary for a number of reasons, including the types of products sold, size, location etc. One market which is of particular interest to us is the \textbf{financial market} where currencies, bonds and various types of securities are traded. They form capital and provide liquidity for businesses. Stock exchanges like New York Stock Exchange (NYSE) or Nasdaq are one type of financial markets. Other types of finincial markets include, for example bond markets and foreign exchange (FX) markets. 
-
-As already mentioned, markets in perfect competition have a high number of participants (buyers and sellers) and market determines the prices of goods and other servides traded there. Prices are determined by \textbf{supply and demand}, where supply is created by the sellers and demand by the buyers. The law of supply and demand is a theory that explains the interaction between the sellers of a resource and the buyers for that resource. In general, if the price for a good decreases, more people are willing to buy it and less people are willing to sell. That is because the opportunity cost for the buyers decreases, as they can obtain the good at a lower price than earlier, whereas the opportunity cost for the sellers increases, as they earn less by selling the same amount of goods as before. Although it is one of the most basic economic laws, it is a part of almost all economic principles. The willingness of people to buy or sell a good determines the market equilibrium price at which the quantity of goods people are willing to sell equals the quantity of goods people are willing to buy. 
-
-\section{Financial instruments}
-% bonds, stocks, derivatives -> this will be used later
-% https://www.investopedia.com/terms/f/financialinstrument.asp
-In this section we will cover a few basic financial instruments. As discussed earlier, different types of markets offer different types of goods. A \textbf{bond market} (also called fixed-income markets) is a collective name attributed to all issues and trades of debt securities. Stock exchange is another type of market where, among many other things, \textbf{stocks} and \textbf{derivatives} can be traded. 
-
-\hfill \break
-\indent A \textbf{bond} is a fixed-income financial instrument typically issued by governments or corporations in order to raise money needed to fund a certain project, for example. When a corporation (or a government) needs to borrow money, it issues bonds that include the terms of the loan, the time at which the loaned funds (bond principal) must be paid back (maturity date) and the interest payments that will be paid. They can essentially be thought of as a contract issued by the borrower promising to pay back the loan plus some interest on it at some time in the future. An interest is a premium for the person loaning the money, because by buying a bond (loaning money) the buyer takes on a risk that the issuer will not be able to pay back at maturity (risk of default). Governments are typically less likely to fail than corporations, therefore the interest paid on government bonds is genereally lower than the interest paid on corporate bonds. There are also bonds that pay additional coupons between the issuance and maturity, but they will not be of particular interest to us in the scope of this thesis.
-
-\hfill \break
-\indent A \textbf{stock} (also called \textit{equity}) is a type of a security issued by the corporations and represents the ownership of a fraction of a company. The units of stock are called \textit{shares}. They are issued for a company to raise funds to operate their business. It is important to point out that corporations are treated as legal persons, so a shareholder does not \textit{own} a corporation, but own shares issued by the corporations and have a claim on its assets and earnings.
-
-\hfill \break
-\indent Having explained the characteristics of bonds and stocks we arrive at securities that are not completely basic. \textbf{Derivatives} are a type of security which \textit{derives} its value from another asset (e.g. stock). There are many types of derivatives, but we will focus on the ones used in this thesis and those are options. \textbf{Option} is a contract that gives the buyer a right, but not an obligation, to buy or sell (depending on the type of the contract they hold) the underlying asset at a certain time in future. 
-
-\hfill \break
-\indent \textbf{European options} (also called \textit{vanilla} options) are the most basic form of an option. We differentiate two different types of european options: \textit{call} and \textit{put} option. A call option gives a buyer a right to buy the underlying security at some predetermined price (strike price) at a certain time in future (maturity). In case the price of the underlying asset is greater than the strike price at the time of maturity, the buyer can buy the underlying asset at the strike price and immediately sell the asset at its market price which is now higher than the strike price, thus making a profit. However, if the price of the underlying asset is lower than the strike price at maturity, it does not make sense for the buyer to excercise the option and buy the asset at strike price, because she/he can simply buy the asset at the market price. A put option works in an opposite way, as it gives a buyer a right to sell the underlying security at the strike price at maturity. Put option expires worthless in case the price of the underlying asset is greater than the strike price as the buyer can than simply sell the security at its market price. In this case an option expires without excercising, the only loss made by the buyer is the amount paid for the option in the first place. To illustrate this very important concept of European options let us look at the following example:
-
-\hfill \break
-\indent \noindent Suppose at time $t=0$ the price of an asset is $S_0 = 100$ and that we can buy a \textit{put} option with maturity $T$ and strike price $K=90$. The price of such option contract at time $t=0$ is $P = 5$. Let us assume that at maturity the price of the asset is $S_T = 93$. This means that the buyer will simply let the contract expire because the asset can be sold at a market price which is higher than the strike price of the \textit{put} option. If, however, the price of an asset dips below $S_0$ to value of $S_T = 80$, the buyer can buy the asset in the market for the price of $80$ and immediately sell it in the market for $K=90$ by excercising the option. Thus, making a profit of $(K-S_T) - P = (90 - 80) - 5 = 5$. 
-\hfill \break
-Note that in this example, the time value of money was disregarded for simplicity purposes. 
-
-\section{Arbitrage}
-% https://www.investopedia.com/terms/a/arbitrage.asp
-% concept of arbitrage in continous time is too narrow so we have to use a stronger concetpt such as 'no free lunch with vanishing risk'
-In finance and economics, arbitrage is the practice to take advantage of market inefficiencies to make a risk-free profit. One such inefficiency can be, for example, the difference in prices of the same asset on two different markets. In other words, an arbitrage-free market is a market where there does not exist such trade (or a set of trades) which would allow a trader with zero capital at time $t=0$ to make a positive profit at some time in future $t=T$ with positive probability. In practice, arbitrage opportunities exist, but are very hard to spot, they get almost immediately exploited and the opportunity is gone, often in the matter of seconds.\\Here are two examples to better understand this very important principle:
-\subsubsection{Example 1}
-Suppose that the stock XYZ is trading for \$50 on the NYSE and the same stock is trading at \$49.5 at the LSE (London Stock Exchange). The trader can then buy the stock at LSE for \$49.5 and immediately sell it at NYSE for \$50, thus realizing profit of \$0.5. 
-\subsubsection{Example 2}
-% TODO: do another example where P[V(T) >= 0] = 1.0 and cannot be <0
-% TODO: change this to the case when S_o e^r is not between S_u and S_d
-Let's see a more complex example. Suppose we have a stock XYZ with spot price $S_0 = 100$ and in one year period there are only two possibilities for the stock movement: it can go up to $S_1 = u * S_0$ where $u=1.15$, or it can go down to $S_1 = d * S_0$ where $d=0.9$. The risk-free rate in the market is constant during this one-year period and it is $r=1\%$. The probability that the stock will go up in that period is $p=0.4$. 
-
-The inconsistency is not easy to spot here. If the market is arbitrage-free, the expected value of the future payoff should be zero. By looking more closely, and considering the time value of money one can find the following arbitrage strategy:
-We decide to short-sell the stock today and put that money in the bank to be remunerated at the risk-free rate of $1\%$. After one year we take out our money from the bank and now we own the value of $(1+r)S_0 = 101$. We have to buy back the stock that we shorted one year earlier to cover this short position. There are two possible scenarios:
-\hfill \break
-\begin{itemize}
-	\item The stock went up and our profit in that case is: $(1+r)S_0 - uS_0$ = -14
-	\item The stock went down and our profit in that case is: $(1+r)S_0 - dS_0$ = 11
-\end{itemize}
-\hfill \break
-Although at the first glance this does not look like a good deal, we have to take into account the probabilities of these events happening. More specifically, let us look at the expecte payoff at time $t=1$:
-
-$$\mathbb{E}[\text{payoff at } t=1] = 0.4 \cdot (-14) + 0.6 \cdot 11 = 1$$
-
-\newpage
-\section{Fundamental theorems of asset pricing}
-Whenever there is an arbitrage opportunity there is one side that is losing money. It is logical to expect that a party will try avoid creating an arbitrage opportunity for others to exploit. Modelling a market to be arbitrage free is thus a natural way forward. The following theorems will provide conditions for a market to be free of arbitrage and for a market to be complete. They form a sort of a bridge between the economical and mathematical understanding of the market.
-\subsection{First fundamental theorem of asset pricing}
-\begin{theorem} \label{tm:ftap1}
-	A discrete market, on a discrete probability space ($\Omega$, $\mathcal{F}$, $\mathcal{P}$), is \textbf{arbitrage-free} if, and only if, there exists at least one risk neutral probability measure that is equivalent to the original probability measure, $\mathcal{P}$.
-\end{theorem}
-
-\hfill \break
-This first theorem is important in that it ensures a foundamental property of market models. It will allow for some nice manipulations with discounted price processes we will mention later in this thesis.
-
-% UNCOMMENT THE BELOW TO CONTINUE WORKING ON THE PROOF
-% \subsubsection{Proof}
-% % intuitive proof: https://stanford.edu/~ashlearn/RLForFinanceBook/ArbitrageCompleteness.pdf
-% For illustration we will just prove the easier implication, i.e.\\\textit{Existence of Risk-neutral measure} $\Rightarrow$ \textit{Arbitrage-free}
-
-% Suppose we have a discrete probability space ($\Omega$, $\mathcal{F}$, $\mathcal{P}$), such that $\Omega = \{\omega_1, ..., \omega_n\}$ and $\mathcal{P}: \Omega \rightarrow [0,1]$.
-
-% \hfill \break
-% A probability measure $\pi: \Omega \rightarrow [0,1]$ is said to be risk-neutral if the following holds:
-% $$S_j^{(0)} = e^{-r}\sum_{i=1}^{n} \pi(\omega_i)S_j^{(i)}$$ 
-
-\subsection{Second fundamental theorem of asset pricing}
-\begin{theorem} \label{tm:ftap2}
-	An arbitrage-free is said to be \textbf{complete} (every contingent claim replicable) if and only if there exists a unique risk-neutral measure equivalent to the physical one.
-\end{theorem}
-
-\hfill \break
-This theorem can be reformulated in an equivalent way, that is, the market is complete if and only if there exists only one source of randomness in asset dynamic. Although this property is common in many models it is sometimes not always considered desirable or realistic. 
 \chapter{Stochastic processes}
 % probability and random variables
 % definition of a stochastic process
 % filtration
 Stochastic processes have a well defined purpose in several fields, and one of those fields is finance. They seem to be the perfect choice when it comes to modelling assets' dynamics, because their \textit{randomness} is used to replicate the uncertainty of asset prices that can be observed in the market.\\
 
-\noindent A continuous time \textbf{stochastic process} $\{X_t: t\ge 0\}$ is a collection of random variables indexed over time, often times simply $X(t)$. The probability space of these random variables is ($\Omega$, $\mathcal{F}$, $\mathbb{P}$), where $\Omega$ is the set of all possible outcomes, $\mathcal{F}$ is $\sigma$-algebra of events and $\mathbb{P}$ being the probability measure.\\
-It is crucial to introduce a concept of filtration. \textbf{Filtration} $\{\mathcal{F}_t\}_{t\ge 0}$ is an increasing collection of $\sigma$-algebras, such that for every $0 \le s \le t$ the following holds: $\mathcal{F}_s \subseteq \mathcal{F}_t \subseteq \mathcal{F}$. Filtration can be thought of as \textit{"flow of information"}. More specifically, $\mathcal{F}_t$ can be considered as the information generated by all observed events up to time $t$.
+\section{Introduction to Probability Theory}
+A probability space is a mathematical triplet $(\Omega, \Sigma, \mathbb{P})$ providing a formal model of a random experiment. Such a space consists of three elements:
+\begin{itemize}
+	\item Set of all possible outcomes $\Omega$,
+	\item $\sigma$-algebra of events $\Sigma$, where each event is a subset of $\Omega$,
+	\item a probability measure $\mathbb{P}$.
+\end{itemize}
+We have mentioned a term $\sigma$-algebra, which a reader may not be familiar with. $\sigma$-algebra on a set $\Omega$ is a collection $\Sigma$ of subsets of $\Omega$ which is closed under complement, union and intersection. What this means is that if certain subsets $A,B\subseteq\Omega$ are in $\Sigma$, then simply also $\overline{A}$, $\overline{B}$, $A\cup B$ and $A\cap B$ have to be elements of $\Sigma$. This has to hold for any two elements of $\Sigma$.
+
+Another important concept is that of filtration. A \textbf{filtration} $\{\mathcal{F}_t\}_{t\ge 0}$ is an increasing collection of $\sigma$-algebras, such that for every $0 \le s \le t$ the following holds: $\mathcal{F}_s \subseteq \mathcal{F}_t \subseteq \mathcal{F}$. Filtration can be thought of as \textit{"flow of information"}. More specifically, $\mathcal{F}_t$ can be considered as the information generated by all observed events up to time $t$.
+
+\begin{definition}
+	A continuous time \textbf{stochastic process} $\{X_t: t\ge 0\}$ is a collection of random variables indexed over time, often times simply $X(t)$. The probability space of these random variables is ($\Omega$, $\Sigma$, $\mathbb{P}$), where $\Omega$ is the set of all possible outcomes, $\Sigma$ is $\sigma$-algebra of events and $\mathbb{P}$ being the probability measure.
+\end{definition}
+
 
 \section{Brownian motion}
 % Deriving Brownian motion from a random walk
-The goal of this chapter is to show how Brownian motion can be derived from a random walk process. This is important to get a good understanding of what Brownian motion in fact is, as we will use it very extensively throughout the this text.
+The famous Brownian motion is indeed a stochastic process. The goal of this chapter is to show how Brownian motion can be derived from a random walk process. This is important to get a good understanding of what Brownian motion in fact is, as we will use it very extensively throughout the this text.
 
 \noindent To describe the process of a \textbf{random walk} we will use a sequence of independent identically distributed (\textit{iid}) random variables $X_i$ with the following distribution:
 
@@ -265,8 +197,8 @@ Theory of stochastic integration is closely related to the theory of martingales
 
 \begin{center}
 	\begin{itemize}
-		\item $\mathbb{E}[|X_n|] < \infty$
-		\item $\mathbb{E}[X_n | X_0, ..., X_{n-1}] = X_{n-1}$
+		\item $\mathbb{E}[|X_n|] < \infty \hspace{0.1cm},$
+		\item $\mathbb{E}[X_n | X_0, ..., X_{n-1}] = X_{n-1} \hspace{0.1cm}.$
 	\end{itemize}
 \end{center}
 
@@ -384,6 +316,88 @@ Remembering that the $W_0 = 0$ we get the following result:
 \caption{Geometric Brownian motion paths for parameters $\mu$=0.05 and $\sigma$ = 0.4}
 \label{fig:gbm_paths}
 \end{figure}
+
+\chapter{Financial concepts}
+% \section{General terms}
+% market, trade, law of supply and demand
+Let us start by defining what a market is. \textbf{Market} is a place where parties can meet to engage in an economic transaction. Usually, while only two parties are needed to make a trade, at minimum one more party is needed to introduce competition and bring balance to the market. A market in a state of \textbf{perfect competition} is characterized by a high number of active buyers and sellers. Markets vary for a number of reasons, including the types of products sold, size, location etc. One market which is of particular interest to us is the \textbf{financial market} where currencies, bonds and various types of securities are traded. They form capital and provide liquidity for businesses. Stock exchanges like New York Stock Exchange (NYSE) or Nasdaq are one type of financial markets. Other types of finincial markets include, for example bond markets and foreign exchange (FX) markets. 
+
+As already mentioned, markets in perfect competition have a high number of participants (buyers and sellers) and market determines the prices of goods and other servides traded there. Prices are determined by \textbf{supply and demand}, where supply is created by the sellers and demand by the buyers. The law of supply and demand is a theory that explains the interaction between the sellers of a resource and the buyers for that resource. In general, if the price for a good decreases, more people are willing to buy it and less people are willing to sell. That is because the opportunity cost for the buyers decreases, as they can obtain the good at a lower price than earlier, whereas the opportunity cost for the sellers increases, as they earn less by selling the same amount of goods as before. Although it is one of the most basic economic laws, it is a part of almost all economic principles. The willingness of people to buy or sell a good determines the market equilibrium price at which the quantity of goods people are willing to sell equals the quantity of goods people are willing to buy. 
+
+\section{Financial instruments}
+% bonds, stocks, derivatives -> this will be used later
+% https://www.investopedia.com/terms/f/financialinstrument.asp
+In this section we will cover a few basic financial instruments. As discussed earlier, different types of markets offer different types of goods. A \textbf{bond market} (also called fixed-income markets) is a collective name attributed to all issues and trades of debt securities. Stock exchange is another type of market where, among many other things, \textbf{stocks} and \textbf{derivatives} can be traded. 
+
+\hfill \break
+\indent A \textbf{bond} is a fixed-income financial instrument typically issued by governments or corporations in order to raise money needed to fund a certain project, for example. When a corporation (or a government) needs to borrow money, it issues bonds that include the terms of the loan, the time at which the loaned funds (bond principal) must be paid back (maturity date) and the interest payments that will be paid. They can essentially be thought of as a contract issued by the borrower promising to pay back the loan plus some interest on it at some time in the future. An interest is a premium for the person loaning the money, because by buying a bond (loaning money) the buyer takes on a risk that the issuer will not be able to pay back at maturity (risk of default). Governments are typically less likely to fail than corporations, therefore the interest paid on government bonds is genereally lower than the interest paid on corporate bonds. There are also bonds that pay additional coupons between the issuance and maturity, but they will not be of particular interest to us in the scope of this thesis.
+
+\hfill \break
+\indent A \textbf{stock} (also called \textit{equity}) is a type of a security issued by the corporations and represents the ownership of a fraction of a company. The units of stock are called \textit{shares}. They are issued for a company to raise funds to operate their business. It is important to point out that corporations are treated as legal persons, so a shareholder does not \textit{own} a corporation, but own shares issued by the corporations and have a claim on its assets and earnings.
+
+\hfill \break
+\indent Having explained the characteristics of bonds and stocks we arrive at securities that are not completely basic. \textbf{Derivatives} are a type of security which \textit{derives} its value from another asset (e.g. stock). There are many types of derivatives, but we will focus on the ones used in this thesis and those are options. \textbf{Option} is a contract that gives the buyer a right, but not an obligation, to buy or sell (depending on the type of the contract they hold) the underlying asset at a certain time in future. 
+
+\hfill \break
+\indent \textbf{European options} (also called \textit{vanilla} options) are the most basic form of an option. We differentiate two different types of european options: \textit{call} and \textit{put} option. A call option gives a buyer a right to buy the underlying security at some predetermined price (strike price) at a certain time in future (maturity). In case the price of the underlying asset is greater than the strike price at the time of maturity, the buyer can buy the underlying asset at the strike price and immediately sell the asset at its market price which is now higher than the strike price, thus making a profit. However, if the price of the underlying asset is lower than the strike price at maturity, it does not make sense for the buyer to excercise the option and buy the asset at strike price, because she/he can simply buy the asset at the market price. A put option works in an opposite way, as it gives a buyer a right to sell the underlying security at the strike price at maturity. Put option expires worthless in case the price of the underlying asset is greater than the strike price as the buyer can than simply sell the security at its market price. In this case an option expires without excercising, the only loss made by the buyer is the amount paid for the option in the first place. To illustrate this very important concept of European options let us look at the following example:
+
+\hfill \break
+\indent \noindent Suppose at time $t=0$ the price of an asset is $S_0 = 100$ and that we can buy a \textit{put} option with maturity $T$ and strike price $K=90$. The price of such option contract at time $t=0$ is $P = 5$. Let us assume that at maturity the price of the asset is $S_T = 93$. This means that the buyer will simply let the contract expire because the asset can be sold at a market price which is higher than the strike price of the \textit{put} option. If, however, the price of an asset dips below $S_0$ to value of $S_T = 80$, the buyer can buy the asset in the market for the price of $80$ and immediately sell it in the market for $K=90$ by excercising the option. Thus, making a profit of $(K-S_T) - P = (90 - 80) - 5 = 5$. 
+\hfill \break
+Note that in this example, the time value of money was disregarded for simplicity purposes. 
+
+\section{Arbitrage}
+% https://www.investopedia.com/terms/a/arbitrage.asp
+% concept of arbitrage in continous time is too narrow so we have to use a stronger concetpt such as 'no free lunch with vanishing risk'
+In finance and economics, arbitrage is the practice to take advantage of market inefficiencies to make a risk-free profit. One such inefficiency can be, for example, the difference in prices of the same asset on two different markets. In other words, an arbitrage-free market is a market where there does not exist such trade (or a set of trades) which would allow a trader with zero capital at time $t=0$ to make a positive profit at some time in future $t=T$ with positive probability. In practice, arbitrage opportunities exist, but are very hard to spot, they get almost immediately exploited and the opportunity is gone, often in the matter of seconds.\\Here are two examples to better understand this very important principle:
+\subsubsection{Example 1}
+Suppose that the stock XYZ is trading for \$50 on the NYSE and the same stock is trading at \$49.5 at the LSE (London Stock Exchange). The trader can then buy the stock at LSE for \$49.5 and immediately sell it at NYSE for \$50, thus realizing profit of \$0.5. 
+\subsubsection{Example 2}
+% TODO: do another example where P[V(T) >= 0] = 1.0 and cannot be <0
+% TODO: change this to the case when S_o e^r is not between S_u and S_d
+Let's see a more complex example. Suppose we have a stock XYZ with spot price $S_0 = 100$ and in one year period there are only two possibilities for the stock movement: it can go up to $S_1 = u * S_0$ where $u=1.15$, or it can go down to $S_1 = d * S_0$ where $d=0.9$. The risk-free rate in the market is constant during this one-year period and it is $r=1\%$. The probability that the stock will go up in that period is $p=0.4$. 
+
+The inconsistency is not easy to spot here. If the market is arbitrage-free, the expected value of the future payoff should be zero. By looking more closely, and considering the time value of money one can find the following arbitrage strategy:
+We decide to short-sell the stock today and put that money in the bank to be remunerated at the risk-free rate of $1\%$. After one year we take out our money from the bank and now we own the value of $(1+r)S_0 = 101$. We have to buy back the stock that we shorted one year earlier to cover this short position. There are two possible scenarios:
+\hfill \break
+\begin{itemize}
+	\item The stock went up and our profit in that case is: $(1+r)S_0 - uS_0$ = -14
+	\item The stock went down and our profit in that case is: $(1+r)S_0 - dS_0$ = 11
+\end{itemize}
+\hfill \break
+Although at the first glance this does not look like a good deal, we have to take into account the probabilities of these events happening. More specifically, let us look at the expecte payoff at time $t=1$:
+
+$$\mathbb{E}[\text{payoff at } t=1] = 0.4 \cdot (-14) + 0.6 \cdot 11 = 1$$
+
+\newpage
+\section{Fundamental theorems of asset pricing}
+Whenever there is an arbitrage opportunity there is one side that is losing money. It is logical to expect that a party will try avoid creating an arbitrage opportunity for others to exploit. Modelling a market to be arbitrage free is thus a natural way forward. The following theorems will provide conditions for a market to be free of arbitrage and for a market to be complete. They form a sort of a bridge between the economical and mathematical understanding of the market.
+\subsection{First fundamental theorem of asset pricing}
+\begin{theorem} \label{tm:ftap1}
+	A discrete market, on a discrete probability space ($\Omega$, $\Sigma$, $\mathbb{P}$), is \textbf{arbitrage-free} if, and only if, there exists at least one risk neutral probability measure that is equivalent to the original probability measure, $\mathbb{P}$.
+\end{theorem}
+
+\hfill \break
+This first theorem is important in that it ensures a foundamental property of market models. It will allow for some nice manipulations with discounted price processes we will mention later in this thesis.
+
+% UNCOMMENT THE BELOW TO CONTINUE WORKING ON THE PROOF
+% \subsubsection{Proof}
+% % intuitive proof: https://stanford.edu/~ashlearn/RLForFinanceBook/ArbitrageCompleteness.pdf
+% For illustration we will just prove the easier implication, i.e.\\\textit{Existence of Risk-neutral measure} $\Rightarrow$ \textit{Arbitrage-free}
+
+% Suppose we have a discrete probability space ($\Omega$, $\mathcal{F}$, $\mathcal{P}$), such that $\Omega = \{\omega_1, ..., \omega_n\}$ and $\mathcal{P}: \Omega \rightarrow [0,1]$.
+
+% \hfill \break
+% A probability measure $\pi: \Omega \rightarrow [0,1]$ is said to be risk-neutral if the following holds:
+% $$S_j^{(0)} = e^{-r}\sum_{i=1}^{n} \pi(\omega_i)S_j^{(i)}$$ 
+
+\subsection{Second fundamental theorem of asset pricing}
+\begin{theorem} \label{tm:ftap2}
+	An arbitrage-free is said to be \textbf{complete} (every contingent claim replicable) if and only if there exists a unique risk-neutral measure equivalent to the physical one.
+\end{theorem}
+
+\hfill \break
+This theorem can be reformulated in an equivalent way, that is, the market is complete if and only if there exists only one source of randomness in asset dynamic. Although this property is common in many models it is sometimes not always considered desirable or realistic. 
 
 \chapter{Pricing an asset}
 The famous Black-Scholes model assumes that the price of the asset follows the geometric Brownian motion we have just covered. Geometric Brownian motion satisfies a local Markov property, that is, the change in the value of the process in a very small amount of time can only be marginal. The distribution of returns of the geometric Brownian motion is not completely comparable to the real world scenario. To be more specific, in real world from time to time there is a shock hitting the market and the prices move rapidly in some direction. Such movements are called jumps. The problem with the geometric Brownian motion is that it does not allow for such events to happen, therefore yielding a return distribution with thinner tails than what would be the case in real markets. It is of interest to us to try and model such events. The idea was previously introduced in \cite{merton_option_1976}. In this section we will describe the building blocks of such process and arrive to the dynamics which have to be satisfied for the process to be a Jump-diffusion process.
@@ -1351,7 +1365,7 @@ Stohastički procesi imaju široku primjenu u raznim područjima računarske zna
 \chapter{Tables and derivations}
 \section{Delta hedge} \label{sec:obtain_delta_hedge}
 
-Starting from \ref{eqn:bs_call} and \ref{eqn:d1d2} we want to obtain the expression \ref{eqn:delta_nd1}. Of course we just need to differentiate the call price by $X$, but also $d_1$ and $d_2$ are functions of $X$ and it is maybe not immediately straighforward how to obtain the expression \ref{eqn:delta_nd1}. 
+Starting from \ref{eqn:bs_call} and \ref{eqn:d1d2} we want to obtain the expression \ref{eqn:delta_nd1}. Of course we just need to differentiate the call price by $X$, but also $d_1$ and $d_2$ are functions of $X$ and it is maybe not immediately straighforward how to obtain the expression \ref{eqn:delta_nd1}:
 \begin{equation*}
 	C_t = X_tN(d_1) - N(d_2)Ke^{-r\tau} \hspace{0.5cm} \Big/ \frac{\partial}{\partial X}
 \end{equation*}
@@ -1359,41 +1373,41 @@ Starting from \ref{eqn:bs_call} and \ref{eqn:d1d2} we want to obtain the express
 	\frac{\partial C}{\partial X} = \frac{\partial}{\partial X}\left[ XN(d_1) \right] - \frac{\partial}{\partial X} \left[ N(d_2)Ke^{-r\tau} \right]
 \end{equation*}
 \begin{equation} \label{eqn:dC_dX}
-	\frac{\partial C}{\partial X} = N(d_1) + X\frac{\partial N(d_1)}{\partial X} - Ke^{-r\tau}\frac{\partial N(d_2)}{\partial X}
+	\frac{\partial C}{\partial X} = N(d_1) + X\frac{\partial N(d_1)}{\partial X} - Ke^{-r\tau}\frac{\partial N(d_2)}{\partial X} \hspace{0.1cm}.
 \end{equation} Now we will decompose the terms $\frac{\partial N(d_1)}{\partial X}$ and $\frac{\partial N(d_2)}{\partial X}$, but first let us take a look at what $N(z)$ represents. $N$ is a unit normal cumulative distribution function, that is:
 \begin{equation} 
-	N(z) = \frac{1}{\sqrt{2\pi}} \int_{-\infty}^{z} e^{-\frac{u^2}{2}}du
+	N(z) = \frac{1}{\sqrt{2\pi}} \int_{-\infty}^{z} e^{-\frac{u^2}{2}}du \hspace{0.1cm},
 \end{equation} which means that the $\frac{\partial N}{\partial z}$ is the value of the unit normal probability density function at the point $z$ or in our case this would mean:
 \begin{equation}
-	\frac{\partial N}{\partial d_1} = \frac{1}{\sqrt{2\pi}} e^{-\frac{d_1^2}{2}} \hspace{0.5cm} \mbox{and} \hspace{0.5cm} \frac{\partial N}{\partial d_2} = \frac{1}{\sqrt{2\pi}} e^{-\frac{d_2^2}{2}}
+	\frac{\partial N}{\partial d_1} = \frac{1}{\sqrt{2\pi}} e^{-\frac{d_1^2}{2}} \hspace{0.5cm} \mbox{and} \hspace{0.5cm} \frac{\partial N}{\partial d_2} = \frac{1}{\sqrt{2\pi}} e^{-\frac{d_2^2}{2}} \hspace{0.1cm}.
 \end{equation} We also repeat expressions for $d_1$ and $d_2$:
 
 \begin{equation*}
-	d_1 = \frac{\ln{\frac{X_t}{K}} + \left(r + \frac{\sigma^2}{2} \right)\tau}{\sigma\sqrt{\tau}} \hspace{2cm} d_2 = d_1 - \sigma\sqrt{\tau}
+	d_1 = \frac{\ln{\frac{X_t}{K}} + \left(r + \frac{\sigma^2}{2} \right)\tau}{\sigma\sqrt{\tau}} \hspace{1cm} , \hspace{1cm} d_2 = d_1 - \sigma\sqrt{\tau} \hspace{0.05cm}.
 \end{equation*} Let us now go back to $\frac{\partial N(d_1)}{\partial X}$ and $\frac{\partial N(d_2)}{\partial X}$ we obtain the following expression for $\frac{\partial N(d_1)}{\partial X}$:
 \begin{equation*}
 	\frac{\partial N(d_1)}{\partial X} = \frac{\partial N}{\partial d_1} \frac{\partial d_1}{\partial X} = \frac{1}{\sqrt{2\pi}}e^{-\frac{d_1^2}{2}}\frac{1}{\sigma\sqrt{\tau}}\frac{K}{X}\frac{1}{K}
 \end{equation*}
 \begin{equation}
-	\frac{\partial N(d_1)}{\partial X} = \frac{1}{X\sigma\sqrt{2\pi\tau}}e^{-\frac{d_1^2}{2}}
+	\frac{\partial N(d_1)}{\partial X} = \frac{1}{X\sigma\sqrt{2\pi\tau}}e^{-\frac{d_1^2}{2}} \hspace{0.1cm},
 \end{equation} and analoguously for $d_2$
 \begin{equation*}
 	\frac{\partial N(d_2)}{\partial X} = \frac{1}{X\sigma\sqrt{2\pi\tau}}e^{-\frac{d_2^2}{2}} = \frac{1}{X\sigma\sqrt{2\pi\tau}}e^{-\frac{(d_1 - \sigma\sqrt{\tau})^2}{2}}
 \end{equation*}
 \begin{equation}
-	\frac{\partial N(d_2)}{\partial X} = \frac{1}{X\sigma\sqrt{2\pi\tau}}e^{-\frac{d_1^2}{2}} \cdot e^{d_1\sigma\sqrt{\tau}} \cdot e^{-\tau\frac{\sigma^2}{2}}
+	\frac{\partial N(d_2)}{\partial X} = \frac{1}{X\sigma\sqrt{2\pi\tau}}e^{-\frac{d_1^2}{2}} \cdot e^{d_1\sigma\sqrt{\tau}} \cdot e^{-\tau\frac{\sigma^2}{2}} \hspace{0.1cm}.
 \end{equation} Now we will plug it all back in into the equation \ref{eqn:dC_dX} we obtain
 
 \begin{align*}
 	\frac{\partial C}{\partial X} &= N(d_1) + \frac{e^{-\frac{d_1^2}{2}}}{X\sigma\sqrt{2\pi\tau}} \left[ X - Ke^{-r\tau} e^{\ln{\frac{X}{K}} + (r+\frac{\sigma^2}{2})\tau} \cdot e^{-\tau\frac{\sigma^2}{2}} \right] \\
 	&= N(d_1) + \frac{e^{-\frac{d_1^2}{2}}}{X\sigma\sqrt{2\pi\tau}} \left[ X - Ke^{\ln{\frac{X}{K}}} \right] \\
-	&= N(d_1) + \frac{e^{-\frac{d_1^2}{2}}}{X\sigma\sqrt{2\pi\tau}} \left[ X - X \right]
+	&= N(d_1) + \frac{e^{-\frac{d_1^2}{2}}}{X\sigma\sqrt{2\pi\tau}} \left[ X - X \right] \hspace{0.1cm}.
 \end{align*}
-
+Finally we have
 \begin{equation}
 	\boxed{
 		\frac{\partial C}{\partial X} = N(d_1)
-	}
+	} \hspace{0.1cm}.
 \end{equation}
 
 \section{Tables} \label{appendix:section_tables}
