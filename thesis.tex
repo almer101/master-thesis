@@ -8,10 +8,13 @@
 \usepackage{pgfplots}
 \usepackage{longtable}
 \usepackage{indentfirst}
-% \usepackage[
-% backend=biber,
-% style=alphabetic,
-% ]{biblatex}
+\usepackage{afterpage}
+
+\newcommand\blankpage{%
+    \null
+    \thispagestyle{empty}%
+    \addtocounter{page}{-1}%
+    \newpage}
 
 \pgfplotsset{width=13cm, compat=1.5}
 \pgfplotsset{soldot/.style={color=black,only marks,mark=*}} \pgfplotsset{holdot/.style={color=black,fill=white,only marks,mark=*}}
@@ -40,7 +43,8 @@
 % \izvornik
 
 % Dodavanje zahvale ili prazne stranice. Ako ne želite dodati zahvalu, naredbu ostavite radi prazne stranice.
-\zahvala{}
+% \zahvala{}
+\afterpage{\blankpage}
 
 \tableofcontents
 
