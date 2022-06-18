@@ -40,7 +40,7 @@
 % \izvornik
 
 % Dodavanje zahvale ili prazne stranice. Ako ne želite dodati zahvalu, naredbu ostavite radi prazne stranice.
-\zahvala{Thank you}
+\zahvala{}
 
 \tableofcontents
 
@@ -48,9 +48,9 @@
 % motivation
 Stochastic or random process is a mathematical object which is usually defined as a collection of random variables. It can be seen as a random variable evolving over time. The weather, for example, is a stochastic process. A lot of similar examples are found in everyday life. Stochastic processes can be used to model any kind of process that, in itself, has some kind of uncertainty involved. 
 
-Compared to a deterministic function, for which, at any time we know its value, in case of a stochastic process one cannot for sure know its value, but can maybe have an estimation or a probability of having a certain value. Although it is not ideal, it is for sure better than not knowing anything about it whatsoever. Under the assumption that processes in real world are random, but are to some degree \textit{defined}, gives us hope that, without knowing their exact future behaviour or position, we can have a good feeling of how they could move.
+Compared to a deterministic function, for which, at any time we know its value, in case of a stochastic process one cannot for sure know its value, but can maybe have an estimation or a probability of having a certain value. Although it is not ideal, it is for sure better than not knowing anything about it whatsoever. Under the assumption that processes in real world are random, but are to some degree \textit{defined}, gives us hope that, without knowing their exact future behavior or position, we can have a good feeling of how they could move.
 
-Stochastic processes have a very wide application in the field of finance. The main reason for that is that they can be used to model an asset price as a process where uncertainty is present. Behaviour of such processes can be observed to potentially draw some conclusions from them. 
+Stochastic processes have a very wide application in the field of finance. The main reason for that is that they can be used to model an asset price as a process where uncertainty is present. Behavior of such processes can be observed to potentially draw some conclusions from them. 
 
 The goal of this thesis is to utilize stochastic processes and apply them to tackle some of the problems from mathematical finance. Firstly, I will start with defining necessary mathematical and financial concepts which will be used throughout this thesis. After the foundation is set, starting with the Brownian motion, step-by-step we will arrive at the jump-diffusion process which will be used as a process of the price of an asset. We will then introduce the idea of a financial derivative, in our case an option, and we will tackle the problem of determining a fair price of the option. Lastly, we will introduce the idea of risk, how to quantify it and how to hedge the risk of our position in the asset or the option. It is my hope that, this thesis will not only provide you with a good overview of pricing and hedging of financial instruments, but also give you the understanding of such the underlying processes are useful to model the scenarios that occur every day in the market.
 
@@ -58,8 +58,7 @@ The goal of this thesis is to utilize stochastic processes and apply them to tac
 % probability and random variables
 % definition of a stochastic process
 % filtration
-Stochastic processes have a well defined purpose in several fields, and one of those fields is finance. They seem to be the perfect choice when it comes to modelling assets' dynamics, because their \textit{randomness} is used to replicate the uncertainty of asset prices that can be observed in the market.\\
-
+Stochastic processes have a well defined purpose in several fields, and one of those fields is finance. They seem to be the perfect choice when it comes to modeling assets' dynamics, because their \textit{randomness} is used to replicate the uncertainty of asset prices that can be observed in the market. By utilizing this type of modeling it is possible to forecast probabilities of different outcomes under different conditions. Many companies from different industries use stochastic processes to improve their business workflows and increase profitability. Similarly, portfolio managers, analysts and planners in financial sector services use stochastic modeling to manage their assets and liabilities as well as for portfolio optimization. \\
 \section{Introduction to Probability Theory}
 A probability space is a mathematical triplet $(\Omega, \Sigma, \mathbb{P})$ providing a formal model of a random experiment. Such a space consists of three elements:
 \begin{itemize}
@@ -67,7 +66,7 @@ A probability space is a mathematical triplet $(\Omega, \Sigma, \mathbb{P})$ pro
 	\item $\sigma$-algebra of events $\Sigma$, where each event is a subset of $\Omega$,
 	\item a probability measure $\mathbb{P}$.
 \end{itemize}
-We have mentioned a term $\sigma$-algebra, which a reader may not be familiar with. $\sigma$-algebra on a set $\Omega$ is a collection $\Sigma$ of subsets of $\Omega$ which is closed under complement, union and intersection. What this means is that if certain subsets $A,B\subseteq\Omega$ are in $\Sigma$, then simply also $\overline{A}$, $\overline{B}$, $A\cup B$ and $A\cap B$ have to be elements of $\Sigma$. This has to hold for any two elements of $\Sigma$.
+We have mentioned a term $\sigma$-algebra, which a reader may not be familiar with. A $\sigma$-algebra on a set $\Omega$ is a collection $\Sigma$ of subsets of $\Omega$ which is closed under complement, union and intersection. What this means is that if certain subsets $A,B\subseteq\Omega$ are elements of $\Sigma$, then simply also $\overline{A}$, $\overline{B}$, $A\cup B$ and $A\cap B$ have to be elements of $\Sigma$. This has to hold for any two elements of $\Sigma$.
 
 Another important concept is that of filtration. A \textbf{filtration} $\{\mathcal{F}_t\}_{t\ge 0}$ is an increasing collection of $\sigma$-algebras, such that for every $0 \le s \le t$ the following holds: $\mathcal{F}_s \subseteq \mathcal{F}_t \subseteq \mathcal{F}$. Filtration can be thought of as \textit{"flow of information"}. More specifically, $\mathcal{F}_t$ can be considered as the information generated by all observed events up to time $t$.
 
@@ -109,8 +108,8 @@ We calculate the expected value and the variance of this new random variable:
 	\end{array}
 \end{equation}
 According to the Central Limit Theorem with $n \rightarrow \infty$ we know that $X(t)$ will have a normal distribution, namely:
-$$ \frac{\sum_{i=1}^n X_i - nh(p-q)}{\sqrt{n}\sqrt{Var[X_i]}} = \frac{\sum_{i=1}^n X_i - nh(p-q)}{2h\sqrt{n}\sqrt{pq}} \sim \mathcal{N}(0,1)\hspace{0.1cm}, $$
-$$ \Rightarrow \sum_{i=1}^n X_i - nh(p-q) \sim \mathcal{N}(0,4nh^2pq)\hspace{0.1cm},$$
+$$ \frac{\sum_{i=1}^n X_i - nh(p-q)}{\sqrt{n}\sqrt{Var[X_i]}} = \frac{\sum_{i=1}^n X_i - nh(p-q)}{2h\sqrt{n}\sqrt{pq}} \sim \mathcal{N}(0,1) $$
+$$ \Rightarrow \sum_{i=1}^n X_i - nh(p-q) \sim \mathcal{N}(0,4nh^2pq)$$
 \begin{equation}
 	\sum_{i=1}^n X_i \sim \mathcal{N}(nh(p-q), 4nh^2pq)\hspace{0.1cm}.
 \end{equation}
@@ -187,7 +186,7 @@ In order to be able to construct a stochastic integral of form:
 \noindent We will show how the define the stochastic integral for the case of $g_s$ which is \textbf{simple}, i.e. such $g_s$ that there exist deterministic points in time $a=t_0 < t_1 < ... < t_n = b$, such that $g$ is constant on each subinterval. To put this formally, $g_s=g_{t_k}$ where $s \in [t_k,t_{k+1})$. In that case, the stochastic integral can be defined as follows:
 $$ \int_a^bg_sdW_s = \lim_{n\rightarrow\infty} \sum_{k=1}^n g_{t_k-1}(W_{t_k} - W_{t_{k-1}}) \hspace{0.5cm} \text{, where } t_k = k\frac{t}{n}\hspace{0.1cm}.$$
 
-\noindent The process $g_s$ is evaluated in the summation on the left-hand point ($t_{k-1}$) which is known as a \textbf{non-anticipatory} integration. This is a natural choice in finance ensuring that we use no information from the fututre for our present actions.
+\noindent The process $g_s$ is evaluated in the summation on the left-hand point ($t_{k-1}$) which is known as a \textbf{non-anticipatory} integration. This is a natural choice in finance ensuring that we use no information from the future for our present actions.
 
 \noindent For the case of $g_s$ which is not \textit{simple} (as described above), we would have to approximate the process $g_s$ in a certain way, but this is outside of the scope of this thesis and will not be considered because we will not encounter such integrals.
 
@@ -206,7 +205,7 @@ Theory of stochastic integration is closely related to the theory of martingales
 
 \noindent In order to extend the definition of a martingale to a continuous case, let us first consider a concept of filtration ${\mathcal{F}}_{t \ge 0}$, that we have already mentioned earlier. As before, a filtration can be thought of as a \textit{flow of information} and $\mathcal{F}_t$ as the information generated by all observed events up to time $t$. For any random variable $X$ let the symbol
 $$\mathbb{E}[X|\mathcal{F}_t]$$
-represent the \textit{"expected value of $X$ given the information available up to time $t$"}. It is important to note here that for a fixed $t$, the object $\mathbb{E}[X|\mathcal{F}_t]$ is a random variable. Let, for example, a filtration be generated by the process $Y$, then the information available up to time $t$ will, of course, be dependent on the behaviour of the process $Y$ in the time interval $[0,t]$. Before defining a continous time martingale, let us first consider the following proposition:
+represent the \textit{"expected value of $X$ given the information available up to time $t$"}. It is important to note here that for a fixed $t$, the object $\mathbb{E}[X|\mathcal{F}_t]$ is a random variable. Let, for example, a filtration be generated by the process $Y$, then the information available up to time $t$ will, of course, be dependent on the behavior of the process $Y$ in the time interval $[0,t]$. Before defining a continous time martingale, let us first consider the following proposition:
 
 \begin{itemize}
 	\item \textit{If $Y$ and $Z$ are random variables, and $Z$ is $\mathcal{F}_t$-measurable (known at time $t$), then} $$\mathbb{E}[Z\cdot Y|\mathcal{F}_t] = Z \cdot \mathbb{E}[Y|\mathcal{F}_t]\hspace{0.1cm}.$$
@@ -226,7 +225,7 @@ A stochastic process $X$ is an $(\mathcal{F}_t)$-martingale if the following con
 
 \section{Stochastic Calculus and It\^{o}'s Lemma}
 % LAST ANSWER HERE: https://math.stackexchange.com/questions/2686925/some-questions-on-the-details-of-an-integration-of-brownian-motion-against-itsel
-When talking about stochastic processes, one can see that they are different than the usual functions. If we look at a infinitesimally small time interval $\Delta t$ and observe the function behaviourin that time interval, the function is a straight line. This is unfortunately not the case with the stochastic processes, where even if we \textit{zoom-in} on the trajectory, the trajectory is not smooth. Therefore, a japanese mathematician Kiyoshi It\^{o} started and created the field of \textbf{stochastic calculus} which is able to operate on stochastic processes. We come to the very important theorem in the field of stochastic calculus and that is \textbf{It\^{o}'s lemma}.
+When talking about stochastic processes, one can see that they are different than the usual functions. If we look at a infinitesimally small time interval $\Delta t$ and observe the function behaviorin that time interval, the function is a straight line. This is unfortunately not the case with the stochastic processes, where even if we \textit{zoom-in} on the trajectory, the trajectory is not smooth. Therefore, a japanese mathematician Kiyoshi It\^{o} started and created the field of \textbf{stochastic calculus} which is able to operate on stochastic processes. We come to the very important theorem in the field of stochastic calculus and that is \textbf{It\^{o}'s lemma}.
 
 \begin{theorem}[It\^{o}'s Lemma]
 Assume that the process $X$ has a stochastic differential given by $$dX_t = \mu_t X_t dt + \sigma_t X_t dW_t\hspace{0.1cm},$$ where $\mu$ and $\sigma$ are adapted processes, and let $f$ be a $C^{1,2}$-function. Define the process $Z$ by $Z(t) = f(t,X_t)$. Then $Z$ has a stochastic differential given by 
@@ -293,7 +292,7 @@ Remembering that the $W_0 = 0$ we get the following result:
 	X_t = X_0\exp\left\{ (\mu-\frac{1}{2}\sigma^2)t + \sigma W_t \right\} \hspace{0.1cm}.
 \end{equation}
 
-\noindent This model is in finance also known as \textbf{log-normal asset return model}, because we are using logarithmic prices. It is important to note that this model only has \textbf{positive values} of stock prices, which is in that sense in line with the real world, where stock prices can not become negative. Sample paths of such model can be observed on the Figure \ref{fig:gbm_paths}.
+\noindent This model is in finance also known as \textbf{log-normal asset return model}, because we are using logarithmic prices. It is important to note that this model only has \textbf{positive values} of stock prices, which is in that sense in line with the real world, where stock prices can not become negative. Trajectories of four different realisations of such a model can be observed on the Figure \ref{fig:gbm_paths}. The parameters in this case were set to be $\mu=0.05$ and $\sigma = 0.4$.
 \vspace{1cm}
 \begin{figure}[ht]
 \centering
@@ -330,19 +329,19 @@ As already mentioned, markets in perfect competition have a high number of parti
 In this section we will cover a few basic financial instruments. As discussed earlier, different types of markets offer different types of goods. A \textbf{bond market} (also called fixed-income markets) is a collective name attributed to all issues and trades of debt securities. Stock exchange is another type of market where, among many other things, \textbf{stocks} and \textbf{derivatives} can be traded. 
 
 \hfill \break
-\indent A \textbf{bond} is a fixed-income financial instrument typically issued by governments or corporations in order to raise money needed to fund a certain project, for example. When a corporation (or a government) needs to borrow money, it issues bonds that include the terms of the loan, the time at which the loaned funds (bond principal) must be paid back (maturity date) and the interest payments that will be paid. They can essentially be thought of as a contract issued by the borrower promising to pay back the loan plus some interest on it at some time in the future. An interest is a premium for the person loaning the money, because by buying a bond (loaning money) the buyer takes on a risk that the issuer will not be able to pay back at maturity (risk of default). Governments are typically less likely to fail than corporations, therefore the interest paid on government bonds is genereally lower than the interest paid on corporate bonds. There are also bonds that pay additional coupons between the issuance and maturity, but they will not be of particular interest to us in the scope of this thesis.
+\indent A \textbf{bond} is a fixed-income financial instrument typically issued by governments or corporations in order to raise money needed to fund a certain project, for example. When a corporation (or a government) needs to borrow money, it issues bonds that include the terms of the loan, the time at which the loaned funds (bond principal) must be paid back (maturity date) and the interest payments that will be paid. They can essentially be thought of as a contract issued by the borrower promising to pay back the loan plus some interest on it at some time in the future. An interest is a premium for the person loaning the money, because by buying a bond (loaning money) the buyer takes on a risk that the issuer will not be able to pay back at maturity (risk of default). Governments are typically less likely to fail than corporations, therefore the interest paid on government bonds is generally lower than the interest paid on corporate bonds. There are also bonds that pay additional coupons between the issuance and maturity, but they will not be of particular interest to us in the scope of this thesis.
 
 \hfill \break
 \indent A \textbf{stock} (also called \textit{equity}) is a type of a security issued by the corporations and represents the ownership of a fraction of a company. The units of stock are called \textit{shares}. They are issued for a company to raise funds to operate their business. It is important to point out that corporations are treated as legal persons, so a shareholder does not \textit{own} a corporation, but own shares issued by the corporations and have a claim on its assets and earnings.
 
 \hfill \break
-\indent Having explained the characteristics of bonds and stocks we arrive at securities that are not completely basic. \textbf{Derivatives} are a type of security which \textit{derives} its value from another asset (e.g. stock). There are many types of derivatives, but we will focus on the ones used in this thesis and those are options. \textbf{Option} is a contract that gives the buyer a right, but not an obligation, to buy or sell (depending on the type of the contract they hold) the underlying asset at a certain time in future. 
+\indent Having explained the characteristics of bonds and stocks we arrive at securities that are not completely basic. \textbf{Derivatives} are a type of security which \textit{derives} its value from another asset (e.g. stock). There are many types of derivatives, but we will focus on the ones used in this thesis and those are options. \textbf{Option} is a contract that gives the buyer a right, but not an obligation, to buy or sell (depending on the type of the contract they hold) the underlying asset at a certain time in the future. 
 
 \hfill \break
-\indent \textbf{European options} (also called \textit{vanilla} options) are the most basic form of an option. We differentiate two different types of european options: \textit{call} and \textit{put} option. A call option gives a buyer a right to buy the underlying security at some predetermined price (strike price) at a certain time in future (maturity). In case the price of the underlying asset is greater than the strike price at the time of maturity, the buyer can buy the underlying asset at the strike price and immediately sell the asset at its market price which is now higher than the strike price, thus making a profit. However, if the price of the underlying asset is lower than the strike price at maturity, it does not make sense for the buyer to excercise the option and buy the asset at strike price, because she/he can simply buy the asset at the market price. A put option works in an opposite way, as it gives a buyer a right to sell the underlying security at the strike price at maturity. Put option expires worthless in case the price of the underlying asset is greater than the strike price as the buyer can than simply sell the security at its market price. In this case an option expires without excercising, the only loss made by the buyer is the amount paid for the option in the first place. To illustrate this very important concept of European options let us look at the following example:
+\indent \textbf{European options} (also called \textit{vanilla} options) are the most basic form of an option. We differentiate two different types of European options: \textit{call} and \textit{put} option. A call option gives a buyer a right to buy the underlying security at some predetermined price (strike price) at a certain time in the future (maturity). In case the price of the underlying asset is greater than the strike price at the time of maturity, the buyer can buy the underlying asset at the strike price and immediately sell the asset at its market price which is now higher than the strike price, thus making a profit. However, if the price of the underlying asset is lower than the strike price at maturity, it does not make sense for the buyer to exercise the option and buy the asset at strike price, because she/he can simply buy the asset at the market price. A put option works in an opposite way, as it gives a buyer a right to sell the underlying security at the strike price at maturity. Put option expires worthless in case the price of the underlying asset is greater than the strike price as the buyer can than simply sell the security at its market price. In this case an option expires without exercising, the only loss made by the buyer is the amount paid for the option in the first place. To illustrate this very important concept of European options let us look at the following example:
 
 \hfill \break
-\indent \noindent Suppose at time $t=0$ the price of an asset is $S_0 = 100$ and that we can buy a \textit{put} option with maturity $T$ and strike price $K=90$. The price of such option contract at time $t=0$ is $P = 5$. Let us assume that at maturity the price of the asset is $S_T = 93$. This means that the buyer will simply let the contract expire because the asset can be sold at a market price which is higher than the strike price of the \textit{put} option. If, however, the price of an asset dips below $S_0$ to value of $S_T = 80$, the buyer can buy the asset in the market for the price of $80$ and immediately sell it in the market for $K=90$ by excercising the option. Thus, making a profit of $(K-S_T) - P = (90 - 80) - 5 = 5$. 
+\indent \noindent Suppose at time $t=0$ the price of an asset is $S_0 = 100$ and that we can buy a \textit{put} option with maturity $T$ and strike price $K=90$. The price of such option contract at time $t=0$ is $P = 5$. Let us assume that at maturity the price of the asset is $S_T = 93$. This means that the buyer will simply let the contract expire because the asset can be sold at a market price which is higher than the strike price of the \textit{put} option. If, however, the price of an asset dips below $S_0$ to value of $S_T = 80$, the buyer can buy the asset in the market for the price of $80$ and immediately sell it in the market for $K=90$ by exercising the option. Thus, making a profit of $(K-S_T) - P = (90 - 80) - 5 = 5$. 
 \hfill \break
 Note that in this example, the time value of money was disregarded for simplicity purposes. 
 
@@ -371,14 +370,14 @@ $$\mathbb{E}[\text{payoff at } t=1] = 0.4 \cdot (-14) + 0.6 \cdot 11 = 1$$
 
 \newpage
 \section{Fundamental theorems of asset pricing}
-Whenever there is an arbitrage opportunity there is one side that is losing money. It is logical to expect that a party will try avoid creating an arbitrage opportunity for others to exploit. Modelling a market to be arbitrage free is thus a natural way forward. The following theorems will provide conditions for a market to be free of arbitrage and for a market to be complete. They form a sort of a bridge between the economical and mathematical understanding of the market.
+Whenever there is an arbitrage opportunity there is one side that is losing money. It is logical to expect that a party will try avoid creating an arbitrage opportunity for others to exploit. Modeling a market to be arbitrage free is thus a natural way forward. The following theorems will provide conditions for a market to be free of arbitrage and for a market to be complete. They form a sort of a bridge between the economical and mathematical understanding of the market.
 \subsection{First fundamental theorem of asset pricing}
 \begin{theorem} \label{tm:ftap1}
 	A discrete market, on a discrete probability space ($\Omega$, $\Sigma$, $\mathbb{P}$), is \textbf{arbitrage-free} if, and only if, there exists at least one risk neutral probability measure that is equivalent to the original probability measure, $\mathbb{P}$.
 \end{theorem}
 
 \hfill \break
-This first theorem is important in that it ensures a foundamental property of market models. It will allow for some nice manipulations with discounted price processes we will mention later in this thesis.
+This first theorem is important in that it ensures a fundamental property of market models. It will allow for some nice manipulations with discounted price processes we will mention later in this thesis.
 
 % UNCOMMENT THE BELOW TO CONTINUE WORKING ON THE PROOF
 % \subsubsection{Proof}
@@ -418,7 +417,7 @@ The famous Black-Scholes model assumes that the price of the asset follows the g
 			\end{definition}
 
 			% REF: memorylessness -> https://en.wikipedia.org/wiki/Memorylessness
-			\noindent The expected value of a random variable $X$ which is exponentially distributed is \begin{equation} \mathbb{E}[X] = \frac{1}{\lambda} \hspace{0.1cm}.\end{equation} The most famous property of the exponential distribution is memorylessness. \textbf{Memorylessness} is a property of certain probability distributions which refers to the fact that the waiting time until the occurrence of a certain event does not depend on how much time has already elapsed. Memorylessness of an exponential distribution is formally expressed as: \begin{equation} P(X > t + s | X>s) = e^{-\lambda t} = P(X > t) \hspace{0.1cm}.\end{equation} If $X$ is a random variable modelling a waiting time, this would mean that the probability that we wait more than $t+s$ if we already know that at least $s$ time has elapsed, is the same as the probability that we will wait more than $t$. 
+			\noindent The expected value of a random variable $X$ which is exponentially distributed is \begin{equation} \mathbb{E}[X] = \frac{1}{\lambda} \hspace{0.1cm}.\end{equation} The most famous property of the exponential distribution is memorylessness. \textbf{Memorylessness} is a property of certain probability distributions which refers to the fact that the waiting time until the occurrence of a certain event does not depend on how much time has already elapsed. Memorylessness of an exponential distribution is formally expressed as: \begin{equation} P(X > t + s | X>s) = e^{-\lambda t} = P(X > t) \hspace{0.1cm}.\end{equation} If $X$ is a random variable modeling a waiting time, this would mean that the probability that we wait more than $t+s$ if we already know that at least $s$ time has elapsed, is the same as the probability that we will wait more than $t$. 
 		\subsection{Defining a Poisson process}
 		A \textbf{Poisson process} registers the occurrences of the certain event in a finite time interval. It notes the number of occurrences as well as times when the event happened. 
 		\begin{definition}
@@ -552,7 +551,7 @@ The famous Black-Scholes model assumes that the price of the asset follows the g
 			\end{align*}
 		\end{proof}
 
-	\noindent Before we continue further and comobine the knowledge we have on geometric Brownian motion and Jump processes to obtain a Jump-diffusion process, let us first denote with $d\tilde{J}$ the change in the compensated Jump process in an infinitesimally small time interval $dt$:
+	\noindent Before we continue further and combine the knowledge we have on geometric Brownian motion and Jump processes to obtain a Jump-diffusion process, let us first denote with $d\tilde{J}$ the change in the compensated Jump process in an infinitesimally small time interval $dt$:
 	\begin{equation}
 		d\tilde{J} = \left\{  \begin{array}{lcl} U_i - k\lambda dt& \mbox{with probability} & \lambda dt \\
 																	- k\lambda dt & \mbox{with probability} & (1 - \lambda dt) \end{array} \right.
@@ -568,7 +567,7 @@ The famous Black-Scholes model assumes that the price of the asset follows the g
 		\frac{dX_t}{X_t} = \mu_tdt + \sigma_tdW_t + UdN_t \hspace{0.1cm}.
 	\end{equation} 
 	% TODO: add a picture of an index with jumps
-	We will assume, for simplicity purposes, that the $\mu, \sigma$ and $\lambda$ are constant in time. Further more, if we observe the behaviour of the process we can differentiate two different types of segments in the process:
+	We will assume, for simplicity purposes, that the $\mu, \sigma$ and $\lambda$ are constant in time. Further more, if we observe the behavior of the process we can differentiate two different types of segments in the process:
 	\begin{enumerate}
 		\item between jumps it is driven by a pure diffusion process
 		\item at jump times $(\tau_i)$ the value of the process after a jump depends on the value right before the jump $(\tau_i^-)$
@@ -601,7 +600,7 @@ The famous Black-Scholes model assumes that the price of the asset follows the g
 		X(t) = X(0)\exp\left[ (\mu - \frac{1}{2}\sigma^2)t + \sigma W_{t} \right]\left(\prod_{i=1}^{N(t)}1+U_i\right) \hspace{0.1cm}.
 	\end{equation}
 
-	\noindent We have, however, not taken into account that the expected change in the resulting process is not anymore $X_t\mu dt$, because we have incorporated jumps and we have not compensated for it. In order to fix that we would have to compensate for that like we did earlier with the compensated Jump process. Doing that and then following the same logic as above we would obtain the following resulting equation for the value of the compensated jump-diffusion process at time $t$:
+	\noindent We have, however, not taken into account that the expected change in the resulting process is not anymore $X_t\mu dt$, because we have incorporated jumps, and we have not compensated for it. In order to fix that we would have to compensate for that like we did earlier with the compensated Jump process. Doing that and then following the same logic as above we would obtain the following resulting equation for the value of the compensated jump-diffusion process at time $t$:
 	\begin{equation} \label{eqn_jump_diff_compensated}
 		X(t) = X(0)\exp\left[ (\mu - k\lambda- \frac{1}{2}\sigma^2)t + \sigma W_{t} \right]\left(\prod_{i=1}^{N(t)}1+U_i\right) \hspace{0.1cm}.
 	\end{equation}
@@ -645,12 +644,12 @@ The famous Black-Scholes model assumes that the price of the asset follows the g
 % https://www.youtube.com/watch?v=URNN2_YPGVI
 
 \section{Options}
-An option is a form of financial derivative, which gives the buyer a right, but not an obligation, to buy or sell the underlying asset at a certain time in future. Option contract is characterized by the following parameters:
+An option is a form of financial derivative, which gives the buyer a right, but not an obligation, to buy or sell the underlying asset at a certain time in the future. Option contract is characterized by the following parameters:
 \begin{itemize}
 	\item option price
 	\item maturity - contract expiration
 	\item strike price
-\end{itemize} The first two bullet points are self explanatory, but the third one may be unclear. A strike price is a set price at which the underlying security can be bought or sold when the option is excercised. Options range from the most simple ones (European options) to exotic path dependent options (Asian options). In this thesis we will be mainly concerned with European options.
+\end{itemize} The first two bullet points are self-explanatory, but the third one may be unclear. A strike price is a set price at which the underlying security can be bought or sold when the option is exercised. Options range from the most simplest ones (European options) to exotic path dependent options (Asian options). In this thesis we will be mainly concerned with European options.
 
 \subsection{European Call and Put Options}
 European options are often called vanilla options, because of their simplicity. A European Call option gives the buyer a right to buy the underlying asset at maturity $T$ and pay for it the value of strike price $K$. Similarly, a European Put option gives the buyer a right to sell the underlying asset at maturity and get for it the value of the strike price. 
@@ -660,7 +659,7 @@ European options are often called vanilla options, because of their simplicity. 
 \begin{itemize}
 	\item $X_T = 120$
 	\item $X_T = 90$
-\end{itemize} In the second scenario, our contract looses its value and expires unexcercised. This means that we lose our initally invested capital of $600$. If, however, the second scenario happens, we excercise our right to buy $100$ units of the underlying asset for the price of $102$. Considering the face that one unit of that asset is currently trading at $120$ we immediately sell them in the market for the market price and earn a premium of $(120 - 102)\cdot 100 - 600 = 1200$.
+\end{itemize} In the second scenario, our contract looses its value and expires unexercised. This means that we lose our initially invested capital of $600$. If, however, the second scenario happens, we exercise our right to buy $100$ units of the underlying asset for the price of $102$. Considering the face that one unit of that asset is currently trading at $120$ we immediately sell them in the market for the market price and earn a premium of $(120 - 102)\cdot 100 - 600 = 1200$.
 
 \noindent Now that we have a proper understanding of how options work we can put that into practice and dive into the pricing of the option. Although we have described both call and put options, in the following chapters we will focus on pricing a call option, but the process is analogous for the put option. 
 
@@ -693,7 +692,7 @@ If we were to look at the change $df$ in an infinitesimally small interval $dt$ 
 $$
 	df = \left\{  \begin{array}{lcl} DP & \mbox{with probability} & (1 - \lambda dt) \\
 			  DP + JP & \mbox{with probability} & \lambda dt \end{array} \right.  \hspace{0.1cm},
-$$ where $DP$ is the change due to diffusion part (equation \ref{eqn_diff_part}), and $JP$ is the change due to the jump property of the underlying price process (equation \ref{eqn_jump_part}). Let us now examine the expected value of the change in $f$ with respect to both jump size distribution as well as jump time distribution:
+$$ where $DP$ is the change due to diffusion part (equation \ref{eqn_diff_part}), and $JP$ is the change due to the jump property of the underlying price process (equation \ref{eqn_jump_part}). Let us now examine the expected value of the change in $f$ with respect to both jump size distribution and jump time distribution:
 
 \begin{align*}
 \mathbb{E}[df] = \mathbb{E}^{\mathbb{Q}_j}\mathbb{E}^{\mathbb{Q}_u}\mathbb{E}^{\mathbb{P}}[df] =& \bigg(\frac{\partial f}{\partial t} + X_t(\mu - \lambda k)\frac{\partial f}{\partial x} + \frac{1}{2}X_t^2\sigma^2\frac{\partial^2 f}{\partial x^2}\bigg)dt(1-\lambda dt) + \\
@@ -726,7 +725,7 @@ As we can see the resulting process is again a Jump-diffusion process, but now t
 % DSP page 145
 It is important to understand the idea behind the hedging portfolio before we dive into any details. Let us suppose we have two assets that generate the same cash flows, then the price of those two assets must be the same, otherwise the arbitrage is possible and the first fundamental theorem of asset pricing is not satisfied. It is, however, possible to mimic the cash flows of one asset by finding a portfolio of different assets that generate the same cash flow. Such portfolio is called a \textbf{replicating portfolio}. The main idea behind creating a replicating portfolio to price and option is, that if we find a portfolio that mimics the payoff of the option, we know that the price of the option and the portfolio have to be the same.
 
-If we short an option, a \textbf{hedging portfolio} is a portfolio constructed from the short position in an option and a long position in its replicating portfolio, or vice versa. The value of such portfolio is expected to remain unchanged over time. In order it, we must consider which assets will fall into consideration when choosing the weights of our portfolio. In our simple world, we assume that we can trade only in:
+If we short an option, a \textbf{hedging portfolio} is a portfolio constructed from the short position in an option and a long position in its replicating portfolio, or vice versa. The value of such portfolio is expected to remain unchanged over time. In order to hedge it, we must consider which assets will fall into consideration when choosing the weights of our portfolio. In our simple world, we assume that we can trade only in:
 \begin{itemize}
 	\item a derivative security - the option we want to price
 	\item an underlying asset - a stock
@@ -736,7 +735,7 @@ If we short an option, a \textbf{hedging portfolio} is a portfolio constructed f
 
 \subsection{Delta hedge} \label{sec:delta_hedge}
 % REF: capinski marek: financial engineering
-The value of an option clearly depends on the underlying price process. This is, of course, also the case for European call and put options. For simplicity purposes we move for a bit in the Black-Scholes world where an underlying asset price follows a simple geometric Brownian motion without jumps. This will allow us to get an intuition on the topic of hedging and we will then expand it to a jump-diffusion model. 
+The value of an option clearly depends on the underlying price process. This is, of course, also the case for European call and put options. For simplicity purposes we move for a bit in the Black-Scholes world where an underlying asset price follows a simple geometric Brownian motion without jumps. This will allow us to get an intuition on the topic of hedging, and we will then expand it to a jump-diffusion model. 
 Let us consider a situation where we are short one option, that is, we \textit{wrote} an option and sold it to somebody. The delta hedging strategy would tell us how many units of an underlying asset we would have to buy if we want to offset the risk of our portfolio for a small time interval $dt$. In other words, if we buy a correct amount of an underlying asset to hedge our position in an option the change in value of our portfolio in a small time interval $dt$ should be zero. The downside of a delta hedge is that it requires frequent readjustments of portfolio weights, which could, in real world, lead to high transaction costs. Although this is not really our most important concern it was important to flag it. Before actually applying it to our Jump-diffusion process and observing the issue let us define the delta hedge more precisely.
 
 We take a portfolio composed of stock, bond and a derivative security (option). The value of the portfolio is given by
@@ -773,7 +772,7 @@ The reason for that is to have a nice notation when we divide the equation by $f
 	U_f = \frac{f(X_t) - f(X_{t^-})}{f(X_t)} \hspace{0.1cm}.
 \end{equation}
 
-\noindent One last thing we still have to define is the portfolio and its value. The portoflio is a set of weights $[\pi_1, \pi_2, ...]$ which tells us the proportion of our money invested into financial instruments 1,2,.. etc. 
+\noindent One last thing we still have to define is a portfolio and its value. A portofolio is a set of weights $[\pi_1, \pi_2, ...]$ which tells us the proportion of our money invested into financial instruments 1,2,.. etc. 
 
 $$ \sum_{i=1}^{n} \pi_i = 1 \hspace{0.5cm} \pi_i \in \mathbb{R},\forall i  \hspace{0.1cm}.$$
 
@@ -878,10 +877,10 @@ which yields the final equation that we will use to price our option
 \begin{equation} \label{eqn_option_price}
 	f(t) = e^{-r(T-t)} \mathbb{E}^{\tilde{\mathbb{P}}}[f(T)|\mathcal{F}_t] \hspace{0.1cm}.
 \end{equation}
-When pricing our option we will focus on the options that have a signle fixed excercise date, which is the case for European options. If we think about it, the price of the European option at maturity $T$ has to be equal to the payoff of the option and the payoff is easy to calculate if we know the strike price and current price of the underlying security at $T$. The way we will utilize the expression obtained above is that we will simulate the paths of the process $X_t$ (\ref{eqn_x_new_measure}) and we will be able to emprically obtain the expected payoff of the option and with it, the price of the option.
+When pricing our option we will focus on the options that have a signle fixed exercise date, which is the case for European options. If we think about it, the price of the European option at maturity $T$ has to be equal to the payoff of the option and the payoff is easy to calculate if we know the strike price and current price of the underlying security at $T$. The way we will utilize the expression obtained above is that we will simulate the paths of the process $X_t$ (\ref{eqn_x_new_measure}) and we will be able to empirically obtain the expected payoff of the option and with it, the price of the option.
 
 \section{Obtaining a formula for European Call Option}
-In the previous section we have obtained an expression (\ref{eqn_option_price}) which tells us that a premium requested by the writer of the option is equal to the discounted expected future price of the option under the equivalent probability measure $\tilde{\mathbb{P}}$. When it comes to European options they can be excercised only at maturity $T$, which is different from American options that can be excercised at any time before maturity. In this section we will focus on European options. 
+In the previous section we have obtained an expression (\ref{eqn_option_price}) which tells us that a premium requested by the writer of the option is equal to the discounted expected future price of the option under the equivalent probability measure $\tilde{\mathbb{P}}$. When it comes to European options they can be exercised only at maturity $T$, which is different from American options that can be exercised at any time before maturity. In this section we will focus on European options. 
 
 \noindent As already stated, the price of the option at maturity will be equal to its payoff, because otherwise market is not arbitrage-free. Putting together the equation \ref{eqn_option_price} and this idea, we obtain the following expression: 
 \begin{equation}
@@ -958,13 +957,13 @@ In this section we will now utilize our newly developed formula to simulate opti
 \label{fig:call_prices_different_lambdas}
 \end{figure}
 
-We notice that the higher the value of $\lambda$ the higher the price of the option. This makes sense, because the for a process with more frequent jumps the asset price process has more probability to end up in the teritory above the strike price $K$ and have a positive payoff. We remind that a European option cannot have a negative payoff, we just simply do not excercise it in case the asset price process yields our option to be unprofitable. 
+We notice that the higher the value of $\lambda$ the higher the price of the option. This makes sense, because the for a process with more frequent jumps the asset price process has more probability to end up in the territory above the strike price $K$ and have a positive payoff. We remind that a European option cannot have a negative payoff, we just simply do not exercise it in case the asset price process yields our option to be unprofitable. 
 
-Next we examine how the price of the same European call option develops through time if it matures at time of $1$ year from now. As we approach the maturity of the option the price of the option will be closer and closer to its payoff. Let us observe the following 2 plots depicting the price of the Euorpean call option for 2 simulated process. First of the processes (Figure \ref{fig:call_price1}) remains almost exclusively in the teritory north of the strike price $K$, while other process (Figure \ref{fig:call_price2}) spends some time both above and under the strike price. What we examine here is, of course, expected, but it is very interesting to observe. Namely, for the first case we see that the \textit{sensitivity} of the option price to the movements of the asset price is fairly high. It may be immediately clear why this is the case, but let us support it with one example:
+Next we examine how the price of the same European call option develops through time if it matures at time of $1$ year from now. As we approach the maturity of the option the price of the option will be closer and closer to its payoff. Let us observe the following 2 plots depicting the price of the Euorpean call option for 2 simulated process. First of the processes (Figure \ref{fig:call_price1}) remains almost exclusively in the territory north of the strike price $K$, while other process (Figure \ref{fig:call_price2}) spends some time both above and under the strike price. What we examine here is, of course, expected, but it is very interesting to observe. Namely, for the first case we see that the \textit{sensitivity} of the option price to the movements of the asset price is fairly high. It may be immediately clear why this is the case, but let us support it with one example:
 
 \hfill \break
 \indent If we are at the time maturity $t=T$, we know that the price of the option will be equal to its payoff which is now known - $(S_T - K)^+$. Now, if we were to move back in time for some small time interval $\Delta t$, the option has still $\Delta t$ time left to maturity and in this time interval the asset price process can move in either direction. Since there is not much time left to maturity, we expect the price of the option to be close to the payoff if the option would mature now, that is, $(S_{T-\Delta t} - K)^+$. If we continue this pattern we may, loosely speaking, interpret the option price to be determined by the payoff if the option would mature at that moment, but adding to it a part determined by the uncertainty of where the asset price process will end up at maturity.
-If we take some time $t$, let us say $t=0.6$, the price of the asset is somewhere between $160$ and $180$ which means that it has a higher probabilty of staying in the profitable teritory and therefore the option moves in high correlation with the asset price. For the same reason we see on the second plot that as we move closer and closer to maturity, while the asset price stays below the strike price, the price of the call option is less and less responsive to the movements in the price of the underlying asset. 
+If we take some time $t$, let us say $t=0.6$, the price of the asset is somewhere between $160$ and $180$ which means that it has a higher probability of staying in the profitable territory and therefore the option moves in high correlation with the asset price. For the same reason we see on the second plot that as we move closer and closer to maturity, while the asset price stays below the strike price, the price of the call option is less and less responsive to the movements in the price of the underlying asset. 
 
 \begin{figure}[ht]
 \centering
@@ -1021,7 +1020,7 @@ If we take some time $t$, let us say $t=0.6$, the price of the asset is somewher
 \label{fig:call_price2}	
 \end{figure}
 
-\noindent The behaviours we have just described can be summed up in the Figure \ref{fig:call_surface} which depicts the surface of the option price depending on the spot price and time left to maturity. One can clearly see that the surface is leaning towards the value of the payoff as the time to maturity $\tau$ approaches $0$.
+\noindent The behaviors we have just described can be summed up in the Figure \ref{fig:call_surface} which depicts the surface of the option price depending on the spot price and time left to maturity. One can clearly see that the surface is leaning towards the value of the payoff as the time to maturity $\tau$ approaches $0$.
 
 \begin{figure}[ht]
 \centering
@@ -1135,7 +1134,7 @@ This means that if we would hold any time $t$ this amount of the underlying, our
 \caption{Asset price governed by the geometric Brownian motion and call option price with $K=120$}
 \label{fig:gbm_price_process}	
 \end{figure}
-\noindent Suppose we wrote (shorted) one call option at time $t=0$ and we want to hedge our position as we are unsure of the future price movements. In order for our position to be perfectly hedged we want to have $s$ units of the underlying asset, but to calculate $s$ we have to be able to differentiate the option price $f$ with respect to the process $X$. Luckily, this was already done in the original \cite{black_pricing_1972} paper. Namely, the expression for obtaining the price of a call option is:
+\noindent Suppose we wrote (shorted) one call option at time $t=0$, and we want to hedge our position as we are unsure of the future price movements. In order for our position to be perfectly hedged we want to have $s$ units of the underlying asset, but to calculate $s$ we have to be able to differentiate the option price $f$ with respect to the process $X$. Luckily, this was already done in the original \cite{black_pricing_1972} paper. Namely, the expression for obtaining the price of a call option is:
 
 \begin{equation} \label{eqn:bs_call}
 	C_t = X_tN(d_1) - N(d_2)Ke^{-r\tau} \hspace{0.1cm},
@@ -1158,7 +1157,7 @@ As the underlying asset price follows geometric Brownian motion we can use the e
 \begin{equation} \label{eqn:delta_nd1}
 	\frac{\partial C}{\partial X} = N(d_1) \hspace{0.1cm}.
 \end{equation}
-Combining this expression with the expression \ref{eqn:s_delta} we obtain that the number of assets we have to hold at each time $t$ is $N(d_1)$. Now we have all ingredients to be able to simulate and show hedging results. To illustrate the results, we set the initial portfolio value to be $50$ and we already know that we are short one call option, that means that our position in that option is $-1$. We are considering the process shown at Figure \ref{fig:gbm_price_process} and we will perform delta hedging with different number of rebalancing times. On Figure \ref{fig:hedging_gbm} one can observe the effect of hedging with different number of rebalancing times. The first rebalancing time occurs at time $t=0$. 
+Combining this expression with the expression \ref{eqn:s_delta} we obtain that the number of assets we have to hold at each time $t$ is $N(d_1)$. Now we have all ingredients to be able to simulate and show hedging results. To illustrate the results, we set the initial portfolio value to be $50$, and we already know that we are short one call option, that means that our position in that option is $-1$. We are considering the process shown at Figure \ref{fig:gbm_price_process} and we will perform delta hedging with different number of rebalancing times. On Figure \ref{fig:hedging_gbm} one can observe the effect of hedging with different number of rebalancing times. The first rebalancing time occurs at time $t=0$. 
 
 \begin{figure}[ht]
 \centering
@@ -1227,7 +1226,7 @@ Combining this expression with the expression \ref{eqn:s_delta} we obtain that t
 \end{figure}
 
 \section{Quadratic hedging of contingent claims}
-When we were showing that a regular Black-Scholes delta hedge in case of a jump-diffusion model cannot eliminate jump risk we stopped there. In fact in \cite{chiarella_derivative_2015} the autors demonstrate that in case we have a finite number $n$ of jump amplitudes, we can hedge away the jump risk by using $n$ additional derivative securities with different strike prices and maturities. In our case the jump amplitude is normally distributed, that is, there is an infinite number of different jump sizes and we would need an infinite number of different derivative securities to hedge away the jump risk. This is not possible and that means that a contingent claim cannot be perfectly replicated and according to the Theorem \ref{tm:ftap2} we have an \textbf{incomplete market} situation. Since there will always exist some amount of hedging error the best we can do is to try and minimize that error, this leads us to investigate other hedging techniques, one of which is quadratic hedging. Moreover, in this section we will also have a look at how to mathematically define a problem of hedging. For that we will need to introduce a notion of a \textit{trading strategy}. Although we have not defined it explicitly, we have already used it. A \textbf{trading strategy} is simply our selection of a covering portfolio in the underlying asset. \cite{bingham_risk-neutral_2004} define it as
+When we were showing that a regular Black-Scholes delta hedge in case of a jump-diffusion model cannot eliminate jump risk we stopped there. In fact in \cite{chiarella_derivative_2015} the autors demonstrate that in case we have a finite number $n$ of jump amplitudes, we can hedge away the jump risk by using $n$ additional derivative securities with different strike prices and maturities. In our case the jump amplitude is normally distributed, that is, there is an infinite number of different jump sizes, and we would need an infinite number of different derivative securities to hedge away the jump risk. This is not possible and that means that a contingent claim cannot be perfectly replicated and according to the Theorem \ref{tm:ftap2} we have an \textbf{incomplete market} situation. Since there will always exist some amount of hedging error the best we can do is to try and minimize that error, this leads us to investigate other hedging techniques, one of which is quadratic hedging. Moreover, in this section we will also have a look at how to mathematically define a problem of hedging. For that we will need to introduce a notion of a \textit{trading strategy}. Although we have not defined it explicitly, we have already used it. A \textbf{trading strategy} is simply our selection of a covering portfolio in the underlying asset. \cite{bingham_risk-neutral_2004} define it as
 
 \begin{definition}
 	Denote by $L(X)$ the linear space of all $\mathbb{R}^d$-valued predictable $X$-integrable processes $\phi$. A self-financing trading strategy is any pair $(V_0, \phi)$ such that $V_0$ is and $\mathcal{F}_0$-measurable random variable and $\phi \in L(X)$.
@@ -1253,7 +1252,7 @@ When we choose a trading strategy and the initial capital we can then think abou
 \begin{equation*}
 	\frac{\partial C}{\partial X} = N(d_1) \hspace{0.1cm}.
 \end{equation*}
-In case there is an absence of diffusion and we are left with only jump process with only 1 possible jump amplitude, the solution is:
+In case there is an absence of diffusion, and we are left with only jump process with only 1 possible jump amplitude, the solution is:
 \begin{equation} \label{eqn:delta_no_diffusion}
 	\phi^* = \frac{C(X_t + k) - C(X_t)}{k} \hspace{0.1cm}.
 \end{equation}
@@ -1301,7 +1300,7 @@ and if the jump does not arrive the asset price will stay the same and the price
 \label{fig:hedging_jump_diffusion}	
 \end{figure}
 
-\noindent On Figure \ref{fig:hedging_jump_diffusion}, in terms of stability, both processes seem to be similar and we even observe a lower final value of the portfolio with quadratic hedging. Let us remember that profit is not the goal of hedging, but rather a method to preserve the value of the portfolio over time. With this in mind, one possible way to measure success of a hedging method is the absolute difference from the initial portfolio value remunerated at the risk free rate $r$. This means, if the portfolio value is initially set to $V$, the expected value at maturity is $V\cdot e^{rT}$. Continuing further, we will now compare the performance of both hedging methods on 30 different jump-diffusion processes. The characteristics of the processes are outlined in Table \ref{table:jd_characteristics}. \vspace{0.5cm}
+\noindent On Figure \ref{fig:hedging_jump_diffusion}, in terms of stability, both processes seem to be similar, and we even observe a lower final value of the portfolio with quadratic hedging. Let us remember that profit is not the goal of hedging, but rather a method to preserve the value of the portfolio over time. With this in mind, one possible way to measure success of a hedging method is the absolute difference from the initial portfolio value remunerated at the risk free rate $r$. This means, if the portfolio value is initially set to $V$, the expected value at maturity is $V\cdot e^{rT}$. Continuing further, we will now compare the performance of both hedging methods on 30 different jump-diffusion processes. The characteristics of the processes are outlined in Table \ref{table:jd_characteristics}. \vspace{0.5cm}
 
 \begin{table}
 \centering
@@ -1338,7 +1337,7 @@ We have undergone a journey starting from the basic financial concepts and estab
 
 We have constructed a mathematical model of real markets, which is of course still a simplification. Nevertheless, it allowed us to draw some useful conclusions, for example, why the premium requested by the writer of the option is equal to the expected value of the discounted future payoff of the option. Furthermore, we have seen that by increasing the average number of jumps (parameter $\lambda$) the price of the option increased as a consequence of the fact that an option has a higher probability of ending up in-the-money. Like we have already mentioned, the Black-Scholes model of stock prices does not take into account the potential jumps that, in real world, occur due to some political or economical events and are not predictable. What this entails is if we were to use Black-Scholes model to price options, we may end up with underpriced options and there may exist an arbitrage opportunity. The similar goes for hedging.
 
-Further improvements of this work are naturally possible. For example, one could incorporate stochastic processes that will model volatility and risk-free rate, both of which have been kept constant in the our work so far. Nonetheless, we have created a decent model of the market with less constraints than the one proposed by \cite{black_pricing_1972}. By doing this, we have taken a serious step into derivative pricing, a field that has a lot of ideas still left to explore. Hopefully, this thesis has given a reader a thourough overview of the main ideas in mathematical finance and derivative pricing which forms a stable foundation for further exploration in the field. 
+Further improvements of this work are naturally possible. For example, one could incorporate stochastic processes that will model volatility and risk-free rate, both of which have been kept constant in our work so far. Nonetheless, we have created a decent model of the market with less constraints than the one proposed by \cite{black_pricing_1972}. By doing this, we have taken a serious step into derivative pricing, a field that has a lot of ideas still left to explore. Hopefully, this thesis has given a reader a thorough overview of the main ideas in mathematical finance and derivative pricing which forms a stable foundation for further exploration in the field. 
 
 \bibliographystyle{abbrv}
 \bibliography{bibliography}
@@ -1349,7 +1348,7 @@ Further improvements of this work are naturally possible. For example, one could
 
 \newpage
 \begin{abstract}
-Stochastic processes have a widespread application in the computer science and in this thesis their application in the field of finance will be studied. The focus of this thesis will be to mathematically define a price of an asset using a jump-diffusion model which is then used to price a derivative. By programming simulations of prices of an asset and its derivative, their behaviour in time will be shown. After the prices of an asset and its derivative have been defined, we want to show how to mathematically define a problem of hedging a position. This also has to be accompanied with implemented simulations to illustrate the effect of hedging.
+Stochastic processes have a widespread application in the computer science and in this thesis their application in the field of finance will be studied. The focus of this thesis will be to mathematically define a price of an asset using a jump-diffusion model which is then used to price a derivative. By programming simulations of prices of an asset and its derivative, their behavior in time will be shown. After the prices of an asset and its derivative have been defined, we want to show how to mathematically define a problem of hedging a position. This also has to be accompanied with implemented simulations to illustrate the effect of hedging.
 
 \keywords{stochastic processes, finance, pricing, options, hedging}
 \end{abstract}
@@ -1390,7 +1389,7 @@ Starting from \ref{eqn:bs_call} and \ref{eqn:d1d2} we want to obtain the express
 \end{equation*}
 \begin{equation}
 	\frac{\partial N(d_1)}{\partial X} = \frac{1}{X\sigma\sqrt{2\pi\tau}}e^{-\frac{d_1^2}{2}} \hspace{0.1cm},
-\end{equation} and analoguously for $d_2$
+\end{equation} and analogously for $d_2$
 \begin{equation*}
 	\frac{\partial N(d_2)}{\partial X} = \frac{1}{X\sigma\sqrt{2\pi\tau}}e^{-\frac{d_2^2}{2}} = \frac{1}{X\sigma\sqrt{2\pi\tau}}e^{-\frac{(d_1 - \sigma\sqrt{\tau})^2}{2}}
 \end{equation*}
