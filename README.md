@@ -15,11 +15,13 @@ The goal of this thesis is to utilize stochastic processes and apply them to tac
 ## Pricing an Asset
 A process $X_t$ satisfying the dynamics
 $$ dX_t = \mu_t X_t dt + \sigma_t X_t dW_t $$
-is called a **Geometric Brownian motion**. Here we make one step further and incorporate jumps in this process. Jumps arrive as a **Poisson process**, which means that times between jumps are independent and identically distributed exponential random variables. When the jump arrives, the size of the jump is drawn from the normal distribution $\mathcal{N}(\mu_j, \sigma^2_j)$. The resulting process is called a **Jump-diffusion process**. A sample trajectory of such a process can be seen in the following figure:
+is called a **Geometric Brownian motion**. Here we make one step further and incorporate jumps in this process. Jumps arrive as a **Poisson process**, which means that times between jumps are independent and identically distributed exponential random variables. The resulting process is called a **Jump-diffusion process**. When the jump arrives we chose to draw the size of the jump from the normal distribution $\mathcal{N}(\mu_j, \sigma^2_j)$. A sample trajectory of such a process can be seen in the following figure:
 
 <p align="center">
     <img width="550" alt="Screenshot 2022-06-19 at 11 23 06" src="https://user-images.githubusercontent.com/40769239/174474299-c2e7e3d4-e654-47a2-8ae4-6760b6c2e4e2.png">
 </p>
+
+The mathematical representation of a jump-diffusion process is the following: $$ X(t) = X(0)e^{(\mu - \frac{1}{2}\sigma^2)t + \sigma W_{t}}\cdot(\prod_{i=1}^{N(t)}1+U_i) $$
 
 ## Pricing an Option
 After the price of an asset has been defined we try to determine a price of a **European call option**. Since now we are not anymore in the _simple_ Black-Scholes world, by utilizing only the delta hedge we are unable to hedge the jump risk. We go around that by emplying the **Capital Asset Pricing Model (CAPM)** and finally we are able to come to the conclusion that the premium requested by the writer of the option is the discounted expected payoff of the option. For the case of the European call option we derive the following formula for the option price:
