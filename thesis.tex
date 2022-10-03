@@ -792,7 +792,7 @@ The relative change in the portfolio value $V$ can be expressed as the following
 \begin{align*}
 	\frac{dV}{V} =& \pi_x [(\mu - \lambda k)dt + \sigma dW_t + UdN_t] \\&+\pi_f [(\mu_f - \lambda k_f)dt + \sigma_f dW_t + U_fdN_t] +\pi_r r dt \\
 				 =& (\pi_x(\mu-\lambda k) + \pi_f (\mu_f - \lambda k_f) + \pi_r r) dt \\&+ (\pi_x\sigma + \pi_f\sigma_f)dW_t + (\pi_x U + \pi_f U_f)dN_t \\
-				 =& (\mu_V - \lambda k_V) + \sigma_V dW_t + U_V dN_t \hspace{0.1cm}.
+				 =& (\mu_V - \lambda k_V)dt + \sigma_V dW_t + U_V dN_t \hspace{0.1cm}.
 \end{align*} 
 With this we obtained yet another jump diffusion process which now has new parameters $\mu_V, k_V, \sigma_V$ and $U_V$. Let us explicitly state the value of each one of them as we will see they will come in handy soon.
 
@@ -808,7 +808,7 @@ If a process follows a simple diffusion process like in Black-Scholes world we w
 \begin{equation} \label{eqn_portfolio_weights}
 	\sigma_V = \pi_x\sigma + \pi_f\sigma_f = 0 \hspace{0.1cm}.
 \end{equation}
-However, this choice of portfolio weights will not be able to eliminate the risk cause by the jump property of the resulting process. Actually, no choice of weights will be able to eliminate that risk. If we were to set the weights $\pi_x, \pi_f$ that will satisfy the equation \ref{eqn_portfolio_weights} and denote them with $\pi_x^*, \pi_f^*$ we would obtain a process defining the relative change in value $V^*$ of such portfolio
+However, this choice of portfolio weights will not be able to eliminate the risk caused by the jump property of the resulting process. Actually, no choice of weights will be able to eliminate that risk. If we were to set the weights $\pi_x, \pi_f$ that will satisfy the equation \ref{eqn_portfolio_weights} and denote them with $\pi_x^*, \pi_f^*$ we would obtain a process defining the relative change in value $V^*$ of such portfolio
 \begin{equation}
 	\frac{dV^*}{V^*} = (\mu_V^* - \lambda k_V^*) + U_V^* dN_t \hspace{0.1cm}.
 \end{equation}
