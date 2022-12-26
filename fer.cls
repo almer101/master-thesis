@@ -293,11 +293,11 @@ Koristi \noexpand\thesisnumber za definiranje}}
 		\end{center}\par
 		\vfill
 		\begin{center}
-			{\sffamily\large Zagreb, 
-			\ifcase\month\or
-				January\or February\or March\or April\or May\or
-	   	 		June\or July\or August\or September\or October\or November\or
-	    			December\fi \space \number\year%
+			{\sffamily\large Zagreb, June 2022
+			% \ifcase\month\or
+				% January\or February\or March\or April\or May\or
+	   	 	% 	June\or July\or August\or September\or October\or November\or
+	    	% 		December\fi \space \number\year%
 	    	}
 		\end{center}
 	\end{titlepage}%
